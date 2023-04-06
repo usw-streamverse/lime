@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/static/js/main.fa4702ae.js",
+    "static/media/PretendardVariable.woff2": "/static/media/PretendardVariable.36b3a87cd98126711b2b.woff2",
+    "index.html": "/index.html",
+    "main.fa4702ae.js.map": "/static/js/main.fa4702ae.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.fa4702ae.js"
+  ]
+}
