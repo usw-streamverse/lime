@@ -2,9 +2,10 @@ import { CiLight, CiDark, CiMenuBurger } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
 import { ReactNode, useState } from 'react';
 import OffCanvas from './OffCanvas';
+import { useNavigate } from 'react-router-dom';
 
-interface INavBar {
-    Content: ReactNode
+interface NavBarProps {
+    children: ReactNode
 }
 
 interface IMenu {
@@ -24,7 +25,8 @@ const Menu = ({onClick}: IMenu) => {
     )
 }
 
-const NavBar = ({Content}: INavBar) => {
+const NavBar = ({children}: NavBarProps) => {
+    const navigate = useNavigate();
     const [dark, setDark] = useState(false);
     const [offCanvas, setOffCanvas] = useState<Boolean>(window.innerWidth > 1024);
 
@@ -36,11 +38,11 @@ const NavBar = ({Content}: INavBar) => {
                     <Logo>LIME</Logo>
                 </LeftSide>
                 <Item data-text="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Item>
-                <Item data-text="">로그인</Item>
+                <Item onClick={() => navigate('sign')}>로그인</Item>
             </Wrap>
             <Container>
                 <OffCanvas show={offCanvas} setShow={setOffCanvas} />
-                {Content}
+                {children}
             </Container>
         </>
     )
@@ -105,7 +107,7 @@ const MenuButton = styled.div<IMenu>`
     }
 `
 
-const Item = styled.div<{'data-text': string}>`
+const Item = styled.div<{'data-text'?: string}>`
     display: flex;
     align-items: center;
     position: relative;
@@ -120,7 +122,7 @@ const Item = styled.div<{'data-text': string}>`
         position: absolute;
         left: 0; right: 0;
         top: 0; bottom: 0;
-        box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25);
         opacity: 0;
         transition: all 200ms ease;
         content: '';
