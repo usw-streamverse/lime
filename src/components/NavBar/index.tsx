@@ -8,7 +8,7 @@ interface NavBarProps {
     children: ReactNode
 }
 
-interface IMenu {
+interface MenuProps {
     onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
@@ -17,7 +17,7 @@ const toggleTheme = () => {
     return document.body.classList.contains('dark');
 }
 
-const Menu = ({onClick}: IMenu) => {
+const Menu = ({onClick}: MenuProps) => {
     return (
         <MenuButton onClick={onClick}>
             <CiMenuBurger size="1.5rem" />
@@ -35,7 +35,7 @@ const NavBar = ({children}: NavBarProps) => {
             <Wrap>
                 <LeftSide>
                     <Menu onClick={() => setOffCanvas(!offCanvas)}/>
-                    <Logo>LIME</Logo>
+                    <Logo onClick={() => navigate('')}>LIME</Logo>
                 </LeftSide>
                 <Item data-text="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Item>
                 <Item onClick={() => navigate('sign')}>로그인</Item>
@@ -86,9 +86,10 @@ const LeftSide = styled.div`
 const Logo = styled.div`
     margin-left: 0.75rem;
     font-size: 1.25rem;
+    cursor: pointer;
 `
 
-const MenuButton = styled.div<IMenu>`
+const MenuButton = styled.div<MenuProps>`
     display: flex;
     align-items: center;
     justify-content: center;
