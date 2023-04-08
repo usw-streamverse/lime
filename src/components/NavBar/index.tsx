@@ -1,8 +1,8 @@
 import { CiLight, CiDark, CiMenuBurger } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import OffCanvas from './OffCanvas';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface NavBarProps {
     children: ReactNode
@@ -27,21 +27,43 @@ const Menu = ({onClick}: MenuProps) => {
 
 const NavBar = ({children}: NavBarProps) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [dark, setDark] = useState(false);
     const [offCanvas, setOffCanvas] = useState<Boolean>(window.innerWidth > 1024);
+    const [showOffCanvas, setShowOffCanvas] = useState<Boolean>(false);
+    const [menu, setMenu] = useState<ReactNode>(<></>);
+
+    useEffect(() => {
+        let pathname: string = location.pathname;
+        if(pathname.substring(pathname.length-1) === '/') pathname = pathname.substring(0, pathname.length - 1);
+        
+        switch(pathname){
+            case '/sign':
+                setShowOffCanvas(false);
+                setMenu(<>
+                    <Item onClick={() => navigate('')}>뒤로가기</Item>
+                </>);
+                break;
+            default:
+                setShowOffCanvas(true);
+                setMenu(<>
+                    <Item data-text="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Item>
+                    <Item onClick={() => navigate('sign')}>로그인</Item>
+                </>);
+        }
+    }, [location.pathname])
 
     return (
         <>
             <Wrap>
                 <LeftSide>
-                    <Menu onClick={() => setOffCanvas(!offCanvas)}/>
+                    {showOffCanvas && <Menu onClick={() => setOffCanvas(!offCanvas)}/> }
                     <Logo onClick={() => navigate('')}>LIME</Logo>
                 </LeftSide>
-                <Item data-text="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Item>
-                <Item onClick={() => navigate('sign')}>로그인</Item>
+                {menu}
             </Wrap>
             <Container>
-                <OffCanvas show={offCanvas} setShow={setOffCanvas} />
+                {showOffCanvas && <OffCanvas show={offCanvas} setShow={setOffCanvas} />}
                 {children}
             </Container>
         </>
