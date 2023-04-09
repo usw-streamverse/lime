@@ -14,7 +14,7 @@ const Modal = ({children, show, setShow}: ModalProps) => {
     return (
         <Container show={show}>
             <Shadow onClick={() => setShow(false)}>
-                <Wrapper onClick={(e) => e.stopPropagation()}>
+                <Wrapper show={show} onClick={(e) => e.stopPropagation()}>
                     {children}
                 </Wrapper>
             </Shadow>
@@ -48,12 +48,21 @@ const Shadow = styled.div`
     background-color: rgba(0, 0, 0, 0.45);
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{show: boolean}>`
     overflow: hidden;
     @media screen and (max-width: 480px) {
         width: 100%;
         height: 100%;
     }
+    transition: transform 200ms ease;
+    ${(props) => props.show ?
+        css `
+            transform: scale(1.0);
+        ` :
+        css `
+            transform: scale(0.9);
+        `
+    };
 `
 
 export default Modal;
