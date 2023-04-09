@@ -12,7 +12,7 @@ const Modal = ({children, show, setShow}: ModalProps) => {
     return (
         <Container show={show} onClick={() => setShow(false)}>
             <Shadow>
-                <div onClick={(e) => e.stopPropagation()}>
+                <div style={{overflow: 'hidden'}} onClick={(e) => e.stopPropagation()}>
                     {children}
                 </div>
             </Shadow>
@@ -42,7 +42,7 @@ const Shadow = styled.div`
     justify-content: center;
     position: fixed;
     top: 0; left: 0;
-    width: 100vw; height: 100vh;
+    width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.45);
 `
 
