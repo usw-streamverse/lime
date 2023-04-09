@@ -77,7 +77,7 @@ const GlobalStyle = createGlobalStyle`
         background: var(--main-bg-color);
         color: var(--main-text-color);
         transition: background-color 200ms ease, border 200ms ease, color 100ms ease;
-
+        overflow: hidden overlay;
         ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
