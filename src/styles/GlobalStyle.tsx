@@ -1,11 +1,19 @@
 import { createGlobalStyle } from 'styled-components'
-import Pretendard from 'assets/fonts/PretendardVariable.woff2'
+import Pretendard_Regular from 'assets/fonts/Pretendard-Regular.woff2'
+import Pretendard_SemiBold from 'assets/fonts/Pretendard-SemiBold.woff2'
 
 const GlobalStyle = createGlobalStyle`    
     @font-face {
         font-family: 'Pretendard';
-        src: local('Pretendard'), url(${Pretendard}) format('woff');
+        src: local('Pretendard Regular'), url(${Pretendard_Regular}) format('woff');
         font-weight: 400;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Pretendard';
+        src: local('Pretendard SemiBold'), url(${Pretendard_SemiBold}) format('woff');
+        font-weight: 600;
         font-style: normal;
     }
     
@@ -45,6 +53,7 @@ const GlobalStyle = createGlobalStyle`
         --textbox-border-color-focus: #e5e5e5;
         --textbox-shadow: #e5e5e5;
         --textbox-shadow-focus: #0049ed;
+        --sign-text-border-color: #bbbbbb;
     }
 
     body.dark {
@@ -70,6 +79,7 @@ const GlobalStyle = createGlobalStyle`
         --textbox-border-color-focus: #111;
         --textbox-shadow: #181818;
         --textbox-shadow-focus: #0041b7;
+        --sign-text-border-color: #e4e9ed;
     }
 
     body {
