@@ -87,6 +87,12 @@ const GlobalStyle = createGlobalStyle`
             background: #979cab;
             border-radius: 4px;
         }
+
+        &.preventScroll {
+            @media screen and (max-width: 1024px) {
+                overflow-y: hidden !important; // preventScroll for offCanvas
+            }
+        }
     }
 `;
 
