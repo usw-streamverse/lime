@@ -2,25 +2,30 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting } from 'react-icons/ai';
 import styled, { css } from 'styled-components';
 
-interface IOffCanvas {
-  show: Boolean,
-  setShow: Dispatch<SetStateAction<Boolean>>
+interface OffCanvasProps {
+  show: boolean,
+  setShow: Dispatch<SetStateAction<boolean>>
 }
 
-const OffCanvas = ({show, setShow}: IOffCanvas) => {
-    return (
-        <Container show={show}>
-            <Wrap show={show}>
-                <Group>Menu</Group>
-                <Item selected={true}><AiFillHome size="24" />홈</Item>
-                <Item selected={false}><AiFillFolder size="24" />보관함</Item>
-                <Item selected={false}><AiFillStar size="24" />구독</Item>
-                <Group>General</Group>
-                <Item selected={false}><AiFillSetting size="24" />설정</Item>
-            </Wrap>
-            <Shadow show={show} onClick={() => setShow(false)}/>
-        </Container>
-    )
+const OffCanvas = ({show, setShow}: OffCanvasProps) => {
+  if(show)
+    document.body.classList.add('preventScroll');
+  else
+    document.body.classList.remove('preventScroll');
+
+  return (
+      <Container show={show}>
+          <Wrap show={show}>
+              <Group>Menu</Group>
+              <Item selected={true}><AiFillHome size="24" />홈</Item>
+              <Item selected={false}><AiFillFolder size="24" />보관함</Item>
+              <Item selected={false}><AiFillStar size="24" />구독</Item>
+              <Group>General</Group>
+              <Item selected={false}><AiFillSetting size="24" />설정</Item>
+          </Wrap>
+          <Shadow show={show} onClick={() => setShow(false)}/>
+      </Container>
+  )
 }
 
 export default React.memo(OffCanvas);
@@ -35,7 +40,7 @@ const Group = styled.div`
   text-transform: uppercase;
 `
 
-const Container = styled.div<{show: Boolean}>`
+const Container = styled.div<{show: boolean}>`
     width: 250px;
     left: -250px;
     overflow-x: hidden;
@@ -52,7 +57,7 @@ const Container = styled.div<{show: Boolean}>`
     }
 `
 
-const Shadow = styled.div<{show: Boolean}>`
+const Shadow = styled.div<{show: boolean}>`
     display: none;
     position: fixed;
     top: 0; bottom: 0;
@@ -63,6 +68,7 @@ const Shadow = styled.div<{show: Boolean}>`
     @media screen and (max-width: 1024px) {
         display: block;
         background-color: #000000b3;
+        
         ${(props) => 
             !props.show &&
             css `
@@ -73,7 +79,7 @@ const Shadow = styled.div<{show: Boolean}>`
     }
 `
 
-const Wrap = styled.div<{show: Boolean}>`
+const Wrap = styled.div<{show: boolean}>`
     position: fixed;
     top: calc(4.0rem - 1px);
     left: -250px;
@@ -92,7 +98,7 @@ const Wrap = styled.div<{show: Boolean}>`
     }
 `;
 
-const Item = styled.div<{selected: Boolean}>`
+const Item = styled.div<{selected: boolean}>`
   display: flex;
   align-items: center;
   position: relative;
