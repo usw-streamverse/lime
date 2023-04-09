@@ -9,12 +9,14 @@ interface ModalProps {
 }
 
 const Modal = ({children, show, setShow}: ModalProps) => {
+    document.body.style.overflowY = show ? 'hidden' : 'overlay';
+
     return (
-        <Container show={show} onClick={() => setShow(false)}>
-            <Shadow>
-                <div style={{overflow: 'hidden'}} onClick={(e) => e.stopPropagation()}>
+        <Container show={show}>
+            <Shadow onClick={() => setShow(false)}>
+                <Wrapper onClick={(e) => e.stopPropagation()}>
                     {children}
-                </div>
+                </Wrapper>
             </Shadow>
         </Container>
     );
@@ -44,6 +46,14 @@ const Shadow = styled.div`
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.45);
+`
+
+const Wrapper = styled.div`
+    overflow: hidden;
+    @media screen and (max-width: 480px) {
+        width: 100%;
+        height: 100%;
+    }
 `
 
 export default Modal;
