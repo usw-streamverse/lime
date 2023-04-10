@@ -2,27 +2,25 @@ import styled, { css } from 'styled-components';
 import { HiOutlineX } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
-import CheckBox from 'components/CheckBox';
 
-interface SignInProps {
+interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,
     show: boolean,
     setShow: Dispatch<SetStateAction<boolean>>
 }
 
-const SignIn = ({setPage, show, setShow}: SignInProps) => {
+const SignUp = ({setPage, show, setShow}: SignUpProps) => {
     return (
-        <Container show={show}>
-            <Head>로그인</Head>
+        <Container show={show} tabIndex={-1}>
+            <Head>회원가입</Head>
             <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
             <FormTextBox label="ID" />
             <FormTextBox type="password" label="PASSWORD" />
-            <CheckBoxWrapper>
-                <CheckBox id="auto_login">자동 로그인</CheckBox>
-            </CheckBoxWrapper>
+            <FormTextBox type="password" label="CONFIRM PASSWORD" />
+            <FormTextBox label="NICKNAME" />
             <ButtonContainer>
-                <SignUp onClick={() => setPage(1)}>회원가입</SignUp>
-                <Button>로그인</Button>
+                <SignIn onClick={() => setPage(0)}>로그인</SignIn>
+                <Button>회원가입</Button>
             </ButtonContainer>
         </Container>
     )
@@ -37,7 +35,6 @@ const Container = styled.div<{show: boolean}>`
     width: 100%;
     height: 100%;
     padding: 0 3.0rem;
-    opacity: ${(props) => props.show ? '1' : '0'};
     transition: all 200ms ease;
     ${(props) => props.show ?
         css `
@@ -46,7 +43,7 @@ const Container = styled.div<{show: boolean}>`
         css `
             pointer-events: none;
             user-select: none;
-            transform: translateX(-100%);
+            transform: translateX(100%);
         `
     };
 `
@@ -105,17 +102,11 @@ const ButtonContainer = styled.div`
     justify-content: space-between;
     width: 100%;
 `
-
-const CheckBoxWrapper = styled.div`
-    margin: 0.5rem 0 1.0rem 0;
-`
-
-const SignUp = styled.div`
+const SignIn = styled.div`
     justify-content: flex-start;
     color: #0066ff;
     font-weight: 400;
     letter-spacing: 1px;
     cursor: pointer;
 `
-
-export default SignIn;
+export default SignUp;

@@ -1,15 +1,19 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 interface SignProps {
-    setShow: Dispatch<SetStateAction<boolean>>
+    setShow: Dispatch<SetStateAction<boolean>>,
 }
 
 const Sign = ({setShow}: SignProps) => {
+    const [page, setPage] = useState<number>(0);
+
     return (
         <Container>
-            <SignIn setShow={setShow} />
+            <SignIn setShow={setShow} show={page === 0} setPage={setPage} />
+            <SignUp setShow={setShow} show={page === 1} setPage={setPage} />
         </Container>
     )
 }
