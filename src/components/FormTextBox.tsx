@@ -1,17 +1,18 @@
-import { ReactNode, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface FormTextBoxProps {
     label: string
+    type?: string
 }
 
-const FormTextBox = ({label}: FormTextBoxProps) => {
+const FormTextBox = ({label, type = 'text'}: FormTextBoxProps) => {
     const [focus, setFocus] = useState<boolean>(false);
     const refText = useRef<HTMLInputElement>(null);
     return (
         <Wrap focus={focus} onClick={() => refText.current?.focus()}>
             <Label>{label}</Label>
-            <Input type="text" ref={refText} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
+            <Input type={type} ref={refText} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
         </Wrap>
     )
 }
