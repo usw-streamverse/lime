@@ -1,13 +1,13 @@
 import { ReactNode, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-interface ITextBox {
+interface TextBoxProps {
     width: string,
     icon: ReactNode,
     placeholder: string
 }
 
-const TextBox = ({width, icon, placeholder}: ITextBox) => {
+const TextBox = ({width, icon, placeholder}: TextBoxProps) => {
     const [focus, setFocus] = useState<boolean>(false);
     const refText = useRef<HTMLInputElement>(null);
     return (
