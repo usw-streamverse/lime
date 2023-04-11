@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { HiOutlineX } from 'react-icons/hi';
+import { HiOutlineChevronLeft, HiOutlineX } from 'react-icons/hi';
 import { Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
 
@@ -11,7 +11,7 @@ interface SignUpProps {
 
 const SignUp = ({setPage, show, setShow}: SignUpProps) => {
     return (
-        <Container show={show} tabIndex={-1}>
+        <Container show={show}>
             <Head>회원가입</Head>
             <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
             <FormTextBox label="ID" />
@@ -19,7 +19,7 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
             <FormTextBox type="password" label="CONFIRM PASSWORD" />
             <FormTextBox label="NICKNAME" />
             <ButtonContainer>
-                <SignIn onClick={() => setPage(0)}>로그인</SignIn>
+                <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
                 <Button>회원가입</Button>
             </ButtonContainer>
         </Container>
@@ -103,6 +103,8 @@ const ButtonContainer = styled.div`
     width: 100%;
 `
 const SignIn = styled.div`
+    display: flex;
+    align-items: center;
     justify-content: flex-start;
     color: #0066ff;
     font-weight: 400;
