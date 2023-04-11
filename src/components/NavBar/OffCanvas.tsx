@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting } from 'react-icons/ai';
+import React, { Dispatch, SetStateAction, ReactNode } from 'react';
+import { AiFillHome, AiFillFolder, AiFillStar, AiFillFileAdd, AiFillSetting } from 'react-icons/ai';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 interface OffCanvasProps {
@@ -7,7 +8,19 @@ interface OffCanvasProps {
   setShow: Dispatch<SetStateAction<boolean>>
 }
 
+interface ItemProps {
+  pathname: string,
+  path: string,
+  children: ReactNode
+}
+
+const Item = ({pathname, path, children}: ItemProps) => {
+  const navigate = useNavigate();
+  return <MenuItem onClick={() => navigate(path)} selected={pathname === path}>{children}</MenuItem>
+}
+
 const OffCanvas = ({show, setShow}: OffCanvasProps) => {
+  const pathname = useLocation().pathname.replace(/\/+$/, '');
   if(show)
     document.body.classList.add('preventScroll');
   else
@@ -17,11 +30,12 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
       <Container show={show}>
           <Wrap show={show}>
               <Group>Menu</Group>
-              <Item selected={true}><AiFillHome size="24" />홈</Item>
-              <Item selected={false}><AiFillFolder size="24" />보관함</Item>
-              <Item selected={false}><AiFillStar size="24" />구독</Item>
+              <Item pathname={pathname} path=""><AiFillHome size="24" />홈</Item>
+              <Item pathname={pathname} path="/feed/library"><AiFillFolder size="24" />보관함</Item>
+              <Item pathname={pathname} path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
+              <Item pathname={pathname} path="/video/upload"><AiFillFileAdd size="24" />동영상 업로드</Item>
               <Group>General</Group>
-              <Item selected={false}><AiFillSetting size="24" />설정</Item>
+              <Item pathname={pathname} path="/setting"><AiFillSetting size="24" />설정</Item>
           </Wrap>
           <Shadow show={show} onClick={() => setShow(false)}/>
       </Container>
@@ -98,7 +112,7 @@ const Wrap = styled.div<{show: boolean}>`
     }
 `;
 
-const Item = styled.div<{selected: boolean}>`
+const MenuItem = styled.div<{selected: boolean}>`
   display: flex;
   align-items: center;
   position: relative;
