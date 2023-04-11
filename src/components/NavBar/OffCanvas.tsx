@@ -133,6 +133,18 @@ const MenuItem = styled.div<{selected: boolean}>`
   }
   svg {
     margin-right: 1.0rem;
+    transition: all 150ms ease;
+  }
+
+  ::after {
+    position: absolute;
+    top: 16px; bottom: 16px;
+    right: 0;
+    width: 6px;
+    background-color: var(--navbar-menu-icon-color-active);
+    transform: scale(0);
+    transition: transform 150ms ease;
+    content: '';
   }
 
   ${(props) => 
@@ -140,12 +152,7 @@ const MenuItem = styled.div<{selected: boolean}>`
       css `
         color: var(--navbar-menu-text-color-active);
         ::after {
-          position: absolute;
-          top: 16px; bottom: 16px;
-          right: 0px;
-          width: 6px;
-          background-color: var(--navbar-menu-icon-color-active);
-          content: '';
+          transform: scale(1);
         }
         svg {
           color: var(--navbar-menu-icon-color-active);
