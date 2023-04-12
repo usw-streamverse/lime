@@ -11,12 +11,13 @@ interface OffCanvasProps {
 interface ItemProps {
   pathname: string,
   path: string,
+  setShow: Dispatch<SetStateAction<boolean>>
   children: ReactNode
 }
 
-const Item = ({pathname, path, children}: ItemProps) => {
+const Item = ({pathname, path, setShow, children}: ItemProps) => {
   const navigate = useNavigate();
-  return <MenuItem onClick={() => navigate(path)} selected={pathname === path}>{children}</MenuItem>
+  return <MenuItem onClick={() => {navigate(path); if(window.innerWidth <= 1024) setShow(false)}} selected={pathname === path}>{children}</MenuItem>
 }
 
 const OffCanvas = ({show, setShow}: OffCanvasProps) => {
@@ -30,12 +31,12 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
       <Container show={show}>
           <Wrap show={show}>
               <Group>Menu</Group>
-              <Item pathname={pathname} path=""><AiFillHome size="24" />홈</Item>
-              <Item pathname={pathname} path="/feed/library"><AiFillFolder size="24" />보관함</Item>
-              <Item pathname={pathname} path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
-              <Item pathname={pathname} path="/video/upload"><AiFillFileAdd size="24" />동영상 업로드</Item>
+              <Item pathname={pathname} setShow={setShow} path=""><AiFillHome size="24" />홈</Item>
+              <Item pathname={pathname} setShow={setShow} path="/feed/library"><AiFillFolder size="24" />보관함</Item>
+              <Item pathname={pathname} setShow={setShow} path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
+              <Item pathname={pathname} setShow={setShow} path="/video/upload"><AiFillFileAdd size="24" />동영상 업로드</Item>
               <Group>General</Group>
-              <Item pathname={pathname} path="/setting"><AiFillSetting size="24" />설정</Item>
+              <Item pathname={pathname} setShow={setShow} path="/setting"><AiFillSetting size="24" />설정</Item>
           </Wrap>
           <Shadow show={show} onClick={() => setShow(false)}/>
       </Container>
