@@ -120,6 +120,10 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
+    /*
+    <!-- transition-animation
+    */
+
     .fade-enter {
         position: absolute;
         width: 100%; height: 100%;
@@ -189,6 +193,47 @@ const GlobalStyle = createGlobalStyle`
             transition: all 200ms ease;
         }
     }
+
+    .left-swipe-enter {
+        transform: translateX(-100%);
+    }
+
+    .left-swipe-enter-active {
+        transform: translateX(0);
+        transition: transform 200ms ease;
+    }
+
+    .left-swipe-exit {
+        transform: translateX(0);
+    }
+
+    .left-swipe-exit-active {
+        transform: translateX(-100%);
+        transition: transform 200ms ease;
+    }
+
+    .right-swipe-enter {
+        transform: translateX(100%);
+    }
+
+    .right-swipe-enter-active {
+        transform: translateX(0);
+        transition: transform 200ms ease;
+    }
+
+    .right-swipe-exit {
+        transform: translateX(0);
+    }
+
+    .right-swipe-exit-active {
+        transform: translateX(100%);
+        transition: transform 200ms ease;
+    }
+
+    /*
+    transition-animaiton -->
+    */
+
 
 `;
 

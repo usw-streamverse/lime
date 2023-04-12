@@ -1,7 +1,8 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { HiOutlineChevronLeft, HiOutlineX } from 'react-icons/hi';
-import { Dispatch, SetStateAction } from 'react';
+import { useRef, Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
+import { CSSTransition } from 'react-transition-group';
 
 interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,
@@ -10,23 +11,27 @@ interface SignUpProps {
 }
 
 const SignUp = ({setPage, show, setShow}: SignUpProps) => {
+    const nodeRef = useRef<HTMLDivElement>(null);
+    console.log(show);
     return (
-        <Container show={show}>
-            <Head>회원가입</Head>
-            <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-            <FormTextBox label="ID" />
-            <FormTextBox type="password" label="PASSWORD" />
-            <FormTextBox type="password" label="CONFIRM PASSWORD" />
-            <FormTextBox label="NICKNAME" />
-            <ButtonContainer>
-                <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
-                <Button>회원가입</Button>
-            </ButtonContainer>
-        </Container>
+        <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="right-swipe" unmountOnExit>
+            <Container ref={nodeRef}>
+                <Head>회원가입</Head>
+                <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
+                <FormTextBox label="ID" />
+                <FormTextBox type="password" label="PASSWORD" />
+                <FormTextBox type="password" label="CONFIRM PASSWORD" />
+                <FormTextBox label="NICKNAME" />
+                <ButtonContainer>
+                    <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
+                    <Button>회원가입</Button>
+                </ButtonContainer>
+            </Container>
+        </CSSTransition>
     )
 }
 
-const Container = styled.div<{show: boolean}>`
+const Container = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -35,17 +40,6 @@ const Container = styled.div<{show: boolean}>`
     width: 100%;
     height: 100%;
     padding: 0 3.0rem;
-    transition: all 200ms ease;
-    ${(props) => props.show ?
-        css `
-            transform: translateX(0);
-        `:
-        css `
-            pointer-events: none;
-            user-select: none;
-            transform: translateX(100%);
-        `
-    };
 `
 
 const Head = styled.div`
@@ -87,8 +81,10 @@ const Button = styled.button`
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 200ms ease;
-    :hover {
-        background-color: var(--sign-signin-bg-color-hover);
+    @media screen and (min-width: 481px) {
+        :hover {
+            background-color: var(--sign-signin-bg-color-hover);
+        }
     }
     :active {
         background-color: var(--sign-signin-bg-color-active);
