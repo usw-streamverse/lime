@@ -1,8 +1,16 @@
 import { createGlobalStyle } from 'styled-components'
 import Pretendard_Regular from 'assets/fonts/Pretendard-Regular.woff2'
 import Pretendard_SemiBold from 'assets/fonts/Pretendard-SemiBold.woff2'
+import Pretendard_Light from 'assets/fonts/Pretendard-Light.woff2'
 
-const GlobalStyle = createGlobalStyle`    
+const GlobalStyle = createGlobalStyle`
+    @font-face {
+        font-family: 'Pretendard';
+        src: local('Pretendard Light'), url(${Pretendard_Light}) format('woff');
+        font-weight: 300;
+        font-style: normal;
+    }
+
     @font-face {
         font-family: 'Pretendard';
         src: local('Pretendard Regular'), url(${Pretendard_Regular}) format('woff');
@@ -53,7 +61,11 @@ const GlobalStyle = createGlobalStyle`
         --textbox-border-color-focus: #e5e5e5;
         --textbox-shadow: #e5e5e5;
         --textbox-shadow-focus: #0049ed;
-        --sign-text-border-color: #bbbbbb;
+        --sign-textbox-border-color: #bbbbbb;
+        --sign-textbox-border-color-focus: #585858;
+        --sign-signin-bg-color: #2486ff;
+        --sign-signin-bg-color-hover: #4b9bff;
+        --sign-signin-bg-color-active: #0068eb;
     }
 
     body.dark {
@@ -79,14 +91,17 @@ const GlobalStyle = createGlobalStyle`
         --textbox-border-color-focus: #111;
         --textbox-shadow: #181818;
         --textbox-shadow-focus: #0041b7;
-        --sign-text-border-color: #e4e9ed;
+        --sign-textbox-border-color: #666666;
+        --sign-textbox-border-color-focus: #e4e4e4;
+        --sign-signin-bg-color: #006aef;
+        --sign-signin-bg-color-hover: #2486ff;
+        --sign-signin-bg-color-active: #0052b9;
     }
 
     body {
         margin: 0;
         background: var(--main-bg-color);
         color: var(--main-text-color);
-        transition: background-color 200ms ease, border 200ms ease, color 100ms ease;
         overflow: hidden overlay;
         ::-webkit-scrollbar {
             width: 10px;
@@ -104,6 +119,77 @@ const GlobalStyle = createGlobalStyle`
             }
         }
     }
+
+    .fade-enter {
+        position: absolute;
+        width: 100%; height: 100%;
+        transform: scale(0.95);
+        opacity: 0;
+        transition: all 200ms ease;
+    }
+    
+    .fade-enter-active {
+        position: absolute;
+        width: 100%; height: 100%;
+        transform: scale(1);
+        opacity: 1;
+        transition: all 200ms ease;
+    }
+    
+    .fade-exit {
+        position: absolute;
+        width: 100%; height: 100%;
+        opacity: 1;
+        transition: all 200ms ease;
+        pointer-events: none;
+    }
+    
+    .fade-exit-active {
+        position: absolute;
+        width: 100%; height: 100%;
+        opacity: 0;
+        transition: all 200ms ease;
+        pointer-events: none;
+    }
+
+    .transition-wrap {
+        position: relative;
+        .transition {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .modal-enter {
+        opacity: 0;
+        > div {
+            transform: scale(0.9);
+        }
+    }
+
+    .modal-enter-active {
+        opacity: 1;
+        transition: all 200ms ease;
+        > div {
+            transform: scale(1);
+            transition: all 200ms ease;
+        }
+    }
+
+    .modal-exit {
+        opacity: 1;
+    }
+
+    .modal-exit-active {
+        opacity: 0;
+        transition: all 200ms ease;
+        > div {
+            transform: scale(0.9);
+            transition: all 200ms ease;
+        }
+    }
+
 `;
 
 export default GlobalStyle;

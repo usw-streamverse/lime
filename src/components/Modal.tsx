@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import { ReactNode } from 'react';
-import { Dispatch, SetStateAction } from 'react';
+import { useRef, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 interface ModalProps {
     children: ReactNode,
@@ -9,36 +9,32 @@ interface ModalProps {
 }
 
 const Modal = ({children, show, setShow}: ModalProps) => {
-    document.body.style.overflowY = show ? 'hidden' : 'overlay';
+
+    const nodeRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        document.body.style.overflowY = show ? 'hidden' : 'overlay';
+    }, [show]);
 
     return (
-        <Container show={show}>
-            <Shadow onClick={() => setShow(false)}>
-                <Wrapper show={show} onClick={(e) => e.stopPropagation()}>
-                    {children}
-                </Wrapper>
-            </Shadow>
-        </Container>
+        <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
+            <Container>
+                <Shadow ref={nodeRef} show={show} onClick={() => setShow(false)}>
+                    <Wrapper onClick={(e) => e.stopPropagation()}>
+                        {children}
+                    </Wrapper>
+                </Shadow>
+            </Container>
+        </CSSTransition>
     );
 }
 
-const Container = styled.div<{show: boolean}>`
+const Container = styled.div`
     position: relative;
-    transition: all 200ms ease;
-    ${(props) => props.show ?
-        css `
-            opacity: 1.0;
-            pointer-events: all;
-        ` :
-        css `
-            opacity: 0;
-            pointer-events: none;    
-        `
-    };
     z-index: 999;
 `
 
-const Shadow = styled.div`
+const Shadow = styled.div<{show: boolean}>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,21 +44,12 @@ const Shadow = styled.div`
     background-color: rgba(0, 0, 0, 0.45);
 `
 
-const Wrapper = styled.div<{show: boolean}>`
+const Wrapper = styled.div`
     overflow: hidden;
     @media screen and (max-width: 480px) {
         width: 100%;
         height: 100%;
     }
-    transition: transform 200ms ease;
-    ${(props) => props.show ?
-        css `
-            transform: scale(1.0);
-        ` :
-        css `
-            transform: scale(0.9);
-        `
-    };
 `
 
 export default Modal;
