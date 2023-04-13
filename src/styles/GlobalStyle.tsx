@@ -103,6 +103,7 @@ const GlobalStyle = createGlobalStyle`
         background: var(--main-bg-color);
         color: var(--main-text-color);
         overflow: hidden overlay;
+        overscroll-behavior-y: contain;
         ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
