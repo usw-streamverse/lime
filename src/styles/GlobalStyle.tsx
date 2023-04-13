@@ -158,9 +158,8 @@ const GlobalStyle = createGlobalStyle`
 
     .transition-wrap {
         position: relative;
-        .transition {
-            position: absolute;
-            width: 100%;
+        height: 100%;
+        > div {
             height: 100%;
         }
     }
