@@ -8,12 +8,25 @@ interface ModalProps {
     setShow: Dispatch<SetStateAction<boolean>>
 }
 
-const Modal = ({children, show, setShow}: ModalProps) => {
 
+const Modal = ({children, show, setShow}: ModalProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
+    
+    const closeModal = () => {
+        setShow(false);
+    };
 
     useEffect(() => {
         document.body.style.overflowY = show ? 'hidden' : 'overlay';
+
+        if(show){
+            window.history.pushState(null, '', window.location.href);
+            window.addEventListener('popstate', closeModal);
+        }
+
+        return () => {
+            window.removeEventListener('popstate', closeModal);
+        };
     }, [show]);
 
     return (
