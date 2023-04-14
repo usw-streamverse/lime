@@ -5,24 +5,33 @@ import { useState, useRef } from 'react';
 const Upload = () => {
     const [drop, setDrop] = useState<boolean>(false);
     const fileRef = useRef<HTMLInputElement>(null);
+    const countRef = useRef<number>(0);
+
     return (
-        <Container onDragOver={(e) => e.preventDefault()} onDrop={(e) => {setDrop(false); e.preventDefault()}} onDragEnter={(e) => setDrop(true)} onDragLeave={(e) => setDrop(false)}>
-            <UploadIcon drop={drop} onClick={() => fileRef.current?.click()}>
-                <FiArrowUp />
-            </UploadIcon>
-            <TextContainer show={!drop}>
-                <H1>비디오 업로드</H1>
-                <H3>업로드할 동영상을 선택하거나 Drag & Drop 하세요.</H3>
-            </TextContainer>
-            <input style={{'display': 'none'}} type="file" ref={fileRef} />
+        <Container onDragOver={(e) => e.preventDefault()} onDrop={(e) => {setDrop(false); countRef.current = 0; e.preventDefault()}} onDragEnter={(e) => {if(countRef.current++ === 0) setDrop(true)}} onDragLeave={(e) => {if(--countRef.current === 0) setDrop(false)}} drop={drop}>
+            <div>
+                <UploadIcon drop={drop} onClick={() => fileRef.current?.click()}>
+                    <FiArrowUp />
+                </UploadIcon>
+                <TextContainer show={!drop}>
+                    <H1>비디오 업로드</H1>
+                    <H3>업로드할 동영상을 선택하거나 Drag & Drop 하세요.</H3>
+                </TextContainer>
+                <input style={{'display': 'none'}} type="file" ref={fileRef} />
+            </div>
         </Container>
     )
 }
 
-const Container = styled.div`
+const Container = styled.div<{drop: boolean}>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     height: 100%;
     padding: 1.5rem;
     text-align: center;
+    ${(props) => props.drop && css `div { pointer-events: none; }`}
 `
 
 const upload_animation = keyframes `
@@ -35,10 +44,10 @@ const upload_animation = keyframes `
 `;
 
 const TextContainer = styled.div<{show: boolean}>`
-    transition: all 200ms ease;
+    transition: all 300ms ease;
     ${(props) => !props.show && css `
         opacity: 0;
-        transform: translateY(-8.0rem);
+        transform: translateY(-8.0rem) scale(0.66);
         pointer-events: none;
     `}
 `
