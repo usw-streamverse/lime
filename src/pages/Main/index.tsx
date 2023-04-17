@@ -1,24 +1,16 @@
 import styled from 'styled-components';
 import Search from "./Search";
-
+import VideoItem from './VideoItem';
 const Main = () => {
     return (
         <div>
             <SearchWrap><Search /></SearchWrap>
             <Wrap>
-                <Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail /><Thumbnail />
+                <VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem />
             </Wrap>
         </div>
     )
 }
-
-const Thumbnail = styled.div`
-    display: inline-block;
-    width: calc(50% - 12px);
-    aspect-ratio: 16/9;
-    margin: 6px;
-    background-color: #000;
-`
 
 const Wrap = styled.div`
     padding: 1.5rem;
