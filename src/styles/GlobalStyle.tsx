@@ -41,6 +41,7 @@ const GlobalStyle = createGlobalStyle`
     body {
         --main-bg-color: #fff;
         --main-text-color: #000;
+        --main-text-color-light: #525252;
         --button-text-color: #000;
         --navbar-bg-color: #fff;
         --navbar-border-color: #e5e5e5;
@@ -71,6 +72,7 @@ const GlobalStyle = createGlobalStyle`
     body.dark {
         --main-bg-color: #292a2c;
         --main-text-color: #fff;
+        --main-text-color-light: #d1d1d1;
         --button-text-color: #fff;
         --navbar-bg-color: #141414;
         --navbar-border-color: #101010;
