@@ -21,7 +21,6 @@ const useRippleEffect = <T extends HTMLElement>(ref: React.RefObject<T>, color: 
                 timerRef.current = setTimeout(() => {setRipples([])}, 1000);
             }
             el.addEventListener('mousedown', activeHandler);
-
             return () => {
                 el.removeEventListener('mousedown', activeHandler);
             }
