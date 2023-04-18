@@ -3,6 +3,7 @@ import { HiOutlineChevronLeft, HiOutlineX } from 'react-icons/hi';
 import { useRef, Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import { CSSTransition } from 'react-transition-group';
+import Button from './Button';
 
 interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,
@@ -12,7 +13,7 @@ interface SignUpProps {
 
 const SignUp = ({setPage, show, setShow}: SignUpProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
-    console.log(show);
+
     return (
         <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="right-swipe" unmountOnExit>
             <Container ref={nodeRef}>
@@ -65,32 +66,6 @@ const Close = styled.div`
         color: var(--main-text-color);
     }
 `
-
-const Button = styled.button`
-    justify-content: flex-end;
-    width: 120px;
-    height: 48px;
-    max-width: 100%;
-    background-color: var(--sign-signin-bg-color);
-    border: 0;
-    border-radius: 2px;
-    color: #fff;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    font-size: 1.25rem;
-    font-weight: 400;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 200ms ease;
-    @media screen and (min-width: 481px) {
-        :hover {
-            background-color: var(--sign-signin-bg-color-hover);
-        }
-    }
-    :active {
-        background-color: var(--sign-signin-bg-color-active);
-    }
-`
-
 const ButtonContainer = styled.div`
     display: flex;
     align-items: center;
