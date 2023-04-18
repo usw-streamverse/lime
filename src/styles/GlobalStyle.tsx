@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-border-color: #e5e5e5;
         --navbar-item-bg-color: #fff;
         --navbar-menu-hover: #ededed;
-        --navbar-menu-active: #bdbdbd;
+        --navbar-menu-ripple: #bdbdbd;
         --navbar-menu-text-color-inactive: #778495;
         --navbar-menu-text-color-active: #000;
         --navbar-menu-icon-color-active: #03cb00;
@@ -78,7 +78,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-border-color: #101010;
         --navbar-item-bg-color: #141414;
         --navbar-menu-hover: #383838;
-        --navbar-menu-active: #0e0e0e;
+        --navbar-menu-ripple: #0e0e0e;
         --navbar-menu-text-color-inactive: #77797c;
         --navbar-menu-text-color-active: #fff;
         --navbar-menu-icon-color-active: #029d00;
@@ -120,6 +120,17 @@ const GlobalStyle = createGlobalStyle`
             @media screen and (max-width: 1024px) {
                 overflow-y: hidden !important; // preventScroll for offCanvas
             }
+        }
+    }
+
+    @keyframes ripple {
+        from {
+            opacity: 1;
+            transform: scale(0);
+        }
+        to {
+            opacity: 0;
+            transform: scale(16);
         }
     }
 

@@ -1,7 +1,8 @@
-import React, { Dispatch, SetStateAction, ReactNode } from 'react';
+import React, { useRef, Dispatch, SetStateAction, ReactNode } from 'react';
 import { AiFillHome, AiFillFolder, AiFillStar, AiFillFileAdd, AiFillSetting } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import useRippleEffect from 'hooks/useRippleEffect';
 
 interface OffCanvasProps {
   show: boolean,
@@ -16,8 +17,10 @@ interface ItemProps {
 }
 
 const Item = ({pathname, path, setShow, children}: ItemProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const ripple = useRippleEffect(ref, 'var(--navbar-menu-ripple)');
   const navigate = useNavigate();
-  return <MenuItem onClick={() => {navigate(path); if(window.innerWidth <= 1024) setShow(false)}} selected={pathname === path}>{children}</MenuItem>
+  return <MenuItem ref={ref} onClick={() => {navigate(path); if(window.innerWidth <= 1024) setShow(false)}} selected={pathname === path}>{children}{ripple}</MenuItem>
 }
 
 const OffCanvas = ({show, setShow}: OffCanvasProps) => {
@@ -122,15 +125,13 @@ const MenuItem = styled.div<{selected: boolean}>`
   color: var(--navbar-menu-text-color-inactive);
   font-size: 1.1rem;
   font-weight: 400;
+  overflow: hidden;
   cursor: pointer;
   transition: all 150ms ease;
   @media screen and (min-width: 481px) {
     :hover {
       background-color: var(--navbar-menu-hover);
     }
-  }
-  :active {
-    background-color: var(--navbar-menu-active);
   }
   svg {
     margin-right: 1.0rem;
