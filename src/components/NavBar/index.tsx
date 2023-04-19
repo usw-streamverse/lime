@@ -34,7 +34,7 @@ const NavBar = ({children}: NavBarProps) => {
     const [signIn, setSignIn] = useState(false);
     return (
         <>
-            <Modal show={signIn} setShow={setSignIn}><Sign setSignIn={setSignIn}/></Modal>
+            <Modal show={signIn} setShow={setSignIn}><Sign setShow={setSignIn} /></Modal>
             <Wrap>
                 <LeftSide>
                     <Menu onClick={() => setOffCanvas(!offCanvas)}/>
@@ -59,6 +59,7 @@ const Container = styled.div`
     position: absolute;
     top: 4.0rem;
     width: 100%;
+    height: calc(100% - 4.0rem);
     @media screen and (max-width: 1024px) {
         grid-template-columns: 1fr;
     }
