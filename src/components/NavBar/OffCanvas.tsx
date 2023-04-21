@@ -1,4 +1,4 @@
-import React, { useRef, Dispatch, SetStateAction, ReactNode } from 'react';
+import React, { useRef, Dispatch, SetStateAction, ReactNode, RefObject, useEffect } from 'react';
 import { AiFillHome, AiFillFolder, AiFillStar, AiFillFileAdd, AiFillSetting } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
@@ -13,40 +13,73 @@ interface ItemProps {
   pathname: string,
   path: string,
   setShow: Dispatch<SetStateAction<boolean>>
-  children: ReactNode
+  children: ReactNode,
+  selectionBar: RefObject<HTMLDivElement>
 }
 
-const Item = ({pathname, path, setShow, children}: ItemProps) => {
+const Item = ({pathname, path, setShow, children, selectionBar}: ItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const ripple = useRippleEffect(ref, 'var(--navbar-menu-ripple)');
   const navigate = useNavigate();
-  return <MenuItem ref={ref} onClick={() => {navigate(path); if(window.innerWidth <= 1024) setShow(false)}} selected={pathname === path}>{children}{ripple}</MenuItem>
+
+  const onClick = () => {
+    navigate(path);
+    if(window.innerWidth <= 1024) setShow(false);
+  }
+
+  useEffect(() => {
+    if(pathname === path){
+      const SelectionBar = selectionBar.current;
+      if(ref.current && SelectionBar && SelectionBar.parentElement){
+        if(parseInt(SelectionBar.style.top, 10) < ref.current.offsetTop + ref.current.offsetHeight / 2)
+          SelectionBar.style.transition = 'top 500ms ease-in-out, bottom 200ms ease-in-out';
+        else
+        SelectionBar.style.transition = 'bottom 500ms ease-in-out, top 200ms ease-in-out';
+        SelectionBar.style.top = `${ref.current.offsetTop + ref.current.offsetHeight / 2}px`;
+        SelectionBar.style.bottom = `${SelectionBar.parentElement.offsetHeight - (ref.current.offsetTop + ref.current.offsetHeight / 2 + 10)}px`;
+        selectionBar.current.style.display = 'block';
+      }
+    }
+  }, [ref, selectionBar, path, pathname]);
+  return <MenuItem ref={ref} onClick={onClick} selected={pathname === path}>{children}{ripple}</MenuItem>
 }
 
 const OffCanvas = ({show, setShow}: OffCanvasProps) => {
   const pathname = useLocation().pathname.replace(/\/+$/, '');
+  const selectionBarRef = useRef<HTMLDivElement>(null);
   if(show)
     document.body.classList.add('preventScroll');
   else
     document.body.classList.remove('preventScroll');
 
   return (
-      <Container show={show}>
-          <Wrap show={show}>
-              <Group>Menu</Group>
-              <Item pathname={pathname} setShow={setShow} path=""><AiFillHome size="24" />홈</Item>
-              <Item pathname={pathname} setShow={setShow} path="/feed/library"><AiFillFolder size="24" />보관함</Item>
-              <Item pathname={pathname} setShow={setShow} path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
-              <Item pathname={pathname} setShow={setShow} path="/video/upload"><AiFillFileAdd size="24" />동영상 업로드</Item>
-              <Group>General</Group>
-              <Item pathname={pathname} setShow={setShow} path="/setting"><AiFillSetting size="24" />설정</Item>
-          </Wrap>
-          <Shadow show={show} onClick={() => setShow(false)}/>
-      </Container>
+    <Container show={show}>
+      <Wrap show={show}>
+        <Group>Menu</Group>
+        <Item pathname={pathname} setShow={setShow} path="" selectionBar={selectionBarRef}><AiFillHome size="24" />홈</Item>
+        <Item pathname={pathname} setShow={setShow} path="/feed/library" selectionBar={selectionBarRef}><AiFillFolder size="24" />보관함</Item>
+        <Item pathname={pathname} setShow={setShow} path="/feed/subscriptions" selectionBar={selectionBarRef}><AiFillStar size="24" />구독</Item>
+        <Item pathname={pathname} setShow={setShow} path="/video/upload" selectionBar={selectionBarRef}><AiFillFileAdd size="24" />동영상 업로드</Item>
+        <Group>General</Group>
+        <Item pathname={pathname} setShow={setShow} path="/setting" selectionBar={selectionBarRef}><AiFillSetting size="24" />설정</Item>
+        <SelectionBar ref={selectionBarRef} />
+      </Wrap>
+      <Shadow show={show} onClick={() => setShow(false)}/>
+    </Container>
   )
 }
 
 export default React.memo(OffCanvas);
+
+const SelectionBar = styled.div`
+  display: none;
+  position: absolute;
+  top: 0; right: 0;
+  width: 0.375rem;
+  margin-top: -10px;
+  background-color: var(--navbar-menu-icon-color-active);
+  border-radius: 3px;
+`
 
 const Group = styled.div`
   padding: 1.25rem 1.5rem;
@@ -127,7 +160,7 @@ const MenuItem = styled.div<{selected: boolean}>`
   font-weight: 400;
   overflow: hidden;
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 300ms ease;
   @media screen and (min-width: 481px) {
     :hover {
       background-color: var(--navbar-menu-hover);
@@ -138,24 +171,10 @@ const MenuItem = styled.div<{selected: boolean}>`
     transition: all 150ms ease;
   }
 
-  ::after {
-    position: absolute;
-    top: 16px; bottom: 16px;
-    right: 0;
-    width: 6px;
-    background-color: var(--navbar-menu-icon-color-active);
-    transform: scale(0);
-    transition: transform 150ms ease;
-    content: '';
-  }
-
   ${(props) => 
       props.selected &&
       css `
         color: var(--navbar-menu-text-color-active);
-        ::after {
-          transform: scale(1);
-        }
         svg {
           color: var(--navbar-menu-icon-color-active);
         }
