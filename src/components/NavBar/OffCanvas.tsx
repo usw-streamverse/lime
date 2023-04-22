@@ -38,6 +38,20 @@ const Item = ({pathname, path, setShow, children, selectionBar}: ItemProps) => {
         SelectionBar.style.top = `${ref.current.offsetTop + ref.current.offsetHeight / 2}px`;
         SelectionBar.style.bottom = `${SelectionBar.parentElement.offsetHeight - (ref.current.offsetTop + ref.current.offsetHeight / 2 + 10)}px`;
         selectionBar.current.style.display = 'block';
+        
+        const onResize = () => {
+          const SelectionBar = selectionBar.current;
+          if(ref.current && SelectionBar && SelectionBar.parentElement){
+            SelectionBar.style.display = 'none';
+            SelectionBar.style.bottom = `${SelectionBar.parentElement.offsetHeight - (ref.current.offsetTop + ref.current.offsetHeight / 2 + 10)}px`;
+            SelectionBar.style.display = 'block';
+          }
+        }
+        window.addEventListener('resize', onResize);
+
+        return () => {
+          window.removeEventListener('resize', onResize);
+        }
       }
     }
   }, [ref, selectionBar, path, pathname]);
@@ -59,7 +73,7 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
         <Item pathname={pathname} setShow={setShow} path="" selectionBar={selectionBarRef}><AiFillHome size="24" />홈</Item>
         <Item pathname={pathname} setShow={setShow} path="/feed/library" selectionBar={selectionBarRef}><AiFillFolder size="24" />보관함</Item>
         <Item pathname={pathname} setShow={setShow} path="/feed/subscriptions" selectionBar={selectionBarRef}><AiFillStar size="24" />구독</Item>
-        <Item pathname={pathname} setShow={setShow} path="/video/upload" selectionBar={selectionBarRef}><AiFillFileAdd size="24" />동영상 업로드</Item>
+        <Item pathname={pathname} setShow={setShow} path="/video/upload" selectionBar={selectionBarRef}><AiFillFileAdd size="24" />동영상 업로드 (테스트)</Item>
         <Group>General</Group>
         <Item pathname={pathname} setShow={setShow} path="/setting" selectionBar={selectionBarRef}><AiFillSetting size="24" />설정</Item>
         <SelectionBar ref={selectionBarRef} />
