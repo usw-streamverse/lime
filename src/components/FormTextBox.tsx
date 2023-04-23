@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface FormTextBoxProps {
@@ -6,16 +6,16 @@ interface FormTextBoxProps {
     type?: string
 }
 
-const FormTextBox = ({label, type = 'text'}: FormTextBoxProps) => {
+const FormTextBox = forwardRef<HTMLInputElement, FormTextBoxProps>(({label, type = 'text'}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
-    const refText = useRef<HTMLInputElement>(null);
+
     return (
-        <Wrap focus={focus} onClick={() => refText.current?.focus()}>
+        <Wrap focus={focus} onClick={() => {if(typeof ref !== 'function' && ref) ref.current?.focus()}}>
             <Label>{label}</Label>
-            <Input type={type} ref={refText} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
+            <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
         </Wrap>
     )
-}
+});
 
 export default FormTextBox;
 
