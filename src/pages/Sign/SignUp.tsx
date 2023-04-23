@@ -4,6 +4,9 @@ import { useRef, Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
+import { useMutation } from '@tanstack/react-query';
+import { Auth } from 'api';
+import { TailSpin } from  'react-loader-spinner'
 
 interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,
@@ -12,25 +15,58 @@ interface SignUpProps {
 }
 
 const SignUp = ({setPage, show, setShow}: SignUpProps) => {
+    const id = useRef<HTMLInputElement>(null);
+    const password = useRef<HTMLInputElement>(null);
+    const confirm_password = useRef<HTMLInputElement>(null);
+    const nickname = useRef<HTMLInputElement>(null);
     const nodeRef = useRef<HTMLDivElement>(null);
+    const auth = Auth();
+    const { mutate, status } = useMutation(() => {return auth.register(id?.current?.value || '', password?.current?.value || '', nickname?.current?.value || '')}, {
+        onSuccess: () => {
+            alert('회원가입 성공');
+        },
+        onError: () => {
+            alert('회원가입 실패');
+        }
+
+    });
+    const registerAttempt = () => {
+        if(password?.current?.value !== confirm_password?.current?.value){
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+        mutate();
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if(status === 'loading') return;
+        registerAttempt();
+    }
 
     return (
         <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="right-swipe" unmountOnExit>
             <Container ref={nodeRef}>
-                <Head>회원가입</Head>
-                <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-                <FormTextBox label="ID" />
-                <FormTextBox type="password" label="PASSWORD" />
-                <FormTextBox type="password" label="CONFIRM PASSWORD" />
-                <FormTextBox label="NICKNAME" />
-                <ButtonContainer>
-                    <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
-                    <Button>회원가입</Button>
-                </ButtonContainer>
+                <Form onSubmit={handleSubmit}>
+                    <Head>회원가입</Head>
+                    <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
+                    <FormTextBox ref={id} label="ID" />
+                    <FormTextBox ref={password} type="password" label="PASSWORD" />
+                    <FormTextBox ref={confirm_password} type="password" label="CONFIRM PASSWORD" />
+                    <FormTextBox ref={nickname} label="NICKNAME" />
+                    <ButtonContainer>
+                        <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
+                        <Button disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '회원가입'}</Button>
+                    </ButtonContainer>
+                </Form>
             </Container>
         </CSSTransition>
     )
 }
+
+const Form = styled.form`
+    width: 100%;
+`
 
 const Container = styled.div`
     display: flex;
