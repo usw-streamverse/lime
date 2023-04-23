@@ -4,19 +4,26 @@ import useRippleEffect from "hooks/useRippleEffect";
 
 interface ButtonProps {
     children: ReactNode,
-    onClick?: MouseEventHandler
+    onClick?: MouseEventHandler,
+    disabled?: boolean
 }
 
-const Button = ({children, onClick}: ButtonProps) => {
+const Button = ({children, onClick, disabled = false}: ButtonProps) => {
     const ref = useRef(null);
     const ripple = useRippleEffect(ref, 'rgba(255, 255, 255, 0.2)');
+
     return (
+        disabled ?
+        <StyledButton ref={ref}>{children}</StyledButton> 
+        :
         <StyledButton ref={ref} onClick={onClick}>{children}{ripple}</StyledButton>
     )
 }
 
 const StyledButton = styled.button`
-    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     width: 120px;
     height: 48px;
@@ -38,7 +45,7 @@ const StyledButton = styled.button`
         }
     }
     :active {
-        background-color: var(--sign-signin-bg-color-active);
+        //background-color: var(--sign-signin-bg-color-active);
     }
 `
 
