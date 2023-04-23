@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/lime/static/js/main.3e608fc5.js",
+    "main.js": "/lime/static/js/main.04264c38.js",
     "static/media/Pretendard-SemiBold.woff2": "/lime/static/media/Pretendard-SemiBold.7e5eaaf650b9e7389913.woff2",
     "static/media/Pretendard-Regular.woff2": "/lime/static/media/Pretendard-Regular.6090e6b5524796768e78.woff2",
     "static/media/Pretendard-Light.woff2": "/lime/static/media/Pretendard-Light.27c9a07cbc308ce88d1a.woff2",
     "index.html": "/lime/index.html",
-    "main.3e608fc5.js.map": "/lime/static/js/main.3e608fc5.js.map"
+    "main.04264c38.js.map": "/lime/static/js/main.04264c38.js.map"
   },
   "entrypoints": [
-    "static/js/main.3e608fc5.js"
+    "static/js/main.04264c38.js"
   ]
 }
