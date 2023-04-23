@@ -1,16 +1,17 @@
 import styled from "styled-components";
-import { useRef, ReactNode } from 'react';
+import { useRef, ReactNode, MouseEventHandler } from 'react';
 import useRippleEffect from "hooks/useRippleEffect";
 
 interface ButtonProps {
-    children: ReactNode
+    children: ReactNode,
+    onClick?: MouseEventHandler
 }
 
-const Button = ({children}: ButtonProps) => {
+const Button = ({children, onClick}: ButtonProps) => {
     const ref = useRef(null);
     const ripple = useRippleEffect(ref, 'rgba(255, 255, 255, 0.2)');
     return (
-        <StyledButton ref={ref}>{children}{ripple}</StyledButton>
+        <StyledButton ref={ref} onClick={onClick}>{children}{ripple}</StyledButton>
     )
 }
 
