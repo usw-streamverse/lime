@@ -1,28 +1,10 @@
 import { createGlobalStyle } from 'styled-components'
-import Pretendard_Regular from 'assets/fonts/Pretendard-Regular.woff2'
-import Pretendard_SemiBold from 'assets/fonts/Pretendard-SemiBold.woff2'
-import Pretendard_Light from 'assets/fonts/Pretendard-Light.woff2'
+import Pretendard from 'assets/fonts/PretendardVariable.woff2'
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
         font-family: 'Pretendard';
-        src: local('Pretendard Light'), url(${Pretendard_Light}) format('woff');
-        font-weight: 300;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Pretendard';
-        src: local('Pretendard Regular'), url(${Pretendard_Regular}) format('woff');
-        font-weight: 400;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Pretendard';
-        src: local('Pretendard SemiBold'), url(${Pretendard_SemiBold}) format('woff');
-        font-weight: 600;
-        font-style: normal;
+        src: local('Pretendard'), url(${Pretendard}) format('woff');
     }
     
     *, *::before, *::after {
@@ -63,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
         --textbox-shadow: #e5e5e5;
         --textbox-shadow-focus: #0049ed;
         --sign-textbox-border-color: #bbbbbb;
-        --sign-textbox-border-color-focus: #585858;
+        --sign-textbox-border-color-focus: #2786ff;
         --sign-signin-bg-color: #2486ff;
         --sign-signin-bg-color-hover: #4b9bff;
         --sign-signin-bg-color-active: #0068eb;
