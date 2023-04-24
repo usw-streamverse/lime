@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { HiOutlineX } from 'react-icons/hi';
-import { useRef, Dispatch, SetStateAction, createRef, FormEventHandler } from 'react';
+import { useRef, useState, Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import CheckBox from 'components/CheckBox';
 import { CSSTransition } from 'react-transition-group';
@@ -8,6 +8,9 @@ import Button from './Button';
 import { useMutation } from '@tanstack/react-query';
 import { Auth } from 'api';
 import { TailSpin } from  'react-loader-spinner'
+import { AxiosError, AxiosResponse } from 'axios';
+import { LoginParam, LoginResult } from 'api/Auth';
+
 interface SignInProps {
     setPage: Dispatch<SetStateAction<number>>,
     show: boolean,
@@ -17,18 +20,21 @@ interface SignInProps {
 const SignIn = ({setPage, show, setShow}: SignInProps) => {
     const id = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState<number>(0);
     const auth = Auth();
-    const { mutate, status } = useMutation(() => {return auth.login(id?.current?.value || '', password?.current?.value || '')}, {
-        onSuccess: () => {
-            alert('로그인 성공');
+
+    const { mutate, status } = useMutation<AxiosResponse<LoginResult>, AxiosError<LoginResult>, LoginParam>(auth.login, {
+        onSuccess: (data) => {
+            alert('로그인 성공!');
         },
-        onError: () => {
-            alert('로그인 실패');
+        onError: (error) => {
+            setError(error.response?.data?.code || 99);
         }
     });
     
     const loginAttempt = () => {
-        mutate();
+        setError(0);
+        mutate({id: id?.current?.value || '', password: password?.current?.value || ''});
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,8 +50,17 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
                 <Form onSubmit={handleSubmit}>
                     <Head>로그인</Head>
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-                    <FormTextBox ref={id} label="ID" />
-                    <FormTextBox ref={password} type="password" label="PASSWORD" />
+                    <FormTextBox warning={error === 3} ref={id} label="ID" />
+                    <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" />
+                    <Error visible={error !== 0}>{{
+                        0: '',
+                        1: '',
+                        2: '아이디 또는 비밀번호를 확인해 주세요.',
+                        3: '아이디를 입력해 주세요.',
+                        4: '비밀번호를 입력해 주세요.', 
+                        99: '알 수 없는 오류가 발생하였습니다.',
+                    }[error]
+                    }</Error>
                     <SignInContainer>
                         <CheckBox id="auto_login">자동 로그인</CheckBox>
                         <Button type="submit" disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '로그인'}</Button>
@@ -60,6 +75,21 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
 
 const Form = styled.form`
     width: 100%;
+`
+
+const Error = styled.div<{visible: boolean}>`
+    height: 1.0rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1.0rem;
+    color: var(--red);
+    font-weight: 400;
+
+    ${(props) => props.visible ? css `
+        opacity: 1;
+        transition: all ease-in-out 200ms;
+    ` : css `
+        opacity: 0;
+    `}
 `
 
 const Container = styled.div`
@@ -109,7 +139,7 @@ const SignInContainer = styled.div`
 `
 
 const SignUp = styled.div`
-    justify-content: flex-start;
+    display: inline;
     color: #0066ff;
     font-weight: 400;
     letter-spacing: 1px;

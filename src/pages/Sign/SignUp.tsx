@@ -1,12 +1,14 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { HiOutlineChevronLeft, HiOutlineX } from 'react-icons/hi';
-import { useRef, Dispatch, SetStateAction } from 'react';
+import { useRef, useState, Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
 import { useMutation } from '@tanstack/react-query';
 import { Auth } from 'api';
 import { TailSpin } from  'react-loader-spinner'
+import { AxiosError, AxiosResponse } from 'axios';
+import { RegisterParam, RegisterResult } from 'api/Auth';
 
 interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,
@@ -19,23 +21,28 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
     const password = useRef<HTMLInputElement>(null);
     const confirm_password = useRef<HTMLInputElement>(null);
     const nickname = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState<number>(0);
     const nodeRef = useRef<HTMLDivElement>(null);
     const auth = Auth();
-    const { mutate, status } = useMutation(() => {return auth.register(id?.current?.value || '', password?.current?.value || '', nickname?.current?.value || '')}, {
-        onSuccess: () => {
-            alert('회원가입 성공');
-        },
-        onError: () => {
-            alert('회원가입 실패');
-        }
 
+    const { mutate, status } = useMutation<AxiosResponse<RegisterResult>, AxiosError<RegisterResult>, RegisterParam>(auth.register, {
+        onSuccess: (data) => {
+            alert('회원가입 성공!');
+        },
+        onError: (error) => {
+            console.log(error.response?.data.code);
+            setError(error.response?.data?.code || 99);
+        }
     });
+    
     const registerAttempt = () => {
+        setError(0);
         if(password?.current?.value !== confirm_password?.current?.value){
-            alert('비밀번호가 일치하지 않습니다.');
+            confirm_password?.current?.focus();
+            setError(6);
             return;
         }
-        mutate();
+        mutate({id: id?.current?.value || '', password: password?.current?.value || '', nickname: nickname?.current?.value || ''});
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,13 +57,22 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
                 <Form onSubmit={handleSubmit}>
                     <Head>회원가입</Head>
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-                    <FormTextBox ref={id} label="ID" />
-                    <FormTextBox ref={password} type="password" label="PASSWORD" />
-                    <FormTextBox ref={confirm_password} type="password" label="CONFIRM PASSWORD" />
-                    <FormTextBox ref={nickname} label="NICKNAME" />
+                    <FormTextBox warning={error === 2 || error === 3} ref={id} label="ID" />
+                    <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" />
+                    <FormTextBox warning={error === 6} ref={confirm_password} type="password" label="CONFIRM PASSWORD" />
+                    <FormTextBox warning={error === 5} ref={nickname} label="NICKNAME" />
+                    <Error visible={error !== 0}>
+                        {{
+                            2: '이미 사용중인 아이디입니다.',
+                            3: '아이디를 입력해 주세요.',
+                            4: '비밀번호를 입력해 주세요.',
+                            5: '닉네임을 입력해 주세요.',
+                            6: '비밀번호가 일치하지 않습니다.'
+                        }[error]}
+                    </Error>
                     <ButtonContainer>
                         <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
-                        <Button disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '회원가입'}</Button>
+                        <Button type="submit" disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '회원가입'}</Button>
                     </ButtonContainer>
                 </Form>
             </Container>
@@ -66,6 +82,21 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
 
 const Form = styled.form`
     width: 100%;
+`
+
+const Error = styled.div<{visible: boolean}>`
+    height: 1.0rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1.0rem;
+    color: var(--red);
+    font-weight: 400;
+
+    ${(props) => props.visible ? css `
+        opacity: 1;
+        transition: all ease-in-out 200ms;
+    ` : css `
+        opacity: 0;
+    `}
 `
 
 const Container = styled.div`
