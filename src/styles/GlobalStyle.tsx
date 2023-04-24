@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     }
     
     body {
+        --red: red;
         --main-bg-color: #fff;
         --main-text-color: #000;
         --main-text-color-light: #525252;
@@ -52,6 +53,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body.dark {
+        --red: #ff2323;
         --main-bg-color: #292a2c;
         --main-text-color: #fff;
         --main-text-color-light: #d1d1d1;
