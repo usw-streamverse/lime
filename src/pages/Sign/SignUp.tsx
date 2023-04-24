@@ -30,7 +30,6 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
             alert('회원가입 성공!');
         },
         onError: (error) => {
-            console.log(error.response?.data.code);
             setError(error.response?.data?.code || 99);
         }
     });
@@ -67,7 +66,8 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
                             3: '아이디를 입력해 주세요.',
                             4: '비밀번호를 입력해 주세요.',
                             5: '닉네임을 입력해 주세요.',
-                            6: '비밀번호가 일치하지 않습니다.'
+                            6: '비밀번호가 일치하지 않습니다.',
+                            99: '알 수 없는 오류가 발생하였습니다.'
                         }[error]}
                     </Error>
                     <ButtonContainer>
