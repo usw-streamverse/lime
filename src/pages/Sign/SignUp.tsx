@@ -45,7 +45,7 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
     }
 
     return (
-        <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="right-swipe" unmountOnExit>
+        <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames="down-swipe" unmountOnExit>
             <Container ref={nodeRef}>
                 <Form onSubmit={handleSubmit}>
                     <Head>회원가입</Head>
@@ -77,17 +77,19 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     padding: 0 3.0rem;
+    background-color: var(--main-bg-color);
 `
 
 const Head = styled.div`
     position: absolute;
     top: 26px;
-    left: 26px;
+    left: 0;
+    padding: 1.0rem;
+    border-left: 0.5rem solid var(--sign-signin-bg-color);
     color: var(--main-text-color);
     font-weight: 400;
-    font-size: 2.0rem;
+    font-size: 1.5rem;
     letter-spacing: 0.1em;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `
 
 const Close = styled.div`

@@ -8,7 +8,6 @@ import Button from './Button';
 import { useMutation } from '@tanstack/react-query';
 import { Auth } from 'api';
 import { TailSpin } from  'react-loader-spinner'
-
 interface SignInProps {
     setPage: Dispatch<SetStateAction<number>>,
     show: boolean,
@@ -38,24 +37,21 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
         loginAttempt();
     }
 
-    console.log(status);
-
     const nodeRef = useRef<HTMLDivElement>(null);
     return (
-        <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="left-swipe" unmountOnExit>
+        <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames="up-swipe" unmountOnExit>
             <Container ref={nodeRef}>
                 <Form onSubmit={handleSubmit}>
                     <Head>로그인</Head>
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
                     <FormTextBox ref={id} label="ID" />
                     <FormTextBox ref={password} type="password" label="PASSWORD" />
-                    <CheckBoxWrapper>
+                    <SignInContainer>
                         <CheckBox id="auto_login">자동 로그인</CheckBox>
-                    </CheckBoxWrapper>
-                    <ButtonContainer>
-                        <SignUp onClick={() => setPage(1)}>회원가입</SignUp>
-                        <Button disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '로그인'}</Button>
-                    </ButtonContainer>
+                        <Button type="submit" disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '로그인'}</Button>
+                    </SignInContainer>
+                    
+                    <SignUp onClick={() => setPage(1)}>회원가입</SignUp>
                 </Form>
             </Container>
         </CSSTransition>
@@ -75,17 +71,19 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     padding: 0 3.0rem;
+    background-color: var(--main-bg-color);
 `
 
 const Head = styled.div`
     position: absolute;
     top: 26px;
-    left: 26px;
+    left: 0;
+    padding: 1.0rem;
+    border-left: 0.5rem solid var(--sign-signin-bg-color);
     color: var(--main-text-color);
     font-weight: 400;
-    font-size: 2.0rem;
+    font-size: 1.5rem;
     letter-spacing: 0.1em;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `
 
 const Close = styled.div`
@@ -101,16 +99,13 @@ const Close = styled.div`
     }
 `
 
-const ButtonContainer = styled.div`
+const SignInContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 1.5rem;
     width: 100%;
-`
-
-const CheckBoxWrapper = styled.div`
-    margin: 0.5rem 0 1.0rem 0;
 `
 
 const SignUp = styled.div`

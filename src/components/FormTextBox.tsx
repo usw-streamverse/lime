@@ -24,10 +24,10 @@ const Wrap = styled.div<{focus: Boolean}>`
     color: #797979;
     ${(props) => props.focus && css `
         div {
-            color: var(--main-text-color);
+            color: var(--sign-textbox-border-color-focus);
         }
         input {
-            border-bottom: 1px solid var(--sign-textbox-border-color-focus);
+            border: 1px solid var(--sign-textbox-border-color-focus);
         }
     `}
 `
@@ -42,12 +42,12 @@ const Label = styled.div`
 
 const Input = styled.input`
     width: 100%;
-    height: 3.0rem;
+    height: 3.5rem;
     padding: 0 1.0rem;
     margin-bottom: 2.0rem;
     background-color: transparent;
-    border: 0;
-    border-bottom: 1px solid var(--sign-textbox-border-color);
+    border: 1px solid var(--sign-textbox-border-color);
+    border-radius: 2px;
     color: var(--main-text-color);
     font-weight: 400;
     transition: all 200ms ease;

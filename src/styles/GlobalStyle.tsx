@@ -195,7 +195,7 @@ const GlobalStyle = createGlobalStyle`
 
     .left-swipe-enter-active {
         transform: translateX(0);
-        transition: transform 200ms ease;
+        transition: transform 200ms ease-in-out;
     }
 
     .left-swipe-exit {
@@ -204,7 +204,7 @@ const GlobalStyle = createGlobalStyle`
 
     .left-swipe-exit-active {
         transform: translateX(-100%);
-        transition: transform 200ms ease;
+        transition: transform 200ms ease-in-out;
     }
 
     .right-swipe-enter {
@@ -213,7 +213,7 @@ const GlobalStyle = createGlobalStyle`
 
     .right-swipe-enter-active {
         transform: translateX(0);
-        transition: transform 200ms ease;
+        transition: transform 200ms ease-in-out;
     }
 
     .right-swipe-exit {
@@ -222,7 +222,43 @@ const GlobalStyle = createGlobalStyle`
 
     .right-swipe-exit-active {
         transform: translateX(100%);
-        transition: transform 200ms ease;
+        transition: transform 200ms ease-in-out;
+    }
+
+    .up-swipe-enter {
+        transform: translateY(-100%);
+    }
+
+    .up-swipe-enter-active {
+        transform: translateY(0);
+        transition: transform 300ms ease-in-out;
+    }
+
+    .up-swipe-exit {
+        transform: translateY(0);
+    }
+
+    .up-swipe-exit-active {
+        transform: translateY(-100%);
+        transition: transform 300ms ease-in-out;
+    }
+
+    .down-swipe-enter {
+        transform: translateY(100%);
+    }
+
+    .down-swipe-enter-active {
+        transform: translateY(0);
+        transition: transform 300ms ease-in-out;
+    }
+
+    .down-swipe-exit {
+        transform: translateY(0);
+    }
+
+    .down-swipe-exit-active {
+        transform: translateY(100%);
+        transition: transform 300ms ease-in-out;
     }
 
     /*

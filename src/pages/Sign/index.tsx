@@ -27,6 +27,7 @@ const Container = styled.div`
     background-color: var(--main-bg-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+    overflow: hidden;
     @media screen and (max-width: 480px) {
         width: 100%;
         height: 100%;
