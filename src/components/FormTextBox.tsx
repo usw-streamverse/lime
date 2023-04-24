@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface FormTextBoxProps {
@@ -9,6 +9,11 @@ interface FormTextBoxProps {
 
 const FormTextBox = forwardRef<HTMLInputElement, FormTextBoxProps>(({label, type = 'text', warning = false}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
+
+    useEffect(() => {
+        if(warning && typeof ref !== 'function' && ref?.current)
+            ref.current?.focus();
+    }, [warning])
 
     return (
         <Wrap focus={focus} onClick={() => {if(typeof ref !== 'function' && ref) ref.current?.focus()}} warning={warning}>
@@ -46,10 +51,16 @@ const Input = styled.input<{warning: boolean}>`
     height: 3.5rem;
     padding: 0 1.0rem;
     margin-bottom: 2.0rem;
-    background-color: transparent;
-    border: 1px solid var(--sign-textbox-border-color);  
+    background-color: transparent;  
     border-radius: 2px;
-    color: var(--main-text-color);
+    ${(props) => props.warning ? css `
+        border: 1px solid var(--red);
+        color: var(--red);
+    `: css `
+        border: 1px solid var(--sign-textbox-border-color);
+        color: var(--main-text-color);
+    ` 
+    }
     font-weight: 400;
     transition: all 200ms ease;
 `;
