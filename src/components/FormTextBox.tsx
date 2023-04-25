@@ -10,11 +10,6 @@ interface FormTextBoxProps {
 const FormTextBox = forwardRef<HTMLInputElement, FormTextBoxProps>(({label, type = 'text', warning = false}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
 
-    useEffect(() => {
-        if(warning && typeof ref !== 'function' && ref?.current)
-            ref.current?.focus();
-    }, [warning])
-
     return (
         <Wrap focus={focus} onClick={() => {if(typeof ref !== 'function' && ref) ref.current?.focus()}} warning={warning}>
             <Label>{label}</Label>
