@@ -50,26 +50,42 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
         registerAttempt();
     }
 
+    const getErrorMessage = (code: number): string => {
+        // 문제가 있는 textbox를 focus하고 코드에 맞는 에러 메세지를 return
+        switch(code){
+            case 2:
+                id?.current?.focus();
+                return '이미 사용중인 아이디입니다.';
+            case 3:
+                id?.current?.focus();
+                return '아이디를 입력해 주세요.';
+            case 4:
+                password?.current?.focus();
+                return '비밀번호를 입력해 주세요.';
+            case 5:
+                nickname?.current?.focus();
+                return '닉네임을 입력해 주세요.';
+            case 6:
+                confirm_password?.current?.focus();
+                return '비밀번호가 일치하지 않습니다.';
+            case 99:
+                return '알 수 없는 오류가 발생하였습니다.';
+            default:
+                return '';
+        }
+    }
+
     return (
         <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames="down-swipe" unmountOnExit>
             <Container ref={nodeRef}>
                 <Form onSubmit={handleSubmit}>
                     <Head>회원가입</Head>
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-                    <FormTextBox warning={error === 2 || error === 3} ref={id} label="ID" />
-                    <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" />
+                    <FormTextBox warning={[2, 3].includes(error)} ref={id} label="ID" />
+                    <FormTextBox warning={[4, 6].includes(error)} ref={password} type="password" label="PASSWORD" />
                     <FormTextBox warning={error === 6} ref={confirm_password} type="password" label="CONFIRM PASSWORD" />
                     <FormTextBox warning={error === 5} ref={nickname} label="NICKNAME" />
-                    <Error visible={error !== 0}>
-                        {{
-                            2: '이미 사용중인 아이디입니다.',
-                            3: '아이디를 입력해 주세요.',
-                            4: '비밀번호를 입력해 주세요.',
-                            5: '닉네임을 입력해 주세요.',
-                            6: '비밀번호가 일치하지 않습니다.',
-                            99: '알 수 없는 오류가 발생하였습니다.'
-                        }[error]}
-                    </Error>
+                    <Error visible={error !== 0}>{getErrorMessage(error)}</Error>
                     <ButtonContainer>
                         <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
                         <Button type="submit" disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '회원가입'}</Button>
