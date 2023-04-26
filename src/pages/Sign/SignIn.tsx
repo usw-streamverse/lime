@@ -21,17 +21,39 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
     const id = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<number>(0);
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const auth = Auth();
+
+    useEffect(() => {
+        switch(error){
+            case 2:
+                setErrorMessage('아이디 또는 비밀번호를 확인해 주세요.');
+                break;
+            case 3:
+                id?.current?.focus();
+                setErrorMessage('아이디를 입력해 주세요.');
+                break;
+            case 4:
+                password?.current?.focus();
+                setErrorMessage('비밀번호를 입력해 주세요.');
+                break;
+            case 99:
+                setErrorMessage('알 수 없는 오류가 발생하였습니다.');
+                break;
+            default:
+                setErrorMessage('');
+        }
+    }, [error])
 
     const { mutate, status } = useMutation<AxiosResponse<LoginResult>, AxiosError<LoginResult>, LoginParam>(auth.login, {
         onSuccess: (data) => {
-            alert('로그인 성공!');
+            alert('로그인 성공! token : \n' + data.data.token);
         },
         onError: (error) => {
             setError(error.response?.data?.code || 99);
         }
     });
-    
+
     const loginAttempt = () => {
         setError(0);
         mutate({id: id?.current?.value || '', password: password?.current?.value || ''});
@@ -43,24 +65,6 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
         loginAttempt();
     }
 
-    const getErrorMessage = (code: number): string => {
-        // 문제가 있는 textbox를 focus하고 코드에 맞는 에러 메세지를 return
-        switch(code){
-            case 2:
-                return '아이디 또는 비밀번호를 확인해 주세요.';
-            case 3:
-                id?.current?.focus();
-                return '아이디를 입력해 주세요.';
-            case 4:
-                password?.current?.focus();
-                return '비밀번호를 입력해 주세요.';
-            case 99:
-                return '알 수 없는 오류가 발생하였습니다.';
-            default:
-                return '';
-        }
-    }
-
     const nodeRef = useRef<HTMLDivElement>(null);
     return (
         <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames="up-swipe" unmountOnExit>
@@ -70,7 +74,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
                     <FormTextBox warning={error === 3} ref={id} label="ID" />
                     <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" />
-                    <Error visible={error !== 0}>{getErrorMessage(error)}</Error>
+                    <Error visible={error !== 0}>{errorMessage}</Error>
                     <SignInContainer>
                         <CheckBox id="auto_login">자동 로그인</CheckBox>
                         <Button type="submit" disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '로그인'}</Button>

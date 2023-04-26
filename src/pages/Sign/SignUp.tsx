@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { HiOutlineChevronLeft, HiOutlineX } from 'react-icons/hi';
-import { useRef, useState, Dispatch, SetStateAction } from 'react';
+import { useRef, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
@@ -23,7 +23,38 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
     const nickname = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<number>(0);
     const nodeRef = useRef<HTMLDivElement>(null);
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const auth = Auth();
+
+    useEffect(() => {
+        switch(error){
+            case 2:
+                id?.current?.focus();
+                setErrorMessage('이미 사용중인 아이디입니다.');
+                break;
+            case 3:
+                id?.current?.focus();
+                setErrorMessage('아이디를 입력해 주세요.');
+                break;
+            case 4:
+                password?.current?.focus();
+                setErrorMessage('비밀번호를 입력해 주세요.');
+                break;
+            case 5:
+                nickname?.current?.focus();
+                setErrorMessage('닉네임을 입력해 주세요.');
+                break;
+            case 6:
+                confirm_password?.current?.focus();
+                setErrorMessage('비밀번호가 일치하지 않습니다.');
+                break;
+            case 99:
+                setErrorMessage('알 수 없는 오류가 발생하였습니다.');
+                break;
+            default:
+                setErrorMessage('');
+        }
+    }, [error])
 
     const { mutate, status } = useMutation<AxiosResponse<RegisterResult>, AxiosError<RegisterResult>, RegisterParam>(auth.register, {
         onSuccess: (data) => {
@@ -50,31 +81,6 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
         registerAttempt();
     }
 
-    const getErrorMessage = (code: number): string => {
-        // 문제가 있는 textbox를 focus하고 코드에 맞는 에러 메세지를 return
-        switch(code){
-            case 2:
-                id?.current?.focus();
-                return '이미 사용중인 아이디입니다.';
-            case 3:
-                id?.current?.focus();
-                return '아이디를 입력해 주세요.';
-            case 4:
-                password?.current?.focus();
-                return '비밀번호를 입력해 주세요.';
-            case 5:
-                nickname?.current?.focus();
-                return '닉네임을 입력해 주세요.';
-            case 6:
-                confirm_password?.current?.focus();
-                return '비밀번호가 일치하지 않습니다.';
-            case 99:
-                return '알 수 없는 오류가 발생하였습니다.';
-            default:
-                return '';
-        }
-    }
-
     return (
         <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames="down-swipe" unmountOnExit>
             <Container ref={nodeRef}>
@@ -85,7 +91,7 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
                     <FormTextBox warning={[4, 6].includes(error)} ref={password} type="password" label="PASSWORD" />
                     <FormTextBox warning={error === 6} ref={confirm_password} type="password" label="CONFIRM PASSWORD" />
                     <FormTextBox warning={error === 5} ref={nickname} label="NICKNAME" />
-                    <Error visible={error !== 0}>{getErrorMessage(error)}</Error>
+                    <Error visible={error !== 0}>{errorMessage}</Error>
                     <ButtonContainer>
                         <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
                         <Button type="submit" disabled={status === 'loading'}>{status === 'loading' ? <TailSpin height={24} width={24} color="#fff" visible={true} /> : '회원가입'}</Button>
