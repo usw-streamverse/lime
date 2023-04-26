@@ -1,4 +1,4 @@
-import axios from 'axios';
+import JwtInterceptor from './JwtInterceptor';
 
 export interface LoginParam {
     id: string,
@@ -7,7 +7,8 @@ export interface LoginParam {
 
 export interface LoginResult {
     success: boolean,
-    code: number
+    code: number,
+    token?: string
 }
 
 export interface RegisterParam {
@@ -24,12 +25,11 @@ export interface RegisterResult {
 
 const Auth = () => {
     const login = (props: LoginParam) => {
-        return axios.post<LoginResult>('http://localhost:3000/auth/login', props);
+        return JwtInterceptor().instance.post<LoginResult>('http://localhost:3000/auth/login', props);
     }
 
     const register = (props: RegisterParam) => {
-        const res = axios.post<RegisterResult>('http://localhost:3000/auth/register', props);
-        return res;
+        return JwtInterceptor().instance.post<RegisterResult>('http://localhost:3000/auth/register', props);
     }
 
     return { login, register };

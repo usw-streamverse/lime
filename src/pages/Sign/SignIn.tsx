@@ -48,6 +48,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
     const { mutate, status } = useMutation<AxiosResponse<LoginResult>, AxiosError<LoginResult>, LoginParam>(auth.login, {
         onSuccess: (data) => {
             alert('로그인 성공! token : \n' + data.data.token);
+            localStorage.setItem('accessToken', data.data.token || '');
         },
         onError: (error) => {
             setError(error.response?.data?.code || 99);
