@@ -6,8 +6,13 @@ import NavBar from 'components/NavBar';
 import Upload from 'pages/video/Upload';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
-
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    }
+  }
+})
 
 const AnimatedSwitch = () => {
   const location = useLocation();
@@ -28,6 +33,7 @@ const AnimatedSwitch = () => {
 }
 
 const App = () => {
+  
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
