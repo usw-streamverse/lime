@@ -5,8 +5,8 @@ import FormTextBox from 'components/FormTextBox';
 import CheckBox from 'components/CheckBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
-import { useMutation } from '@tanstack/react-query';
-import { Auth } from 'api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Auth, User } from 'api';
 import { TailSpin } from  'react-loader-spinner'
 import { AxiosError, AxiosResponse } from 'axios';
 import { LoginParam, LoginResult } from 'api/Auth';
@@ -23,6 +23,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
     const [error, setError] = useState<number>(0);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const auth = Auth();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         switch(error){
@@ -49,6 +50,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
         onSuccess: (data) => {
             alert('로그인 성공! token : \n' + data.data.token);
             localStorage.setItem('accessToken', data.data.token || '');
+            queryClient.prefetchQuery(['profile'], User().profile);
         },
         onError: (error) => {
             setError(error.response?.data?.code || 99);
