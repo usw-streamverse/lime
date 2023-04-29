@@ -24,7 +24,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
     const [error, setError] = useState<number>(0);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const auth = Auth();
-    const [updateProfile] = useUserQuery().Profile();
+    const profile = useUserQuery().Profile();
 
     useEffect(() => {
         switch(error){
@@ -53,7 +53,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
             localStorage.setItem('id', data.data.id);
             localStorage.setItem('userid', data.data.userid);
             localStorage.setItem('nickname', data.data.nickname);            
-            updateProfile();
+            profile.update();
             setShow(false);
         },
         onError: (error) => {

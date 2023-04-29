@@ -6,7 +6,7 @@ import { ProfileResult } from 'api/User';
 const useUserQuery = () => {
     const queryClient = useQueryClient();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
-    const Profile = (): [() => void, boolean, ProfileResult | undefined] => {
+    const Profile = (): {update: () => void, loggedIn: boolean, data: ProfileResult | undefined} => {
         const { data, status } = useQuery({
             queryKey: ['profile'],
             staleTime: 1000 * 3600,
@@ -25,10 +25,10 @@ const useUserQuery = () => {
         }
 
         if(status === 'loading' && localStorage.getItem('id') !== null){ // loading 중 일 때는 localStroage에 저장되어 있는 정보 제공
-            return [update, true, {success: true, id: parseInt(localStorage.getItem('id') || ''), nickname: localStorage.getItem('nickname') || '', userid: localStorage.getItem('userid') || ''}];
+            return {update, loggedIn: true, data: {success: true, id: parseInt(localStorage.getItem('id') || ''), nickname: localStorage.getItem('nickname') || '', userid: localStorage.getItem('userid') || ''}};
         }
     
-        return [update, loggedIn, data?.data];
+        return {update, loggedIn, data: data?.data};
     }
 
     return { Profile }

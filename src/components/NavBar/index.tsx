@@ -1,10 +1,11 @@
 import { CiLight, CiDark, CiMenuBurger } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
-import { ReactNode, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import OffCanvas from './OffCanvas';
 import { useNavigate } from 'react-router-dom';
 import Sign from 'pages/Sign';
 import Modal from 'components/Modal';
+import useUserQuery from 'hooks/useUserQuery';
 
 interface NavBarProps {
     children: ReactNode
@@ -28,10 +29,12 @@ const Menu = ({onClick}: MenuProps) => {
 }
 
 const NavBar = ({children}: NavBarProps) => {
+    const profile = useUserQuery().Profile();
     const navigate = useNavigate();
     const [dark, setDark] = useState(false);
     const [offCanvas, setOffCanvas] = useState<boolean>(window.innerWidth > 1024);
     const [signIn, setSignIn] = useState(false);
+
     return (
         <>
             <Modal show={signIn} setShow={setSignIn}><Sign setShow={setSignIn} /></Modal>
@@ -41,7 +44,12 @@ const NavBar = ({children}: NavBarProps) => {
                     <Logo onClick={() => navigate('')}>LIME</Logo>
                 </LeftSide>
                 <Item data-text="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Item>
-                <Item onClick={() => setSignIn(true)}>로그인</Item>
+                {
+                    profile.loggedIn ?
+                    <Item onClick={() => {localStorage.clear(); profile.update()}}>{profile.data?.nickname} 로그아웃</Item>
+                    :
+                    <Item onClick={() => setSignIn(true)}>로그인</Item>
+                }
             </Wrap>
             <Container>
                 <OffCanvas show={offCanvas} setShow={setOffCanvas} />
