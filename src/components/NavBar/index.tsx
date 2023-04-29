@@ -1,17 +1,21 @@
 import { CiLight, CiDark, CiMenuBurger } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import OffCanvas from './OffCanvas';
 import { useNavigate } from 'react-router-dom';
 import Sign from 'pages/Sign';
 import Modal from 'components/Modal';
 import useUserQuery from 'hooks/useUserQuery';
+import DropDown from 'components/DropDown';
+import useRippleEffect from 'hooks/useRippleEffect';
 
 interface NavBarProps {
     children: ReactNode
 }
 
 interface MenuProps {
+    children: ReactNode,
+    tooltip?: string,
     onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
@@ -20,11 +24,11 @@ const toggleTheme = () => {
     return document.body.classList.contains('dark');
 }
 
-const Menu = ({onClick}: MenuProps) => {
+const Menu = ({children, tooltip='', onClick}: MenuProps) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const ripple = useRippleEffect(ref, 'var(--navbar-item-ripple)');
     return (
-        <MenuButton onClick={onClick}>
-            <CiMenuBurger size="1.5rem" />
-        </MenuButton>
+        <Item ref={ref} data-text={tooltip} onClick={onClick}>{children}{ripple}</Item>
     )
 }
 
@@ -34,21 +38,27 @@ const NavBar = ({children}: NavBarProps) => {
     const [dark, setDark] = useState(false);
     const [offCanvas, setOffCanvas] = useState<boolean>(window.innerWidth > 1024);
     const [signIn, setSignIn] = useState(false);
-
+    const [dropdown, setDropdown] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
     return (
         <>
             <Modal show={signIn} setShow={setSignIn}><Sign setShow={setSignIn} /></Modal>
             <Wrap>
                 <LeftSide>
-                    <Menu onClick={() => setOffCanvas(!offCanvas)}/>
+                    <MenuButton onClick={() => setOffCanvas(!offCanvas)}>
+                        <CiMenuBurger size="1.5rem" />
+                    </MenuButton>
                     <Logo onClick={() => navigate('')}>LIME</Logo>
                 </LeftSide>
-                <Item data-text="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Item>
+                <Menu tooltip="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Menu>
                 {
                     profile.loggedIn ?
-                    <Item onClick={() => {localStorage.clear(); profile.update()}}>{profile.data?.nickname} 로그아웃</Item>
+                    <>
+                        <Menu onClick={() => setDropdown((b) => !b)}>{profile.data?.nickname}</Menu>
+                        <DropDown show={dropdown}></DropDown>
+                    </>
                     :
-                    <Item onClick={() => setSignIn(true)}>로그인</Item>
+                    <Menu onClick={() => setSignIn(true)}>로그인</Menu>
                 }
             </Wrap>
             <Container>
@@ -130,6 +140,7 @@ const Item = styled.div<{'data-text'?: string}>`
     color: var(--main-text-color);
     font-weight: 400;
     cursor: pointer;
+    overflow: hidden;
     transition: all 200ms ease;
     ::before {
         position: absolute;
@@ -187,9 +198,5 @@ const Item = styled.div<{'data-text'?: string}>`
                 display: none;
             }
         `
-    }
-
-    :active {
-        transform: scale(1.05);
     }
 `

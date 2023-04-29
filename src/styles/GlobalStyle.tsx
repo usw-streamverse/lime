@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-bg-color: #fff;
         --navbar-border-color: #e5e5e5;
         --navbar-item-bg-color: #fff;
+        --navbar-item-ripple: #dcffce;
         --navbar-menu-hover: #ededed;
         --navbar-menu-ripple: #bdbdbd;
         --navbar-menu-text-color-inactive: #778495;
@@ -61,6 +62,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-bg-color: #141414;
         --navbar-border-color: #101010;
         --navbar-item-bg-color: #141414;
+        --navbar-item-ripple: #243d1d;
         --navbar-menu-hover: #383838;
         --navbar-menu-ripple: #0e0e0e;
         --navbar-menu-text-color-inactive: #77797c;
@@ -261,6 +263,26 @@ const GlobalStyle = createGlobalStyle`
     .down-swipe-exit-active {
         transform: translateY(100%);
         transition: transform 300ms ease-in-out;
+    }
+
+    .dropdown-enter {
+        opacity: 0;
+        transform: scale(0.66);
+    }
+
+    .dropdown-enter-active {
+        opacity: 1;
+        transform: scale(1);
+        transition: all 150ms ease-in-out;
+    }
+
+    .dropdown-exit {
+        opacity: 1;
+    }
+
+    .dropdown-exit-active {
+        opacity: 0;
+        transition: all 150ms ease-in-out;
     }
 
     /*
