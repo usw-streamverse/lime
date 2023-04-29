@@ -49,7 +49,10 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
 
     const { mutate, status } = useMutation<AxiosResponse<LoginResult>, AxiosError<LoginResult>, LoginParam>(auth.login, {
         onSuccess: (data) => {
-            localStorage.setItem('accessToken', data.data.token || '');
+            localStorage.setItem('accessToken', data.data.token);
+            localStorage.setItem('id', data.data.id);
+            localStorage.setItem('userid', data.data.userid);
+            localStorage.setItem('nickname', data.data.nickname);            
             updateProfile();
             setShow(false);
         },

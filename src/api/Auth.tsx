@@ -8,7 +8,10 @@ export interface LoginParam {
 export interface LoginResult {
     success: boolean,
     code: number,
-    token?: string
+    id: string,
+    userid: string,
+    nickname: string,
+    token: string
 }
 
 export interface RegisterParam {
