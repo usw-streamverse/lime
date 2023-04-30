@@ -62,7 +62,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-bg-color: #141414;
         --navbar-border-color: #101010;
         --navbar-item-bg-color: #141414;
-        --navbar-item-ripple: #243d1d;
+        --navbar-item-ripple: #303030;
         --navbar-menu-hover: #383838;
         --navbar-menu-ripple: #0e0e0e;
         --navbar-menu-text-color-inactive: #77797c;
@@ -267,13 +267,13 @@ const GlobalStyle = createGlobalStyle`
 
     .dropdown-enter {
         opacity: 0;
-        transform: scale(0.66);
+        transform: scaleY(0);
     }
 
     .dropdown-enter-active {
         opacity: 1;
-        transform: scale(1);
-        transition: all 150ms ease-in-out;
+        transform: scaleY(1);
+        transition: all 200ms ease-in-out;
     }
 
     .dropdown-exit {
@@ -282,7 +282,8 @@ const GlobalStyle = createGlobalStyle`
 
     .dropdown-exit-active {
         opacity: 0;
-        transition: all 150ms ease-in-out;
+        transition: all 200ms ease;
+        pointer-events: none;
     }
 
     /*

@@ -1,4 +1,4 @@
-import { CiLight, CiDark, CiMenuBurger } from 'react-icons/ci';
+import { CiLight, CiDark, CiMenuBurger, CiUser } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
 import React, { ReactNode, useRef, useState } from 'react';
 import OffCanvas from './OffCanvas';
@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Sign from 'pages/Sign';
 import Modal from 'components/Modal';
 import useUserQuery from 'hooks/useUserQuery';
-import DropDown from 'components/DropDown';
-import useRippleEffect from 'hooks/useRippleEffect';
+import DropDown from './DropDown';
 
 interface NavBarProps {
     children: ReactNode
@@ -16,7 +15,9 @@ interface NavBarProps {
 interface MenuProps {
     children: ReactNode,
     tooltip?: string,
-    onClick: React.MouseEventHandler<HTMLDivElement>;
+    onClick?: React.MouseEventHandler<HTMLDivElement>,
+    onMouseEnter?: () => void,
+    onMouseLeave?: () => void
 }
 
 const toggleTheme = () => {
@@ -24,11 +25,9 @@ const toggleTheme = () => {
     return document.body.classList.contains('dark');
 }
 
-const Menu = ({children, tooltip='', onClick}: MenuProps) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const ripple = useRippleEffect(ref, 'var(--navbar-item-ripple)');
+const Menu = ({children, tooltip='', onClick, onMouseEnter, onMouseLeave}: MenuProps) => {
     return (
-        <Item ref={ref} data-text={tooltip} onClick={onClick}>{children}{ripple}</Item>
+        <Item data-text={tooltip} onClick={onClick} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>{children}</Item>
     )
 }
 
@@ -39,7 +38,6 @@ const NavBar = ({children}: NavBarProps) => {
     const [offCanvas, setOffCanvas] = useState<boolean>(window.innerWidth > 1024);
     const [signIn, setSignIn] = useState(false);
     const [dropdown, setDropdown] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
     return (
         <>
             <Modal show={signIn} setShow={setSignIn}><Sign setShow={setSignIn} /></Modal>
@@ -53,10 +51,10 @@ const NavBar = ({children}: NavBarProps) => {
                 <Menu tooltip="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Menu>
                 {
                     profile.loggedIn ?
-                    <>
-                        <Menu onClick={() => setDropdown((b) => !b)}>{profile.data?.nickname}</Menu>
-                        <DropDown show={dropdown}></DropDown>
-                    </>
+                    <Menu onClick={(e) => {setDropdown(!dropdown); e.preventDefault()}} onMouseEnter={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)}>
+                        <ProfileIcon />{profile.data?.nickname}
+                        <DropDown show={dropdown} />
+                    </Menu>
                     :
                     <Menu onClick={() => setSignIn(true)}>로그인</Menu>
                 }
@@ -70,6 +68,14 @@ const NavBar = ({children}: NavBarProps) => {
 }
 
 export default NavBar;
+
+const ProfileIcon = styled.div`
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    background-color: #a0a0a0;
+    border-radius: 50%;
+`
 
 const Container = styled.div`
     display: grid;
@@ -140,7 +146,6 @@ const Item = styled.div<{'data-text'?: string}>`
     color: var(--main-text-color);
     font-weight: 400;
     cursor: pointer;
-    overflow: hidden;
     transition: all 200ms ease;
     ::before {
         position: absolute;
@@ -151,7 +156,6 @@ const Item = styled.div<{'data-text'?: string}>`
         transition: all 200ms ease;
         content: '';
     }
-
     ::after {
         display: flex;
         align-items: center;
@@ -193,6 +197,9 @@ const Item = styled.div<{'data-text'?: string}>`
                 ::before {
                     bottom: 0;
                 }
+            }
+            ::before {
+                display: none;
             }
             ::after {
                 display: none;
