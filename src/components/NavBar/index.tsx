@@ -51,7 +51,7 @@ const NavBar = ({children}: NavBarProps) => {
                 <Menu tooltip="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Menu>
                 {
                     profile.loggedIn ?
-                    <Menu onClick={(e) => {setDropdown(!dropdown); e.preventDefault()}} onMouseEnter={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)}>
+                    <Menu onClick={(e) => {setOffCanvas(false); setDropdown(!dropdown); e.preventDefault()}} onMouseEnter={() => {if(window.innerWidth > 1024 || !offCanvas) setDropdown(true)}} onMouseLeave={() => setDropdown(false)}>
                         <ProfileIcon />{profile.data?.nickname}
                         <DropDown show={dropdown} />
                     </Menu>
@@ -151,7 +151,8 @@ const Item = styled.div<{'data-text'?: string}>`
         position: absolute;
         left: 0; right: 0;
         top: 0; bottom: 0;
-        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--navbar-border-color);
+        border-top: 0;
         opacity: 0;
         transition: all 200ms ease;
         content: '';
@@ -161,17 +162,17 @@ const Item = styled.div<{'data-text'?: string}>`
         align-items: center;
         justify-content: center;
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -2.5rem;
+        left: 1px;
+        right: 1px;
+        bottom: calc(-2.5rem + 1px);
         opacity: 0;
         height: 2.5rem;
         background-color: var(--navbar-item-bg-color);
         font-size: 0.9rem;
         font-weight: 300;
         transition: all 200ms ease;
-        transform: scaleY(0);
-        transform-origin: 50% 0;
+        overflow-y: hidden;
+        transform: translateY(-100%);
         content: attr(data-text);
     }
 
@@ -184,7 +185,7 @@ const Item = styled.div<{'data-text'?: string}>`
             }
             ::after {
                 opacity: 1;
-                transform: scaleY(1);
+                transform: translateY(0);
             }
             z-index: 2;
         }
