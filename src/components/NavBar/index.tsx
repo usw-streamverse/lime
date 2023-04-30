@@ -51,7 +51,7 @@ const NavBar = ({children}: NavBarProps) => {
                 <Menu tooltip="Theme" onClick={() => setDark(toggleTheme)}>{dark ? <CiLight size="1.75rem" /> : <CiDark size="1.75rem" />}</Menu>
                 {
                     profile.loggedIn ?
-                    <Menu onClick={(e) => {setOffCanvas(false); setDropdown(!dropdown); e.preventDefault()}} onMouseEnter={() => {if(window.innerWidth > 1024 || !offCanvas) setDropdown(true)}} onMouseLeave={() => setDropdown(false)}>
+                    <Menu onClick={(e) => {if(window.innerWidth <= 1024) setOffCanvas(false); setDropdown(!dropdown); e.preventDefault()}} onMouseEnter={() => {if(window.innerWidth > 1024 || !offCanvas) setDropdown(true)}} onMouseLeave={() => setDropdown(false)}>
                         <ProfileIcon />{profile.data?.nickname}
                         <DropDown show={dropdown} />
                     </Menu>
