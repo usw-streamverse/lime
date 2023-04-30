@@ -1,5 +1,5 @@
 import React, { useRef, Dispatch, SetStateAction, ReactNode, RefObject, useEffect } from 'react';
-import { AiFillHome, AiFillFolder, AiFillStar, AiFillFileAdd, AiFillSetting } from 'react-icons/ai';
+import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import useRippleEffect from 'hooks/useRippleEffect';
@@ -34,10 +34,10 @@ const Item = ({pathname, path, setShow, children, selectionBar}: ItemProps) => {
         if(parseInt(SelectionBar.style.top, 10) < ref.current.offsetTop + ref.current.offsetHeight / 2)
           SelectionBar.style.transition = 'top 500ms ease-in-out, bottom 200ms ease-in-out';
         else
-        SelectionBar.style.transition = 'bottom 500ms ease-in-out, top 200ms ease-in-out';
+          SelectionBar.style.transition = 'bottom 500ms ease-in-out, top 200ms ease-in-out';
         SelectionBar.style.top = `${ref.current.offsetTop + ref.current.offsetHeight / 2}px`;
         SelectionBar.style.bottom = `${SelectionBar.parentElement.offsetHeight - (ref.current.offsetTop + ref.current.offsetHeight / 2 + 10)}px`;
-        selectionBar.current.style.display = 'block';
+        SelectionBar.style.display = 'block';
         
         const onResize = () => {
           const SelectionBar = selectionBar.current;
@@ -66,6 +66,13 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
   else
     document.body.classList.remove('preventScroll');
 
+  useEffect(() => {
+    const paths = ['', '/feed/library', '/feed/subscriptions', '/setting'];
+    if(selectionBarRef.current){
+      selectionBarRef.current.style.display = paths.indexOf(pathname) === -1 ? 'none' : 'block';
+    }
+  }, [pathname])
+
   return (
     <Container show={show}>
       <Wrap show={show}>
@@ -73,7 +80,6 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
         <Item pathname={pathname} setShow={setShow} path="" selectionBar={selectionBarRef}><AiFillHome size="24" />홈</Item>
         <Item pathname={pathname} setShow={setShow} path="/feed/library" selectionBar={selectionBarRef}><AiFillFolder size="24" />보관함</Item>
         <Item pathname={pathname} setShow={setShow} path="/feed/subscriptions" selectionBar={selectionBarRef}><AiFillStar size="24" />구독</Item>
-        <Item pathname={pathname} setShow={setShow} path="/video/upload" selectionBar={selectionBarRef}><AiFillFileAdd size="24" />동영상 업로드 (테스트)</Item>
         <Group>General</Group>
         <Item pathname={pathname} setShow={setShow} path="/setting" selectionBar={selectionBarRef}><AiFillSetting size="24" />설정</Item>
         <SelectionBar ref={selectionBarRef} />
