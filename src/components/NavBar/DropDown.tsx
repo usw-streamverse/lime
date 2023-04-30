@@ -1,6 +1,6 @@
 import useUserQuery from 'hooks/useUserQuery';
 import { useRef } from 'react';
-import { RiArrowDropRightLine } from 'react-icons/ri';
+import { CiLogin, CiUser, CiVideoOn } from 'react-icons/ci';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
@@ -14,8 +14,9 @@ const DropDown = (props: DropDownProps) => {
     return (
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="dropdown" unmountOnExit>
             <Container ref={nodeRef}>
-                <Item><RiArrowDropRightLine size={16} />내 정보</Item>
-                <Item onClick={(e) => {localStorage.clear(); profile.update()}}><RiArrowDropRightLine size={16} />로그아웃</Item>
+                <Item><CiUser size={24} />내 정보</Item>
+                <Item><CiVideoOn size={24} />내 채널</Item>
+                <Item onClick={(e) => {localStorage.clear(); profile.update()}}><CiLogin size={24} />로그아웃</Item>
             </Container>
         </CSSTransition>
     );
@@ -47,27 +48,25 @@ const Container = styled.div`
 const Item = styled.div`
     display: flex;
     align-items: center;
+    position: relative;
     padding: 1.25rem;
+    background: linear-gradient(to left, var(--navbar-bg-color) 50%, var(--navbar-menu-hover) 50%) right;
+    background-size: 200%;
     border-bottom: 1px solid var(--navbar-border-color);
     font-weight: 400;
     cursor: pointer;
-    transition: all 200ms ease;
+    transition: all 200ms ease-in-out;
+
+    svg {
+        margin-right: 8px;
+    }
 
     :last-child {
         border-bottom: 0;
     }
 
-    svg {
-        width: 0;
-        overflow: hidden;
-        transition: all 200ms ease;
-    }
-
     :hover {
-        svg {
-            width: 1.25rem;
-            margin-right: 0.5rem;
-        }
+        background-position: left;
     }
 `
 
