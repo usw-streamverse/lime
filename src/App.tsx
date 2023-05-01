@@ -5,6 +5,7 @@ import Main from 'pages/Main';
 import NavBar from 'components/NavBar';
 import Upload from 'pages/video/Upload';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import Channel from 'pages/Channel';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +24,8 @@ const AnimatedSwitch = () => {
           <div>
             <Routes location={location}>
               <Route path="/" element={<Main />} />
-              <Route path="/video/Upload" element={<Upload />} />
+              <Route path="/video/upload" element={<Upload />} />
+              <Route path="/channel/:id" element={<Channel />} />
             </Routes>
           </div>
         </CSSTransition>

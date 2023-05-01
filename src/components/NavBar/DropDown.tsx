@@ -1,6 +1,7 @@
 import useUserQuery from 'hooks/useUserQuery';
 import { useRef } from 'react';
 import { CiLogin, CiUser, CiVideoOn } from 'react-icons/ci';
+import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
@@ -9,13 +10,14 @@ interface DropDownProps {
 }
 
 const DropDown = (props: DropDownProps) => {
+    const navigate = useNavigate();
     const profile = useUserQuery().Profile();
     const nodeRef = useRef<HTMLDivElement>(null);
     return (
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="dropdown" unmountOnExit>
             <Container ref={nodeRef}>
                 <Item><CiUser size={24} />내 정보</Item>
-                <Item><CiVideoOn size={24} />내 채널</Item>
+                <Item onClick={() => navigate('/channel/' + profile.data?.userid)}><CiVideoOn size={24} />내 채널</Item>
                 <Item onClick={(e) => {localStorage.clear(); profile.update()}}><CiLogin size={24} />로그아웃</Item>
             </Container>
         </CSSTransition>
