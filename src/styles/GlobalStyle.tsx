@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
         --red: red;
         --main-bg-color: #fff;
         --main-text-color: #000;
-        --main-text-color-light: #525252;
+        --main-text-color-light: #6d6d6d;
         --button-text-color: #000;
         --navbar-bg-color: #fff;
         --navbar-border-color: #e5e5e5;
@@ -51,6 +51,7 @@ const GlobalStyle = createGlobalStyle`
         --sign-signin-bg-color: #2486ff;
         --sign-signin-bg-color-hover: #4b9bff;
         --sign-signin-bg-color-active: #0068eb;
+        --tab-border-color: #bebebe;
     }
 
     body.dark {
@@ -84,6 +85,7 @@ const GlobalStyle = createGlobalStyle`
         --sign-signin-bg-color: #006aef;
         --sign-signin-bg-color-hover: #2486ff;
         --sign-signin-bg-color-active: #0052b9;
+        --tab-border-color: #666666;
     }
 
     body {
