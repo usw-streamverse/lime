@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/lime/static/js/main.b3260309.js",
+    "main.js": "/lime/static/js/main.cced2e4c.js",
     "static/media/PretendardVariable.woff2": "/lime/static/media/PretendardVariable.36b3a87cd98126711b2b.woff2",
     "index.html": "/lime/index.html",
-    "main.b3260309.js.map": "/lime/static/js/main.b3260309.js.map"
+    "main.cced2e4c.js.map": "/lime/static/js/main.cced2e4c.js.map"
   },
   "entrypoints": [
-    "static/js/main.b3260309.js"
+    "static/js/main.cced2e4c.js"
   ]
 }
