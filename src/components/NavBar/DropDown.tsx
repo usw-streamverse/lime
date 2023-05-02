@@ -17,7 +17,7 @@ const DropDown = (props: DropDownProps) => {
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="dropdown" unmountOnExit>
             <Container ref={nodeRef}>
                 <Item><CiUser size={24} />내 정보</Item>
-                <Item onClick={() => navigate('/channel/' + profile.data?.userid)}><CiVideoOn size={24} />내 채널</Item>
+                <Item onClick={() => navigate('/@/' + profile.data?.userid)}><CiVideoOn size={24} />내 채널</Item>
                 <Item onClick={(e) => {localStorage.clear(); profile.update()}}><CiLogin size={24} />로그아웃</Item>
             </Container>
         </CSSTransition>
