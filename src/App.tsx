@@ -1,5 +1,5 @@
 import GlobalStyle from './styles/GlobalStyle';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useMatches } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Main from 'pages/Main';
 import NavBar from 'components/NavBar';
@@ -18,23 +18,20 @@ const queryClient = new QueryClient({
 
 const AnimatedSwitch = () => {
   const location = useLocation();
+
   return (
-    <div className="transition-wrap">
       <TransitionGroup component={null}>
-        <CSSTransition key={location.pathname} classNames="fade" timeout={200}>
-          <div>
+        <CSSTransition key={location.key} classNames="fade" timeout={200}><div>
             <Routes location={location}>
               <Route path="/" element={<Main />} />
               <Route path="/video/upload" element={<Upload />} />
-              <Route path="/@/:id" element={<Channel />} />
+              <Route id="asd" path="/@/:id/:page?" element={<Channel />} />
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
-
             </Routes>
           </div>
         </CSSTransition>
       </TransitionGroup>
-    </div>
   )
 }
 
