@@ -17,33 +17,34 @@ const Tab = (props: {children: ReactNode, selected: string}) => {
     );
 }
 
-const Item = (props: TabItemProps) => {
-    const selected = useContext(SelectedContext);
-    const Item = styled.div<{name: string}>`
-        padding: 1.25rem 1.5rem;
-        color: var(--main-text-color-light);
-        font-weight: 400;
-        cursor: pointer;
-        transition: all 200ms ease;
-        :hover {
+const ItemStyle = styled.div<{selected: boolean}>`
+    padding: 1.25rem 1.5rem;
+    color: var(--main-text-color-light);
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 200ms ease;
+    :hover {
+        color: var(--main-text-color);
+        font-weight: 600;
+        box-shadow: 0 -2px 0 0 var(--main-text-color) inset;
+    }
+    ${(props) => 
+        props.selected &&
+        css `
             color: var(--main-text-color);
             font-weight: 600;
             box-shadow: 0 -2px 0 0 var(--main-text-color) inset;
-        }
-        ${(props) => 
-            props.name === selected &&
-            css `
-                color: var(--main-text-color);
-                font-weight: 600;
-                box-shadow: 0 -2px 0 0 var(--main-text-color) inset;
-            `
-        }
-    `
+        `
+    }
+`
+
+const Item = (props: TabItemProps) => {
+    const selected = useContext(SelectedContext);
+
     return (
-        <Item {...props}>{props.children}</Item>
+        <ItemStyle selected={props.name === selected} {...props}>{props.children}</ItemStyle>
     )
 }
-Tab.Item = Item;
 
 const Container = styled.div`
     display: flex;
@@ -52,4 +53,4 @@ const Container = styled.div`
     border-bottom: 1px solid var(--tab-border-color);
 `
 
-export default Tab;
+export default Object.assign(Tab, {Item: Item});

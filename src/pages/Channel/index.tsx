@@ -59,17 +59,17 @@ const HeaderContainer = styled.div`
         padding: 2.0rem;
     }
 `
+const ChannelInfoStyle = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 2.0rem;
+    @media screen and (max-width: 480px) {
+        margin-left: 1.5rem;
+    }
+`
 const ChannelInfo = (props: {children: ReactNode}) => {
-    const ChannelInfo = styled.div`
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        margin-left: 2.0rem;
-        @media screen and (max-width: 480px) {
-            margin-left: 1.5rem;
-        }
-    `
-    return <ChannelInfo>{props.children}</ChannelInfo>
+    return <ChannelInfoStyle>{props.children}</ChannelInfoStyle>
 }
 
 ChannelInfo.Nickname = styled.div`
