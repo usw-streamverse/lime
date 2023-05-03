@@ -1,14 +1,16 @@
 import styled, { keyframes, css } from 'styled-components';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { ReactNode } from 'react';
+import { Link, Navigate, Outlet, useHref, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ReactNode, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'api';
 import { AxiosError } from 'axios';
 import Tab from './Tab';
 
 const Channel = () => {
-    const navigate = useNavigate();
     const userid = useParams()['id'];
+    const [page, setPage] = useState<string>(useParams()['page'] || '');
+    const url = useHref(`/@/${userid}`);
+    const location = useLocation();
     const { data, status } = useQuery({
         queryKey: ['channel'],
         staleTime: 0,
@@ -23,6 +25,10 @@ const Channel = () => {
         }
     });
 
+    useEffect(() => {
+        window.history.replaceState(null, page, page === '' ? url : url + '/' + page)
+    }, [page])
+
     return (
         <>
             <HeaderContainer>
@@ -35,11 +41,12 @@ const Channel = () => {
                     </ChannelInfo.InfoContainer>
                 </ChannelInfo>
             </HeaderContainer>
-            <Tab>
-                <Tab.Item>홈</Tab.Item>
-                <Tab.Item>재생목록</Tab.Item>
-                <Tab.Item>정보</Tab.Item>
+            <Tab selected={page}>
+                <Tab.Item name="" onClick={() => setPage('')}>홈</Tab.Item>
+                <Tab.Item name="playlist" onClick={() => setPage('playlist')}>재생목록</Tab.Item>
+                <Tab.Item name="about" onClick={() => setPage('about')}>정보</Tab.Item>
             </Tab>
+            <Outlet />
         </>
     )
 }
