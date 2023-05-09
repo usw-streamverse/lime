@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Search from "./Search";
 import VideoItem from './VideoItem';
+import { useState } from 'react';
 const Main = () => {
     return (
         <div>

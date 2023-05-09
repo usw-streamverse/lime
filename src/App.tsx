@@ -20,6 +20,7 @@ const AnimatedSwitch = () => {
   const location = useLocation();
 
   return (
+    <div className="transition-wrap">
       <TransitionGroup component={null}>
         <CSSTransition key={location.key} classNames="fade" timeout={200}><div>
             <Routes location={location}>
@@ -32,6 +33,7 @@ const AnimatedSwitch = () => {
           </div>
         </CSSTransition>
       </TransitionGroup>
+    </div>
   )
 }
 
