@@ -1,23 +1,62 @@
 import styled, { keyframes, css } from 'styled-components';
 import { FiArrowUp } from 'react-icons/fi';
-import { useState, useRef } from 'react';
+import { useState, useRef, createContext, useContext } from 'react';
+import Video, { UploadResult } from 'api/Video';
+import Result from './Result';
+
+export interface iStep {
+    step: number,
+    setStep: React.Dispatch<React.SetStateAction<number>>,
+    uploadResult: React.MutableRefObject<UploadResult>
+}
+
+export const StepContext = createContext<iStep>({} as any);
 
 const Upload = () => {
+    const [step, setStep] = useState<number>(0);
+    const uploadResult = useRef<UploadResult>({} as any);
+    return (
+        <StepContext.Provider value={{step, setStep, uploadResult}}>
+        {{
+            0:
+                <VideoUpload />,
+            1:
+                <Result />
+        }[step]}
+        </StepContext.Provider>
+    )
+}
+
+const VideoUpload = () => {
+    const {step, setStep, uploadResult}: iStep = useContext(StepContext);
     const [drop, setDrop] = useState<boolean>(false);
     const fileRef = useRef<HTMLInputElement>(null);
     const countRef = useRef<number>(0);
 
+    const UploadVideo = (file: FileList | null) => {
+        if(!file) return;
+        const formData = new FormData();
+        formData.append('enctype', 'multipart/form-data');
+        Array.from(file).forEach((el) => {
+            formData.append('video', el);
+        });
+        Video().upload(formData).then((e) => {
+            uploadResult.current = e.data;
+            setStep(1);
+        })
+    }
+
     return (
-        <Container onDragOver={(e) => e.preventDefault()} onDrop={(e) => {setDrop(false); countRef.current = 0; e.preventDefault()}} onDragEnter={(e) => {if(countRef.current++ === 0) setDrop(true)}} onDragLeave={(e) => {if(--countRef.current === 0) setDrop(false)}} drop={drop}>
+        <Container onDragOver={(e) => e.preventDefault()} onDrop={(e) => {setDrop(false); countRef.current = 0; UploadVideo(e.dataTransfer.files); e.preventDefault()}} onDragEnter={(e) => {if(countRef.current++ === 0) setDrop(true)}} onDragLeave={(e) => {if(--countRef.current === 0) setDrop(false)}} drop={drop}>
             <div>
                 <UploadIcon drop={drop} onClick={() => fileRef.current?.click()}>
                     <FiArrowUp />
                 </UploadIcon>
                 <TextContainer show={!drop}>
-                    <H1>비디오 업로드</H1>
+                    <H1>동영상 업로드</H1>
                     <H3>업로드할 동영상을 선택하거나 Drag & Drop 하세요.</H3>
                 </TextContainer>
-                <input style={{'display': 'none'}} type="file" ref={fileRef} />
+                <input style={{'display': 'none'}} name="video" type="file" ref={fileRef} onChange={(e) => UploadVideo(e.target.files)}/>
             </div>
         </Container>
     )

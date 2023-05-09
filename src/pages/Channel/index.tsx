@@ -1,16 +1,17 @@
-import styled, { keyframes, css } from 'styled-components';
-import { Link, Navigate, Outlet, useHref, useLocation, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { Outlet, useHref, useNavigate, useParams } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'api';
 import { AxiosError } from 'axios';
+import { IoCloudUploadSharp } from 'react-icons/io5';
 import Tab from './Tab';
 
 const Channel = () => {
     const userid = useParams()['id'];
     const [page, setPage] = useState<string>(useParams()['page'] || '');
     const url = useHref(`/@/${userid}`);
-    const location = useLocation();
+    const navigate = useNavigate();
     const { data, status } = useQuery({
         queryKey: ['channel'],
         staleTime: 0,
@@ -27,10 +28,16 @@ const Channel = () => {
 
     useEffect(() => {
         window.history.replaceState(null, page, page === '' ? url : url + '/' + page)
-    }, [page])
+    }, [page, url])
 
     return (
         <>
+            {
+            localStorage.userid === userid &&
+            <MyMenu>
+                <MyMenu.Button onClick={() => navigate('/video/upload')}><IoCloudUploadSharp size={24} />동영상 업로드</MyMenu.Button>
+            </MyMenu>
+            }
             <HeaderContainer>
                 <ProfileImage />
                 <ChannelInfo>
@@ -54,6 +61,9 @@ const Channel = () => {
 const HeaderContainer = styled.div`
     display: flex;
     flex-direction: row;
+    flex-wrap : wrap;
+    justify-content: flex-end;
+    width: 100%;
     padding: 3.0rem;
     @media screen and (max-width: 480px) {
         padding: 2.0rem;
@@ -63,6 +73,7 @@ const ChannelInfoStyle = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    flex: 1 1 auto;
     margin-left: 2.0rem;
     @media screen and (max-width: 480px) {
         margin-left: 1.5rem;
@@ -100,6 +111,29 @@ ChannelInfo.Info = styled.div`
     }
 `
 
+const MyMenuStyle = styled.div`
+    padding: 1.0rem 1.0rem 0 0;
+    float: right;
+`
+
+const MyMenu = (props: {children: ReactNode}) => {
+    return <MyMenuStyle>{props.children}</MyMenuStyle>
+}
+
+MyMenu.Button = styled.button`
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: #e5e9eb;
+    border: 0;
+    border-radius: 1.0rem;
+    cursor: pointer;
+    font-size: 1.125rem;
+    font-weight: 600;
+    svg {
+        margin-right: 0.5rem;
+    }
+`
 
 const ProfileImage = styled.div`
     width: 10.0rem;
