@@ -4,7 +4,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'api';
 import { AxiosError } from 'axios';
-import { IoCloudUploadSharp } from 'react-icons/io5';
 import Tab from './Tab';
 
 const Channel = () => {
@@ -35,7 +34,7 @@ const Channel = () => {
             {
             localStorage.userid === userid &&
             <MyMenu>
-                <MyMenu.Button onClick={() => navigate('/video/upload')}><IoCloudUploadSharp size={24} />동영상 업로드</MyMenu.Button>
+                <MyMenu.Button onClick={() => navigate('/video/upload')}>동영상 업로드</MyMenu.Button>
             </MyMenu>
             }
             <HeaderContainer>
@@ -123,15 +122,19 @@ const MyMenu = (props: {children: ReactNode}) => {
 MyMenu.Button = styled.button`
     display: flex;
     align-items: center;
-    padding: 0.75rem;
-    background-color: #e5e9eb;
+    position: relative;
+    padding: 0.875rem;
+    background: linear-gradient(to left, var(--main-bg-color) 50%, var(--navbar-menu-hover) 50%) right;
+    background-size: 200%;
     border: 0;
-    border-radius: 1.0rem;
+    border-radius: 0.25rem;
+    color: var(--main-text-color);
     cursor: pointer;
-    font-size: 1.125rem;
-    font-weight: 600;
-    svg {
-        margin-right: 0.5rem;
+    font-size: 1.0rem;
+    font-weight: 500;
+    transition: all 150ms ease-in-out;
+    :hover {
+        background-position: left;
     }
 `
 
