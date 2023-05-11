@@ -1,12 +1,31 @@
 import styled from 'styled-components';
+import Video, { VideoItem as videoItem } from 'api/Video';
+import { useQuery } from '@tanstack/react-query';
+    
+const VideoList = () => {
+    const {status, data} = useQuery(['videoList'], Video().list);
+    
+    console.log(status, data?.data);
 
-const VideoItem = () => {
+    return (
+        <>
+        {
+            status === 'success' &&
+            data?.data.map((e) => {
+                return <VideoItem key={e.id} {...e} />
+            })
+        }
+        </>
+    )
+}
+
+const VideoItem = (props: videoItem) => {
     return (
         <Container>
-            <Thumbnail />
-            <Title>동영상 이름</Title>
-            <Uploader>업로더 이름</Uploader>
-            <Detail>조회수 100회 · 23시간 전</Detail>
+            <Thumbnail src={props.thumbnail} />
+            <Title>{props.title}</Title>
+            <Uploader>{props.nickname}</Uploader>
+            <Detail>조회수 {props.views}회 · {props.created}</Detail>
         </Container>
     )
 }
@@ -22,10 +41,9 @@ const Container = styled.div`
     @media screen and (max-width: 480px) { --thumbnail-row: 1; }
 `
 
-const Thumbnail = styled.div`
+const Thumbnail = styled.img`
     width: 100%;
     aspect-ratio: 16/9;
-    background-color: #000;
 `
 
 const Title = styled.div`
@@ -45,4 +63,4 @@ const Detail = styled.div`
     font-weight: 300;
 `
 
-export default VideoItem;
+export default VideoList;
