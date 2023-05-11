@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import Search from "./Search";
-import VideoItem from './VideoItem';
-import { useState } from 'react';
+import VideoList from './VideoList';
+
 const Main = () => {
     return (
         <div>
             <SearchWrap><Search /></SearchWrap>
             <Wrap>
-                <VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem /><VideoItem />
+                <VideoList />
             </Wrap>
         </div>
     )
