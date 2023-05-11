@@ -6,7 +6,7 @@ const Result = () => {
     const {step, setStep, uploadResult}: iStep = useContext(StepContext);
     return (
         <Wrap>
-            <a href={uploadResult.current.url} target="_blank">{uploadResult.current.url}</a>
+            <a href={uploadResult.current.m3u8} target="_blank">링크 : {uploadResult.current.m3u8}</a>
             <button onClick={() => setStep(0)}>뒤로가기</button>
         </Wrap>
     )
