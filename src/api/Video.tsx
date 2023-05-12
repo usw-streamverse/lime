@@ -12,6 +12,7 @@ export interface VideoItem {
     title: string,
     created: string,
     views: number,
+    duration: number,
     thumbnail: string
 }
 
