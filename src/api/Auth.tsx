@@ -28,11 +28,11 @@ export interface RegisterResult {
 
 const Auth = () => {
     const login = (props: LoginParam) => {
-        return JwtInterceptor().instance.post<LoginResult>('http://localhost:3000/auth/login', props);
+        return JwtInterceptor().instance.post<LoginResult>('/auth/login', props);
     }
 
     const register = (props: RegisterParam) => {
-        return JwtInterceptor().instance.post<RegisterResult>('http://localhost:3000/auth/register', props);
+        return JwtInterceptor().instance.post<RegisterResult>('/auth/register', props);
     }
 
     return { login, register };

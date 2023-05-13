@@ -18,11 +18,11 @@ export interface VideoItem {
 
 const Video = () => {
     const upload = (formData: any) => {
-        return JwtInterceptor().instance.post<UploadResult>('http://localhost:3000/videos', formData);
+        return JwtInterceptor().instance.post<UploadResult>('/videos', formData);
     }
 
     const list = () => {
-        return JwtInterceptor().instance.get<VideoItem[]>('http://localhost:3000/videos');
+        return JwtInterceptor().instance.get<VideoItem[]>('/videos');
     }
 
     return { upload, list };

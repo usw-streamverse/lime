@@ -16,11 +16,11 @@ export interface ChannelResult {
 
 const User = () => {
     const profile = () => {
-        return JwtInterceptor().instance.get<ProfileResult>('http://localhost:3000/users/profile');
+        return JwtInterceptor().instance.get<ProfileResult>('/users/profile');
     }
     
     const channel = (id: string) => {
-        return JwtInterceptor().instance.get<ChannelResult>('http://localhost:3000/users/' + id);
+        return JwtInterceptor().instance.get<ChannelResult>('/users/' + id);
     }
 
     return { profile, channel };

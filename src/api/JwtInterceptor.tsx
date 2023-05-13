@@ -6,7 +6,7 @@ interface CustomRequestHeaders extends AxiosRequestHeaders {
 
 const JwtInterceptor = () => {
     const instance = axios.create({
-        baseURL: 'http://localhost:3000'
+        baseURL: 'http://lime.k2e.shop:3000'
     });
 
     instance.interceptors.request.use(
