@@ -7,6 +7,7 @@ import Upload from 'pages/video/Upload';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Channel from 'pages/Channel';
 import NotFound from 'pages/NotFound';
+import Watch from 'pages/Watch';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,8 @@ const AnimatedSwitch = () => {
             <Routes location={location}>
               <Route path="/" element={<Main />} />
               <Route path="/video/upload" element={<Upload />} />
-              <Route id="asd" path="/@/:id/:page?" element={<Channel />} />
+              <Route path="/@/:id/:page?" element={<Channel />} />
+              <Route path="/watch/:id" element={<Watch />} />
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

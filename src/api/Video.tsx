@@ -16,6 +16,20 @@ export interface VideoItem {
     thumbnail: string
 }
 
+export interface VideoWatch {
+    success: boolean,
+    id: number,
+    nickname: string,
+    duration: number,
+    title: string,
+    views: number,
+    thumbnail: string,
+    url: string,
+    explanation: string,
+    likes: number
+}
+
+
 const Video = () => {
     const upload = (formData: any) => {
         return JwtInterceptor().instance.post<UploadResult>('/videos', formData);
@@ -25,7 +39,11 @@ const Video = () => {
         return JwtInterceptor().instance.get<VideoItem[]>('/videos');
     }
 
-    return { upload, list };
+    const watch = (id: string) => {
+        return JwtInterceptor().instance.get<VideoWatch>(`/videos/${id}`);
+    }
+
+    return { upload, list, watch };
 }
 
 export default Video;
