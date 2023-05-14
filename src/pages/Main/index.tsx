@@ -29,6 +29,7 @@ const SearchWrap = styled.div`
     padding: 1.5rem;
     padding-bottom: 1.0rem;
     background-color: var(--main-bg-color);
+    z-index: 2;
 `
 
 export default Main;
