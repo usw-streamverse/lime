@@ -5,6 +5,7 @@ import { ReactNode, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError } from 'axios';
+import { getKSTfromUTC, getTimeFormat } from 'utils/Time';
 
 const Watch = () => {
     const navigate = useNavigate();
@@ -41,6 +42,7 @@ const Watch = () => {
             <>
                 <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
                 <Title>{data?.data.title}</Title>
+                <Date>{getTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
                 <ChannelInfo>            
                     <ChannelInfo.ProfileIcon />
                     <ChannelInfo.Detail>
@@ -67,6 +69,12 @@ const VideoPlayer = styled.video`
 const Title = styled.div`
     margin-top: 1.5rem;
     font-size: 1.875rem;
+`
+
+const Date = styled.div`
+    margin-top: 0.5rem;
+    color: var(--main-text-color-light);
+    font-weight: 400;
 `
 
 const Body = styled.div`
