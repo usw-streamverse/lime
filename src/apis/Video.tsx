@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from 'axios';
 import JwtInterceptor from './JwtInterceptor';
 
 export interface UploadResult {
@@ -25,13 +26,14 @@ export interface VideoWatch {
     thumbnail: string,
     url: string,
     explanation: string,
-    likes: number
+    likes: number,
+    created: string
 }
 
 
 const Video = () => {
-    const upload = (formData: any) => {
-        return JwtInterceptor().instance.post<UploadResult>('/videos', formData);
+    const upload = (formData: any, config: AxiosRequestConfig) => {
+        return JwtInterceptor().instance.post<UploadResult>('/videos', formData, config);
     }
 
     const list = () => {
