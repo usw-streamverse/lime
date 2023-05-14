@@ -6,16 +6,23 @@ interface FormTextBoxProps {
     type?: string,
     warning?: boolean,
     labelSize?: number,
-    labelWeight?: number
+    labelWeight?: number,
+    textarea?: boolean,
+    height?: string
 }
 
-const FormTextBox = forwardRef<HTMLInputElement, FormTextBoxProps>(({label, type = 'text', warning = false, labelSize = 0.875, labelWeight = 600}: FormTextBoxProps, ref) => {
+const FormTextBox = forwardRef<any, FormTextBoxProps>(({label, type = 'text', warning = false, labelSize = 0.875, labelWeight = 600, textarea = false, height = '100px'}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
 
     return (
         <Wrap focus={focus} onClick={() => {if(typeof ref !== 'function' && ref) ref.current?.focus()}} warning={warning}>
             <Label size={labelSize} weight={labelWeight}>{label}</Label>
-            <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} />
+            {
+                textarea ?        
+                <TextArea ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} height={height} /> 
+                :              
+                <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} />
+            }
         </Wrap>
     )
 });
@@ -29,7 +36,7 @@ const Wrap = styled.div<{focus: Boolean, warning: boolean}>`
         div {
             color: var(${props.warning ? '--red' : '--sign-textbox-border-color-focus'});
         }
-        input {
+        input, textarea {
             border: 1px solid var(${props.warning ? '--red' : '--sign-textbox-border-color-focus'});
         }
     `}
@@ -60,5 +67,24 @@ const Input = styled.input<{warning: boolean}>`
     ` 
     }
     font-weight: 400;
+    transition: all 200ms ease;
+`;
+
+const TextArea = styled.textarea<{warning: boolean, height: string}>`
+    width: 100%;
+    height: ${(props) => props.height};
+    padding: 1.0rem;
+    background-color: transparent;  
+    border-radius: 2px;
+    ${(props) => props.warning ? css `
+        border: 1px solid var(--red);
+        color: var(--red);
+    `: css `
+        border: 1px solid var(--sign-textbox-border-color);
+        color: var(--main-text-color);
+    ` 
+    }
+    font-weight: 400;
+    resize: none;
     transition: all 200ms ease;
 `;
