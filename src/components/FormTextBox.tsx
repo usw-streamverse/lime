@@ -4,15 +4,17 @@ import styled, { css } from 'styled-components';
 interface FormTextBoxProps {
     label: string,
     type?: string,
-    warning?: boolean
+    warning?: boolean,
+    labelSize?: number,
+    labelWeight?: number
 }
 
-const FormTextBox = forwardRef<HTMLInputElement, FormTextBoxProps>(({label, type = 'text', warning = false}: FormTextBoxProps, ref) => {
+const FormTextBox = forwardRef<HTMLInputElement, FormTextBoxProps>(({label, type = 'text', warning = false, labelSize = 0.875, labelWeight = 600}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
 
     return (
         <Wrap focus={focus} onClick={() => {if(typeof ref !== 'function' && ref) ref.current?.focus()}} warning={warning}>
-            <Label>{label}</Label>
+            <Label size={labelSize} weight={labelWeight}>{label}</Label>
             <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} />
         </Wrap>
     )
@@ -33,9 +35,10 @@ const Wrap = styled.div<{focus: Boolean, warning: boolean}>`
     `}
 `
 
-const Label = styled.div`
+const Label = styled.div<{size: number, weight: number}>`
     margin-bottom: 0.75rem;
-    font-size: 0.875rem;
+    font-size: ${(props) => props.size}rem;
+    font-weight: ${(props) => props.weight};
     letter-spacing: 1px;
     text-align: left;
     transition: all 200ms ease;
