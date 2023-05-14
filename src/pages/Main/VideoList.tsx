@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import Video, { VideoItem as videoItem } from 'apis/Video';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-
-const time_format = (second: number): string => {
-    return `${Math.floor(second/60)}:${(second%60<10 ? '0' : '') + second%60}`;
-}
+import Time from 'utils/Time';
     
 const VideoList = () => {
     const {status, data} = useQuery(['videoList'], Video().list);
@@ -31,7 +28,7 @@ const VideoItem = (props: videoItem) => {
         <Container onClick={() => navigate(`/watch/${props.id}`)}>
             <Thumbnail>
                 <img src={props.thumbnail} />
-                <Duration>{time_format(props.duration)}</Duration>
+                <Duration>{Time().getDurationFormat(props.duration)}</Duration>
             </Thumbnail>
             <Title>{props.title}</Title>
             <Uploader>{props.nickname}</Uploader>
