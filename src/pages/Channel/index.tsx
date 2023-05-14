@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Outlet, useHref, useNavigate, useParams } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { User } from 'api';
+import { User } from 'apis';
 import { AxiosError } from 'axios';
 import Tab from './Tab';
 
@@ -61,7 +61,6 @@ const HeaderContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap : wrap;
-    justify-content: flex-end;
     width: 100%;
     padding: 3.0rem;
     @media screen and (max-width: 480px) {
