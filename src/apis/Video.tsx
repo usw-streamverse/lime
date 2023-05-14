@@ -4,7 +4,10 @@ import JwtInterceptor from './JwtInterceptor';
 export interface UploadResult {
     success: boolean,
     url?: string,
-    m3u8?: string
+    m3u8?: string,
+    filename: string,
+    duration: number,
+    id: number
 }
 
 export interface VideoItem {
@@ -30,6 +33,17 @@ export interface VideoWatch {
     created: string
 }
 
+export interface VideoUpdate {
+    id: number,
+    title: string,
+    explanation: string
+}
+
+export interface VideoUpdateResult {
+    id: number
+}
+
+
 
 const Video = () => {
     const upload = (formData: any, config: AxiosRequestConfig) => {
@@ -44,7 +58,11 @@ const Video = () => {
         return JwtInterceptor().instance.get<VideoWatch>(`/videos/${id}`);
     }
 
-    return { upload, list, watch };
+    const update = (props: VideoUpdate) => {
+        return JwtInterceptor().instance.put<UploadResult>(`/videos/${props.id}`, props);
+    }
+
+    return { upload, list, watch, update };
 }
 
 export default Video;
