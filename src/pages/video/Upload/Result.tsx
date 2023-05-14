@@ -39,7 +39,7 @@ const Result = () => {
             </MenuContainer>
             <FlexContainer>
                 <VideoDetail>
-                    <Thumbnail src="https://svlimestorage.blob.core.windows.net/lime/v1683955793827-thumbnail.png" />
+                    <Thumbnail src={uploadResult.current.thumbnail} />
                     <H2>주소</H2>
                     <H3><a href={`http://lime.k2e.shop/lime/watch/${uploadResult.current.id}`} target="_blank">http://lime.k2e.shop/lime/watch/{uploadResult.current.id}</a></H3>
                     <H2>파일 이름</H2>

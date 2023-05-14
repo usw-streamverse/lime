@@ -7,7 +7,8 @@ export interface UploadResult {
     m3u8?: string,
     filename: string,
     duration: number,
-    id: number
+    id: number,
+    thumbnail: string
 }
 
 export interface VideoItem {
