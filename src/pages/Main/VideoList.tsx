@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Video, { VideoItem as videoItem } from 'api/Video';
+import Video, { VideoItem as videoItem } from 'apis/Video';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

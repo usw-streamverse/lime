@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Hls from 'hls.js'
 import { ReactNode, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Video from 'api/Video';
+import Video from 'apis/Video';
 import { AxiosError } from 'axios';
 
 const Watch = () => {
@@ -79,6 +79,7 @@ const Body = styled.div`
 const ChannelInfoStyle = styled.div`
     display: flex;
     align-items: center;
+    position: relative;
     margin: 1.75rem 0;
 `
 
@@ -120,6 +121,10 @@ ChannelInfo.Subscribe =styled.button`
     font-size: 1.0rem;
     font-weight: 400;
     cursor: pointer;
+    @media screen and (max-width: 480px) {
+        position: absolute;
+        right: 0;
+    }
 `
 
 export default Watch;

@@ -6,10 +6,10 @@ import CheckBox from 'components/CheckBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
 import { useMutation } from '@tanstack/react-query';
-import { Auth } from 'api';
+import { Auth } from 'apis';
 import { TailSpin } from  'react-loader-spinner'
 import { AxiosError, AxiosResponse } from 'axios';
-import { LoginParam, LoginResult } from 'api/Auth';
+import { LoginParam, LoginResult } from 'apis/Auth';
 import useUserQuery from 'hooks/useUserQuery';
 
 interface SignInProps {

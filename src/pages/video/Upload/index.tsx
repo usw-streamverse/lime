@@ -1,7 +1,7 @@
 import styled, { keyframes, css } from 'styled-components';
 import { FiArrowUp } from 'react-icons/fi';
 import { useState, useRef, createContext, useContext } from 'react';
-import Video, { UploadResult } from 'api/Video';
+import Video, { UploadResult } from 'apis/Video';
 import Result from './Result';
 
 export interface iStep {

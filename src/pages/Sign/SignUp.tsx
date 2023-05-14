@@ -5,10 +5,10 @@ import FormTextBox from 'components/FormTextBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
 import { useMutation } from '@tanstack/react-query';
-import { Auth } from 'api';
+import { Auth } from 'apis';
 import { TailSpin } from  'react-loader-spinner'
 import { AxiosError, AxiosResponse } from 'axios';
-import { RegisterParam, RegisterResult } from 'api/Auth';
+import { RegisterParam, RegisterResult } from 'apis/Auth';
 
 interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,

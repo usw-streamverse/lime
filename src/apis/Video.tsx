@@ -17,7 +17,6 @@ export interface VideoItem {
 }
 
 export interface VideoWatch {
-    success: boolean,
     id: number,
     nickname: string,
     duration: number,
