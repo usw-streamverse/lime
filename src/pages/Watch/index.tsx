@@ -1,16 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Hls from 'hls.js'
-import { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactEventHandler, ReactNode, useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError } from 'axios';
 import { getKSTfromUTC, getTimeFormat } from 'utils/Time';
+import { MdThumbUp } from 'react-icons/md';
 
 const Watch = () => {
     const navigate = useNavigate();
     const id = useParams()['id'];
     const videoRef = useRef<HTMLVideoElement>(null);
+    const [like, setLike] = useState<boolean>(false);
+
     const { data, status } = useQuery({
         queryKey: ['watch'],
         staleTime: 0,
@@ -43,18 +46,46 @@ const Watch = () => {
                 <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
                 <Title>{data?.data.title}</Title>
                 <Date>{getTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
-                <ChannelInfo>            
-                    <ChannelInfo.ProfileIcon />
-                    <ChannelInfo.Detail>
-                        <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                        <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
-                    </ChannelInfo.Detail>
-                    <ChannelInfo.Subscribe onClick={() => alert('not supported yet')}>구독</ChannelInfo.Subscribe>
+                <ChannelInfo>
+                    <ChannelInfo.Container>
+                        <ChannelInfo.ProfileIcon />
+                        <ChannelInfo.Detail>
+                            <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
+                            <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
+                        </ChannelInfo.Detail>
+                        <ChannelInfo.Subscribe onClick={() => alert('not supported yet')}>구독</ChannelInfo.Subscribe>
+                    </ChannelInfo.Container>
+                    <ChannelInfo.ButtonContainer>
+                        <Like active={data?.data.like} />
+                    </ChannelInfo.ButtonContainer>
                 </ChannelInfo>
                 <Body>{data?.data.explanation}</Body>
             </>
             }
         </Container>
+    )
+}
+
+const LikeButton = styled.button<{active: boolean}>`
+    border: 0;
+    background-color: transparent;
+    color: var(${(props) => props.active ? '--blue' : '--gray'});
+    cursor: pointer;
+    transition: all 150ms ease;
+    :hover {
+       color: var(--blue);
+    }
+`
+
+interface LikeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    active: boolean
+}
+
+const Like = (props: LikeProps) => {
+    return (
+        <LikeButton {...props}>
+            <MdThumbUp size={32} />
+        </LikeButton>
     )
 }
 
@@ -87,6 +118,7 @@ const Body = styled.div`
 const ChannelInfoStyle = styled.div`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     position: relative;
     margin: 1.75rem 0;
 `
@@ -96,7 +128,8 @@ const ChannelInfo = (props: {children: ReactNode}) => {
 }
 
 ChannelInfo.Detail = styled.div`
-    width: 10.0rem;
+    width: 13.0rem;
+    
 `
 
 ChannelInfo.Name = styled.div`
@@ -132,6 +165,20 @@ ChannelInfo.Subscribe =styled.button`
     @media screen and (max-width: 480px) {
         position: absolute;
         right: 0;
+    }
+`
+
+ChannelInfo.Container = styled.div`
+    display: flex;
+`
+
+ChannelInfo.ButtonContainer = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    @media screen and (max-width: 480px) {
+        flex: 1 0 100%;
+        margin-top: 1.0rem;
     }
 `
 

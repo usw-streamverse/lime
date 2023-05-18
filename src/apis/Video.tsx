@@ -31,7 +31,8 @@ export interface VideoWatch {
     url: string,
     explanation: string,
     likes: number,
-    created: string
+    created: string,
+    like: boolean
 }
 
 export interface VideoUpdate {
@@ -63,7 +64,11 @@ const Video = () => {
         return JwtInterceptor().instance.put<UploadResult>(`/videos/${props.id}`, props);
     }
 
-    return { upload, list, watch, update };
+    const like = (id: string) => {
+        return JwtInterceptor().instance.post<VideoWatch>(`/videos/like/${id}`);
+    }
+
+    return { upload, list, watch, update, like };
 }
 
 export default Video;
