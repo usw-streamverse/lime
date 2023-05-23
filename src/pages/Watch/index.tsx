@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
-import { getKSTfromUTC, getTimeFormat } from 'utils/Time';
+import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
 
@@ -47,7 +47,7 @@ const Watch = () => {
                 <VideoContext.Provider value={id || ''}>
                     <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
                     <Title>{data?.data.title}</Title>
-                    <Date>{getTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                    <Date>조회수 {data?.data.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
                     <ChannelInfo>
                         <ChannelInfo.Container>
                             <ChannelInfo.ProfileIcon />
@@ -61,7 +61,6 @@ const Watch = () => {
                             <Like active={data?.data.like} />
                         </ChannelInfo.ButtonListContainer>
                     </ChannelInfo>
-                    <Body>{data?.data.explanation}</Body>
                 </VideoContext.Provider>
             }
         </Container>
@@ -115,13 +114,6 @@ const Date = styled.div`
     margin-top: 0.5rem;
     color: var(--main-text-color-light);
     font-weight: 400;
-`
-
-const Body = styled.div`
-    padding: 1.0rem;
-    background-color: rgb(232, 232, 232);
-    border-radius: 0.75rem;
-    font-weight: 600;
 `
 
 export default Watch;

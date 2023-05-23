@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Video, { VideoItem as videoItem } from 'apis/Video';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getDurationFormat, getKSTfromUTC, getTimeFormat } from 'utils/Time';
+import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
 const VideoList = () => {
     const {status, data} = useQuery(['videoList'], Video().list);
 
@@ -28,7 +28,7 @@ const VideoItem = (props: videoItem) => {
             </Thumbnail>
             <Title>{props.title}</Title>
             <Uploader>{props.nickname}</Uploader>
-            <Detail>조회수 {props.views}회 · {getTimeFormat(getKSTfromUTC(props.created))}</Detail>
+            <Detail>조회수 {props.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
         </Container>
     )
 }
