@@ -130,46 +130,6 @@ const GlobalStyle = createGlobalStyle`
     <!-- transition-animation
     */
 
-    .fade-enter {
-        position: absolute;
-        width: 100%; height: 100%;
-        transform: scale(0.95);
-        opacity: 0;
-        transition: all 200ms ease;
-    }
-    
-    .fade-enter-active {
-        position: absolute;
-        width: 100%; height: 100%;
-        transform: scale(1);
-        opacity: 1;
-        transition: all 200ms ease;
-    }
-    
-    .fade-exit {
-        position: absolute;
-        width: 100%; height: 100%;
-        opacity: 1;
-        transition: all 200ms ease;
-        pointer-events: none;
-    }
-    
-    .fade-exit-active {
-        position: absolute;
-        width: 100%; height: 100%;
-        opacity: 0;
-        transition: all 200ms ease;
-        pointer-events: none;
-    }
-
-    .transition-wrap {
-        position: relative;
-        height: 100%;
-        > div {
-            height: 100%;
-        }
-    }
-
     .modal-enter {
         opacity: 0;
         > div {
