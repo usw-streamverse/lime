@@ -11,6 +11,7 @@ import Watch from 'pages/Watch';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      retry: false,
       refetchOnWindowFocus: false,
     }
   }
