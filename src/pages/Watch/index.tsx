@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Hls from 'hls.js'
-import React, { ReactEventHandler, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getKSTfromUTC, getTimeFormat } from 'utils/Time';
-import { MdThumbUp } from 'react-icons/md';
+import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 
 const VideoContext = createContext<string>('');
 
@@ -14,7 +14,6 @@ const Watch = () => {
     const navigate = useNavigate();
     const id = useParams()['id'];
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [like, setLike] = useState<boolean>(false);
 
     const { data, status } = useQuery({
         queryKey: ['watch'],
@@ -55,9 +54,9 @@ const Watch = () => {
                                 <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
                                 <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
                             </ChannelInfo.Detail>
-                            <ChannelInfo.Subscribe onClick={() => alert('not supported yet')}>구독</ChannelInfo.Subscribe>
                         </ChannelInfo.Container>
                         <ChannelInfo.ButtonContainer>
+                            <Subscribe />
                             <Like active={data?.data.like} />
                         </ChannelInfo.ButtonContainer>
                     </ChannelInfo>
@@ -68,13 +67,47 @@ const Watch = () => {
     )
 }
 
-const LikeButton = styled.button<{active: boolean}>`
-    border: 0;
-    background-color: transparent;
+
+const ButtonContainer = styled.div<{active?: boolean}>`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0.25rem;
+    padding: 0.625rem;
+    border-radius: 0.5rem;
     color: var(${(props) => props.active ? '--blue' : '--gray'});
     cursor: pointer;
     transition: all 150ms ease;
+    
+    :hover {
+        background-color: rgb(170, 170, 170, 0.15);
+    }
+    :active {
+        background-color: rgb(170, 170, 170, 0.3);
+    }
 `
+ 
+
+const ButtonIcon = styled.div`
+    
+`
+
+const ButtonName = styled.div`
+    margin-top: 0.25rem;
+    color: var(--main-text-color);
+    font-weight: 500;
+`
+
+const Subscribe = () => {
+    const videoId = useContext(VideoContext);
+
+    return (
+        <ButtonContainer>
+            <ButtonIcon><VscBell size={32} /></ButtonIcon>
+            <ButtonName>구독</ButtonName>
+        </ButtonContainer>
+    )
+}
 
 const Like = (props: {active: boolean}) => {
     const videoId = useContext(VideoContext);
@@ -88,9 +121,10 @@ const Like = (props: {active: boolean}) => {
         }
     });
     return (
-        <LikeButton active={active} onClick={() => mutate({id: videoId})}>
-            <MdThumbUp size={32} />
-        </LikeButton>
+        <ButtonContainer active={active} onClick={() => mutate({id: videoId})}>
+            <ButtonIcon>{active ? <VscHeartFilled size={32} /> : <VscHeart size={32} />}</ButtonIcon>
+            <ButtonName>좋아요</ButtonName>
+        </ButtonContainer>
     )
 }
 
@@ -157,22 +191,6 @@ ChannelInfo.ProfileIcon = styled.div`
     border-radius: 50%;
 `
 
-ChannelInfo.Subscribe =styled.button`
-    margin-left: 1.0rem;
-    padding: 0.5rem;
-    background-color: #000;
-    border: 0;
-    border-radius: 0.25rem;
-    color: #fff;
-    font-size: 1.0rem;
-    font-weight: 400;
-    cursor: pointer;
-    @media screen and (max-width: 480px) {
-        position: absolute;
-        right: 0;
-    }
-`
-
 ChannelInfo.Container = styled.div`
     display: flex;
 `
@@ -183,6 +201,7 @@ ChannelInfo.ButtonContainer = styled.div`
     justify-content: flex-end;
     @media screen and (max-width: 480px) {
         flex: 1 0 100%;
+        justify-content: center;
         margin-top: 1.0rem;
     }
 `
