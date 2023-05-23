@@ -15,6 +15,10 @@ const ChannelInfoStyle = styled.div`
 
 ChannelInfo.Detail = styled.div`
     width: 13.0rem;
+    font-size: 1.0625rem;
+    @media screen and (max-width: 480px) {
+        font-size: 1.0rem;
+    }
 `
 
 ChannelInfo.Name = styled.div`
@@ -30,15 +34,21 @@ ChannelInfo.Readership = styled.div`
 `
 
 ChannelInfo.ProfileIcon = styled.div`
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
     background-color: #a0a0a0;
     border-radius: 50%;
+    @media screen and (max-width: 480px) {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+    }
 `
 
 ChannelInfo.Container = styled.div`
     display: flex;
+    align-items: center;
 `
 
 ChannelInfo.ButtonListContainer = styled.div`
