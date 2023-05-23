@@ -30,7 +30,7 @@ const Channel = () => {
     }, [page, url])
 
     return (
-        <>
+        <Container>
             {
             localStorage.userid === userid &&
             <MyMenu>
@@ -53,9 +53,13 @@ const Channel = () => {
                 <Tab.Item name="about" onClick={() => setPage('about')}>정보</Tab.Item>
             </Tab>
             <Outlet />
-        </>
+        </Container>
     )
 }
+
+const Container = styled.div`
+    
+`
 
 const HeaderContainer = styled.div`
     display: flex;
