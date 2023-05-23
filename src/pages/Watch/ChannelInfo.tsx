@@ -65,18 +65,42 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
     margin: 0 0.25rem;
     padding: 0.625rem;
-    border-radius: 0.5rem;
     color: var(${(props) => props.active ? '--blue' : '--gray'});
     cursor: pointer;
     transition: all 150ms ease;
-    
+
+    ::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        z-index: -1;
+        transition: all 150ms ease;
+        content: '';
+    }
     :hover {
-        background-color: rgb(170, 170, 170, 0.15);
+        ::after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            background-color: rgb(170, 170, 170, 0.15);
+        }
     }
     :active {
-        background-color: rgb(170, 170, 170, 0.3);
+        ::after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            background-color: rgb(170, 170, 170, 0.3);
+        }
     }
 `
  
