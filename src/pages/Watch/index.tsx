@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Hls from 'hls.js'
-import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getKSTfromUTC, getTimeFormat } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
+import ChannelInfo from './ChannelInfo';
 
 const VideoContext = createContext<string>('');
 
@@ -55,10 +56,10 @@ const Watch = () => {
                                 <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
                             </ChannelInfo.Detail>
                         </ChannelInfo.Container>
-                        <ChannelInfo.ButtonContainer>
+                        <ChannelInfo.ButtonListContainer>
                             <Subscribe />
                             <Like active={data?.data.like} />
-                        </ChannelInfo.ButtonContainer>
+                        </ChannelInfo.ButtonListContainer>
                     </ChannelInfo>
                     <Body>{data?.data.explanation}</Body>
                 </VideoContext.Provider>
@@ -67,45 +68,14 @@ const Watch = () => {
     )
 }
 
-
-const ButtonContainer = styled.div<{active?: boolean}>`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 0.25rem;
-    padding: 0.625rem;
-    border-radius: 0.5rem;
-    color: var(${(props) => props.active ? '--blue' : '--gray'});
-    cursor: pointer;
-    transition: all 150ms ease;
-    
-    :hover {
-        background-color: rgb(170, 170, 170, 0.15);
-    }
-    :active {
-        background-color: rgb(170, 170, 170, 0.3);
-    }
-`
- 
-
-const ButtonIcon = styled.div`
-    
-`
-
-const ButtonName = styled.div`
-    margin-top: 0.25rem;
-    color: var(--main-text-color);
-    font-weight: 500;
-`
-
 const Subscribe = () => {
     const videoId = useContext(VideoContext);
 
     return (
-        <ButtonContainer>
-            <ButtonIcon><VscBell size={32} /></ButtonIcon>
-            <ButtonName>구독</ButtonName>
-        </ButtonContainer>
+        <ChannelInfo.ButtonContainer>
+            <ChannelInfo.ButtonIcon><VscBell size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.ButtonName>구독</ChannelInfo.ButtonName>
+        </ChannelInfo.ButtonContainer>
     )
 }
 
@@ -121,10 +91,10 @@ const Like = (props: {active: boolean}) => {
         }
     });
     return (
-        <ButtonContainer active={active} onClick={() => mutate({id: videoId})}>
-            <ButtonIcon>{active ? <VscHeartFilled size={32} /> : <VscHeart size={32} />}</ButtonIcon>
-            <ButtonName>좋아요</ButtonName>
-        </ButtonContainer>
+        <ChannelInfo.ButtonContainer active={active} onClick={() => mutate({id: videoId})}>
+            <ChannelInfo.ButtonIcon>{active ? <VscHeartFilled size={32} /> : <VscHeart size={32} />}</ChannelInfo.ButtonIcon>
+            <ChannelInfo.ButtonName>좋아요</ChannelInfo.ButtonName>
+        </ChannelInfo.ButtonContainer>
     )
 }
 
@@ -152,58 +122,6 @@ const Body = styled.div`
     background-color: rgb(232, 232, 232);
     border-radius: 0.75rem;
     font-weight: 600;
-`
-
-const ChannelInfoStyle = styled.div`
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    position: relative;
-    margin: 1.75rem 0;
-`
-
-const ChannelInfo = (props: {children: ReactNode}) => {
-    return <ChannelInfoStyle>{props.children}</ChannelInfoStyle>
-}
-
-ChannelInfo.Detail = styled.div`
-    width: 13.0rem;
-    
-`
-
-ChannelInfo.Name = styled.div`
-    font-weight: 400;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space:nowrap;
-`
-
-ChannelInfo.Readership = styled.div`
-    color: var(--main-text-color-light);
-    font-weight: 400;   
-`
-
-ChannelInfo.ProfileIcon = styled.div`
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
-    background-color: #a0a0a0;
-    border-radius: 50%;
-`
-
-ChannelInfo.Container = styled.div`
-    display: flex;
-`
-
-ChannelInfo.ButtonContainer = styled.div`
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
-    @media screen and (max-width: 480px) {
-        flex: 1 0 100%;
-        justify-content: center;
-        margin-top: 1.0rem;
-    }
 `
 
 export default Watch;
