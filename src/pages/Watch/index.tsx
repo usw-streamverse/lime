@@ -16,10 +16,9 @@ const Watch = () => {
     const id = useParams()['id'];
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    const { data, status } = useQuery({
+    const { isFetchedAfterMount, data, status } = useQuery({
         queryKey: ['watch'],
         staleTime: 0,
-        retry: false,
         queryFn: () => Video().watch(id || ''),
         onError: (error: AxiosError) => {
             console.log(error.response?.status);
@@ -43,7 +42,7 @@ const Watch = () => {
     
     return (
         <Container>
-            {status === 'success' &&
+            {isFetchedAfterMount && status === 'success' &&
                 <VideoContext.Provider value={id || ''}>
                     <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
                     <Title>{data?.data.title}</Title>
@@ -89,6 +88,11 @@ const Like = (props: {active: boolean}) => {
             alert(error.response?.status);
         }
     });
+
+    useEffect(() => {
+        setActive(props.active);
+    }, [props.active])
+
     return (
         <ChannelInfo.ButtonContainer active={active} onClick={() => mutate({id: videoId})}>
             <ChannelInfo.ButtonIcon>{active ? <VscHeartFilled size={32} /> : <VscHeart size={32} />}</ChannelInfo.ButtonIcon>
