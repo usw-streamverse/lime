@@ -79,7 +79,7 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
         width: 0;
         height: 0;
         z-index: -1;
-        transition: all 150ms ease;
+        transition: all 150ms ease-in-out;
         content: '';
     }
     :hover {
