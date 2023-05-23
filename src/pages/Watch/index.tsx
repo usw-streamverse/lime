@@ -1,12 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Hls from 'hls.js'
-import React, { ReactEventHandler, ReactNode, useEffect, useRef, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { ReactEventHandler, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { getKSTfromUTC, getTimeFormat } from 'utils/Time';
 import { MdThumbUp } from 'react-icons/md';
+
+const VideoContext = createContext<string>('');
 
 const Watch = () => {
     const navigate = useNavigate();
@@ -42,25 +44,25 @@ const Watch = () => {
     return (
         <Container>
             {status === 'success' &&
-            <>
-                <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
-                <Title>{data?.data.title}</Title>
-                <Date>{getTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
-                <ChannelInfo>
-                    <ChannelInfo.Container>
-                        <ChannelInfo.ProfileIcon />
-                        <ChannelInfo.Detail>
-                            <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                            <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
-                        </ChannelInfo.Detail>
-                        <ChannelInfo.Subscribe onClick={() => alert('not supported yet')}>구독</ChannelInfo.Subscribe>
-                    </ChannelInfo.Container>
-                    <ChannelInfo.ButtonContainer>
-                        <Like active={data?.data.like} />
-                    </ChannelInfo.ButtonContainer>
-                </ChannelInfo>
-                <Body>{data?.data.explanation}</Body>
-            </>
+                <VideoContext.Provider value={id || ''}>
+                    <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
+                    <Title>{data?.data.title}</Title>
+                    <Date>{getTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                    <ChannelInfo>
+                        <ChannelInfo.Container>
+                            <ChannelInfo.ProfileIcon />
+                            <ChannelInfo.Detail>
+                                <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
+                                <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
+                            </ChannelInfo.Detail>
+                            <ChannelInfo.Subscribe onClick={() => alert('not supported yet')}>구독</ChannelInfo.Subscribe>
+                        </ChannelInfo.Container>
+                        <ChannelInfo.ButtonContainer>
+                            <Like active={data?.data.like} />
+                        </ChannelInfo.ButtonContainer>
+                    </ChannelInfo>
+                    <Body>{data?.data.explanation}</Body>
+                </VideoContext.Provider>
             }
         </Container>
     )
@@ -72,18 +74,21 @@ const LikeButton = styled.button<{active: boolean}>`
     color: var(${(props) => props.active ? '--blue' : '--gray'});
     cursor: pointer;
     transition: all 150ms ease;
-    :hover {
-       color: var(--blue);
-    }
 `
 
-interface LikeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    active: boolean
-}
-
-const Like = (props: LikeProps) => {
+const Like = (props: {active: boolean}) => {
+    const videoId = useContext(VideoContext);
+    const [active, setActive] = useState<boolean>(props.active);
+    const { mutate } = useMutation<AxiosResponse<{active: boolean}>, AxiosError<{active: boolean}>, {id: string}>(Video().like, {
+        onSuccess: (data) => {
+            setActive(data.data.active);
+        },
+        onError: (error) => {
+            alert(error.response?.status);
+        }
+    });
     return (
-        <LikeButton {...props}>
+        <LikeButton active={active} onClick={() => mutate({id: videoId})}>
             <MdThumbUp size={32} />
         </LikeButton>
     )

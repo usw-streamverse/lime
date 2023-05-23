@@ -64,8 +64,8 @@ const Video = () => {
         return JwtInterceptor().instance.put<UploadResult>(`/videos/${props.id}`, props);
     }
 
-    const like = (id: string) => {
-        return JwtInterceptor().instance.post<VideoWatch>(`/videos/like/${id}`);
+    const like = (props: {id: string}) => {
+        return JwtInterceptor().instance.post<{active: boolean}>(`/videos/${props.id}/like`);
     }
 
     return { upload, list, watch, update, like };
