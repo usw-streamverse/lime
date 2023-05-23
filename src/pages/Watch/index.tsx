@@ -8,6 +8,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
+import Loading from 'components/Loading';
 
 const VideoContext = createContext<string>('');
 
@@ -40,30 +41,37 @@ const Watch = () => {
     }, [videoRef, status, data]);
 
     
-    return (
-        <Container>
-            {isFetchedAfterMount && status === 'success' &&
-                <VideoContext.Provider value={id || ''}>
-                    <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
-                    <Title>{data?.data.title}</Title>
-                    <Date>조회수 {data?.data.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
-                    <ChannelInfo>
-                        <ChannelInfo.Container>
-                            <ChannelInfo.ProfileIcon />
-                            <ChannelInfo.Detail>
-                                <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                                <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
-                            </ChannelInfo.Detail>
-                        </ChannelInfo.Container>
-                        <ChannelInfo.ButtonListContainer>
-                            <Subscribe />
-                            <Like active={data?.data.like} />
-                        </ChannelInfo.ButtonListContainer>
-                    </ChannelInfo>
-                </VideoContext.Provider>
-            }
-        </Container>
-    )
+    if(isFetchedAfterMount && status === 'success')
+        return (
+            <Container>
+                {
+                    <VideoContext.Provider value={id || ''}>
+                        <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
+                        <Title>{data?.data.title}</Title>
+                        <Date>조회수 {data?.data.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                        <ChannelInfo>
+                            <ChannelInfo.Container>
+                                <ChannelInfo.ProfileIcon />
+                                <ChannelInfo.Detail>
+                                    <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
+                                    <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
+                                </ChannelInfo.Detail>
+                            </ChannelInfo.Container>
+                            <ChannelInfo.ButtonListContainer>
+                                <Subscribe />
+                                <Like active={data?.data.like} />
+                            </ChannelInfo.ButtonListContainer>
+                        </ChannelInfo>
+                    </VideoContext.Provider>
+                }
+            </Container>
+        )
+    else
+        return (
+            <>
+                <Loading />
+            </>
+        )
 }
 
 const Subscribe = () => {
@@ -102,6 +110,7 @@ const Like = (props: {active: boolean}) => {
 }
 
 const Container = styled.div`
+    position: relative;
     padding: 1.25rem;
 `
 
