@@ -65,9 +65,10 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     position: relative;
-    margin: 0 0.25rem;
-    padding: 0.625rem;
+    width: 5.25rem;
+    height: 5.25rem;
     color: var(${(props) => props.active ? '--blue' : '--gray'});
     cursor: pointer;
     transition: all 150ms ease;
