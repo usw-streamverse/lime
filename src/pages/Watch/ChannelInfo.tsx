@@ -83,16 +83,7 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
         transition: all 150ms ease-in-out;
         content: '';
     }
-    :hover {
-        ::after {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0.5rem;
-            background-color: rgb(170, 170, 170, 0.15);
-        }
-    }
+
     :active {
         ::after {
             top: 0;
@@ -101,6 +92,19 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
             height: 100%;
             border-radius: 0.5rem;
             background-color: rgb(170, 170, 170, 0.3);
+        }
+    }
+
+    @media screen and (min-width: 481px) {
+        :hover {
+            ::after {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 0.5rem;
+                background-color: rgb(170, 170, 170, 0.15);
+            }
         }
     }
 `

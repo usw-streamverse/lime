@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Hls from 'hls.js'
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -9,6 +9,7 @@ import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
 import Loading from 'components/Loading';
+import { CSSTransition } from 'react-transition-group';
 
 const VideoContext = createContext<string>('');
 
@@ -44,11 +45,12 @@ const Watch = () => {
     if(isFetchedAfterMount && status === 'success')
         return (
             <Container>
-                {
-                    <VideoContext.Provider value={id || ''}>
-                        <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
+                <VideoContext.Provider value={id || ''}>
+                    <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
+                    <InnerContainer>
                         <Title>{data?.data.title}</Title>
                         <Date>조회수 {data?.data.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                        <Body text={data?.data.explanation} />
                         <ChannelInfo>
                             <ChannelInfo.Container>
                                 <ChannelInfo.ProfileIcon />
@@ -62,8 +64,8 @@ const Watch = () => {
                                 <Like active={data?.data.like} />
                             </ChannelInfo.ButtonListContainer>
                         </ChannelInfo>
-                    </VideoContext.Provider>
-                }
+                    </InnerContainer>
+                </VideoContext.Provider>
             </Container>
         )
     else
@@ -112,10 +114,26 @@ const Like = (props: {active: boolean}) => {
 const Container = styled.div`
     position: relative;
     padding: 1.25rem;
+    overflow-x: auto;
+    @media screen and (max-width: 480px) {
+        padding: 0;
+    }
+`
+
+const InnerContainer = styled.div`
+    @media screen and (max-width: 480px) {
+        padding: 1.25rem;
+        padding-top: 0;
+    }
 `
 
 const VideoPlayer = styled.video`
     width: 100%;
+    @media screen and (max-width: 480px) {
+        position: sticky;
+        top: 0;
+        z-index: 97;
+    }
 `
 
 const Title = styled.div`
@@ -123,8 +141,60 @@ const Title = styled.div`
     font-size: 1.875rem;
 `
 
+const Body = (props: {text: string}) => {
+    const BodyRef = useRef<HTMLDivElement>(null);
+    const [full, setFull] = useState<number>(props.text.split('\n').length > 1 ? 1 : 0); 
+    useEffect(() => {
+        if(full === 0 && BodyRef.current && BodyRef.current.offsetWidth < BodyRef.current.scrollWidth){
+            setFull(1);
+        }
+    }, [BodyRef, full])
+
+    return (
+        <Body.Container>
+            <Body.Wrapper ref={BodyRef} full={full === 2}>
+                {props.text.split('\n').map((i, idx) => {
+                    if(full === 1 && idx > 0)
+                        return <React.Fragment key={idx}></React.Fragment>
+                    else
+                        return <React.Fragment key={idx}>{i}<br /></React.Fragment>
+                })}
+            </Body.Wrapper>
+            {full === 1 && <Body.FullText onClick={() => setFull(2)}>더 보기</Body.FullText>}
+        </Body.Container>
+    )
+}
+
+Body.Container = styled.div`
+    position: relative;
+    margin-top: 1.5rem;
+    padding: 1.0rem;
+    border-radius: 0.5rem;
+    background-color: var(--watch-body-bg-color);
+    line-height: 1.5rem;
+`
+
+Body.Wrapper = styled.div<{full: boolean}>`
+    font-weight: 500;
+    word-break: break-all;
+    ${(props) => !props.full && `
+        width: calc(100% - 4.0rem);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden; 
+    `}
+`
+
+Body.FullText = styled.div`
+    position: absolute;
+    top: 1.0rem; right: 1.0rem;
+    font-weight: 500;
+    text-align: right;
+    cursor: pointer;
+`
+
 const Date = styled.div`
-    margin-top: 0.5rem;
+    margin: 0.5rem 0;
     color: var(--main-text-color-light);
     font-weight: 400;
 `
