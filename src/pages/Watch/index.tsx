@@ -9,7 +9,6 @@ import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
 import Loading from 'components/Loading';
-import { CSSTransition } from 'react-transition-group';
 
 const VideoContext = createContext<string>('');
 
@@ -41,7 +40,6 @@ const Watch = () => {
         }
     }, [videoRef, status, data]);
 
-    
     if(isFetchedAfterMount && status === 'success')
         return (
             <Container>
@@ -113,7 +111,10 @@ const Like = (props: {active: boolean}) => {
 
 const Container = styled.div`
     position: relative;
+    width: 100%;
+    height: 100%;
     padding: 1.25rem;
+    background-color: var(--main-bg-color);
     overflow-x: auto;
     @media screen and (max-width: 480px) {
         padding: 0;
@@ -129,6 +130,7 @@ const InnerContainer = styled.div`
 
 const VideoPlayer = styled.video`
     width: 100%;
+    aspect-ratio: 16 / 9;
     @media screen and (max-width: 480px) {
         position: sticky;
         top: 0;

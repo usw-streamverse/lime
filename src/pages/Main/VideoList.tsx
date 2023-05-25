@@ -45,9 +45,11 @@ const Container = styled.div`
         transition: all 150ms ease;
     }
 
-    :hover {
-        div:first-child {
-            transform: scale(1.05);
+    @media screen and (min-width: 481px) {
+        :hover {
+            div:first-child {
+                transform: scale(1.05);
+            }
         }
     }
 

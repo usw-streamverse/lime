@@ -58,6 +58,7 @@ const Result = () => {
 
 const Container = styled.div`
     position: relative;
+    width: 100%;
     max-width: 1200px;
     padding: 1.5rem;
     margin: 0 auto;

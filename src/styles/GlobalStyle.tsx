@@ -161,6 +161,35 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
+    .modal2-enter {
+        opacity: 0;
+        > div {
+            transform: translateY(50%);
+        }
+    }
+
+    .modal2-enter-active {
+        opacity: 1;
+        transition: all 300ms ease-in-out;
+        > div {
+            transform: translateY(0);
+            transition: all 300ms ease-in-out;
+        }
+    }
+
+    .modal2-exit {
+        opacity: 1;
+    }
+
+    .modal2-exit-active {
+        opacity: 0;
+        transition: all 300ms ease-in-out;
+        > div {
+            transform: translateY(100%);
+            transition: all 300ms ease-in-out;
+        }
+    }
+
     .left-swipe-enter {
         transform: translateX(-100%);
     }

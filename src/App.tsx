@@ -19,13 +19,13 @@ const queryClient = new QueryClient({
 
 const AnimatedSwitch = () => {
   const location = useLocation();
-
+      
   return (
     <Routes location={location}>
       <Route path="/" element={<Main />} />
+      <Route path="/watch/:id" element={<Main />} />
       <Route path="/video/upload" element={<Upload />} />
       <Route path="/@/:id/:page?" element={<Channel />} />
-      <Route path="/watch/:id" element={<Watch />} />
       <Route path="/404" element={<NotFound />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
