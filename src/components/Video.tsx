@@ -1,14 +1,15 @@
-import { createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react';
+import { RefObject, createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
+import { FaExpand, FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 import { getSecondFormat } from 'utils/Time';
 
 const VideoContext = createContext<React.ForwardedRef<HTMLVideoElement>>({} as any);
 
 const Video = forwardRef<HTMLVideoElement>((props: {}, ref) => {
+    const containerRef = useRef<HTMLDivElement>(null);
 
     return (
-        <Container>
+        <Container ref={containerRef}>
             <video ref={ref} onClick={(e) => e.currentTarget.play()}/>
             <VideoContext.Provider value={ref}>
                 <Controls>
@@ -16,6 +17,7 @@ const Video = forwardRef<HTMLVideoElement>((props: {}, ref) => {
                     <Play />
                     <Volume />
                     <PlayTime />
+                    <FullScreen containerRef={containerRef} />
                 </Controls>
             </VideoContext.Provider>
         </Container>
@@ -292,6 +294,39 @@ const PlayTime = () => {
 PlayTime.Container = styled.div`
     color: #fff;
     font-weight: 500;
+`
+
+const FullScreen = (props: {containerRef: RefObject<HTMLDivElement>}) => {
+    const requestFullScreen = () => {
+        if(typeof props.containerRef !== 'function' && props.containerRef.current){
+            if(document.fullscreenElement === null)
+                props.containerRef.current.requestFullscreen();
+            else
+                document.exitFullscreen();
+        }
+    }
+
+    return (
+        <FullScreen.Wrapper onClick={requestFullScreen}>
+            <FaExpand size={20} />
+        </FullScreen.Wrapper>
+    )
+}
+
+FullScreen.Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    color: rgba(255, 255, 255, 0.80);
+    cursor: pointer;
+    transition: all 150ms ease;
+    :hover {
+        color: #fff;
+    }
 `
 
 export default Video;
