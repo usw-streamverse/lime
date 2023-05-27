@@ -14,6 +14,16 @@ const GlobalStyle = createGlobalStyle`
         user-select: none;
         outline: none;
         -webkit-tap-highlight-color: transparent;
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            background-color: #e6e6e6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #979cab;
+            border-radius: 4px;
+        }
     }
 
     html {
@@ -287,7 +297,17 @@ const GlobalStyle = createGlobalStyle`
     transition-animaiton -->
     */
 
-
+    textarea {
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            background-color: #e6e6e6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #979cab;
+            border-radius: 4px;
+        }
+    }
 `;
 
 export default GlobalStyle;
