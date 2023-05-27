@@ -48,7 +48,7 @@ const Watch = () => {
                     <VideoWrapper><VideoPlayer ref={videoRef} /></VideoWrapper>
                     <InnerContainer>
                         <Title>{data?.data.title}</Title>
-                        <Date>조회수 {data?.data.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                        <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
                         <Body text={data?.data.explanation} />
                         <ChannelInfo>
                             <ChannelInfo.Container>

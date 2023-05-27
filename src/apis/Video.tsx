@@ -16,7 +16,7 @@ export interface VideoItem {
     nickname: string,
     title: string,
     created: string,
-    views: number,
+    view_count: number,
     duration: number,
     thumbnail: string
 }
@@ -26,11 +26,11 @@ export interface VideoWatch {
     nickname: string,
     duration: number,
     title: string,
-    views: number,
+    view_count: number,
     thumbnail: string,
     url: string,
     explanation: string,
-    likes: number,
+    like_count: number,
     created: string,
     like: boolean
 }

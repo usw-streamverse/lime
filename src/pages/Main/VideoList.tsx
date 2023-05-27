@@ -28,7 +28,7 @@ const VideoItem = (props: videoItem) => {
             </Thumbnail>
             <Title>{props.title}</Title>
             <Uploader>{props.nickname}</Uploader>
-            <Detail>조회수 {props.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
+            <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
         </Container>
     )
 }
