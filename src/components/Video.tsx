@@ -24,7 +24,7 @@ const Video = forwardRef<HTMLVideoElement>((props: {}, ref) => {
 
     return (
         <Container ref={containerRef}>
-            <video ref={ref} onClick={(e) => e.currentTarget.play()}/>
+            <video ref={ref} onClick={(e) => {if(e.currentTarget.paused) e.currentTarget.play(); else e.currentTarget.pause();}}/>
             <VideoContext.Provider value={ref}>
                 <Controls visible={controlsVisible} onMouseOver={() => {clearTimeout(controlsTimerRef.current); setControlsVisible(true)}} onMouseOut={mouseOutHandler}>
                     <ProgressBar />
