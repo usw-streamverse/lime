@@ -19,7 +19,7 @@ const Video = forwardRef<HTMLVideoElement>((props: {}, ref) => {
         controlsTimerRef.current = 
         setTimeout(() => {
             setControlsVisible(false);
-        }, 3000);
+        }, 2000);
     }
 
     return (
