@@ -70,7 +70,7 @@ const ProgressBar = () => {
 
     useEffect(() => {
         if(typeof videoRef !== 'function' && videoRef?.current){
-
+            let videoRefCurrent = videoRef.current;
             const timeHandler = (e: Event) => {
                 setProgress((videoRef.current?.currentTime || 0) / (videoRef.current?.duration || 1));
             }
@@ -90,12 +90,12 @@ const ProgressBar = () => {
 
             document.addEventListener('mousemove', moveHandler);
             document.addEventListener('mouseup', upHandler);
-            videoRef.current?.addEventListener('timeupdate', timeHandler);
+            videoRefCurrent.addEventListener('timeupdate', timeHandler);
 
             return () => {
                 document.removeEventListener('mousemove', moveHandler);
                 document.removeEventListener('mouseup', upHandler);
-                videoRef.current?.removeEventListener('timeupdate', timeHandler);
+                videoRefCurrent.removeEventListener('timeupdate', timeHandler);
             }
         }
     }, [videoRef])
@@ -153,7 +153,7 @@ const Play = () => {
 
     useEffect(() => {
         if(typeof videoRef !== 'function' && videoRef?.current){
-
+            let videoRefCurrent = videoRef.current;
             const playHandler = (e: Event) => {
                 setPause(false);
             }
@@ -162,12 +162,12 @@ const Play = () => {
                 setPause(true);
             }
 
-            videoRef.current?.addEventListener('play', playHandler);
-            videoRef.current?.addEventListener('pause', pauseHandler);
+            videoRefCurrent.addEventListener('play', playHandler);
+            videoRefCurrent.addEventListener('pause', pauseHandler);
 
             return () => {
-                videoRef.current?.removeEventListener('play', playHandler);
-                videoRef.current?.removeEventListener('pause', pauseHandler);
+                videoRefCurrent?.removeEventListener('play', playHandler);
+                videoRefCurrent?.removeEventListener('pause', pauseHandler);
             }
         }
     }, [videoRef])
@@ -221,14 +221,15 @@ const Volume = () => {
 
     useEffect(() => {
         if(typeof videoRef !== 'function' && videoRef?.current){
+            let videoRefCurrent = videoRef.current;
             const volumeHandler = (e: Event) => {
                 setMute(videoRef.current?.volume === 0 || (videoRef.current?.muted || false));
             }
 
-            videoRef.current?.addEventListener('volumechange', volumeHandler);
+            videoRefCurrent?.addEventListener('volumechange', volumeHandler);
 
             return () => {
-                videoRef.current?.removeEventListener('volumechange', volumeHandler);
+                videoRefCurrent?.removeEventListener('volumechange', volumeHandler);
             }
         }
     }, [videoRef]);
@@ -290,14 +291,15 @@ const PlayTime = () => {
 
     useEffect(() => {
         if(typeof videoRef !== 'function' && videoRef?.current){
+            let videoRefCurrent = videoRef.current;
             const timeUpdate = () => {
                 setTime(`${getSecondFormat(Math.floor(videoRef.current?.currentTime || 0))} / ${getSecondFormat(Math.floor(videoRef.current?.duration || 0))}`);
             }
-            videoRef.current.addEventListener('timeupdate', timeUpdate);
-            videoRef.current.addEventListener('canplay', timeUpdate);
+            videoRefCurrent.addEventListener('timeupdate', timeUpdate);
+            videoRefCurrent.addEventListener('canplay', timeUpdate);
             return () => {
-                videoRef.current?.removeEventListener('timeupdate', timeUpdate);
-                videoRef.current?.removeEventListener('canplay', timeUpdate);
+                videoRefCurrent?.removeEventListener('timeupdate', timeUpdate);
+                videoRefCurrent?.removeEventListener('canplay', timeUpdate);
             }
         }
     }, [videoRef])
