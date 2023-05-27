@@ -7,12 +7,26 @@ const VideoContext = createContext<React.ForwardedRef<HTMLVideoElement>>({} as a
 
 const Video = forwardRef<HTMLVideoElement>((props: {}, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [controlsVisible, setControlsVisible] = useState<boolean>(true);
+    const controlsTimerRef = useRef<NodeJS.Timeout>();
+
+    useEffect(() => {
+        mouseOutHandler();
+    }, [])
+
+    const mouseOutHandler = () => {
+        clearTimeout(controlsTimerRef.current);
+        controlsTimerRef.current = 
+        setTimeout(() => {
+            setControlsVisible(false);
+        }, 3000);
+    }
 
     return (
         <Container ref={containerRef}>
             <video ref={ref} onClick={(e) => e.currentTarget.play()}/>
             <VideoContext.Provider value={ref}>
-                <Controls>
+                <Controls visible={controlsVisible} onMouseOver={() => {clearTimeout(controlsTimerRef.current); setControlsVisible(true)}} onMouseOut={mouseOutHandler}>
                     <ProgressBar />
                     <Play />
                     <Volume />
@@ -36,7 +50,7 @@ const Container = styled.div`
     }
 `
 
-const Controls = styled.div`
+const Controls = styled.div<{visible: boolean}>`
     display: flex;
     align-items: center;
     position: absolute;
@@ -45,6 +59,8 @@ const Controls = styled.div`
     width: 100%;
     height: 40px;
     background-color: rgba(0, 0, 0, 0.33);
+    opacity: ${(props) => props.visible ? 1 : 0};
+    transition: opacity 300ms ease;
 `
 
 const ProgressBar = () => {
