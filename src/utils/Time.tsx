@@ -32,3 +32,10 @@ export const getTimeFormat = (time: number): string => {
     const date = new Date(time);
     return `${date.getFullYear()}-${('0' + (date.getMonth()+1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
 }
+
+export const getSecondFormat = (second: number): string => {
+    const date = new Date(0);
+    date.setSeconds(second);
+    const date_string = date.toISOString();
+    return date_string.substring(11,13) === '00' ? date_string.slice(14, 19) : date_string.slice(11, 19);    
+}

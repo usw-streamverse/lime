@@ -9,6 +9,7 @@ import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
 import Loading from 'components/Loading';
+import VideoPlayer from 'components/Video';
 
 const VideoContext = createContext<string>('');
 
@@ -44,7 +45,7 @@ const Watch = () => {
         return (
             <Container>
                 <VideoContext.Provider value={id || ''}>
-                    <VideoPlayer ref={videoRef} onClick={() => videoRef.current?.play()} controls />
+                    <VideoWrapper><VideoPlayer ref={videoRef} /></VideoWrapper>
                     <InnerContainer>
                         <Title>{data?.data.title}</Title>
                         <Date>조회수 {data?.data.views}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
@@ -128,9 +129,7 @@ const InnerContainer = styled.div`
     }
 `
 
-const VideoPlayer = styled.video`
-    width: 100%;
-    aspect-ratio: 16 / 9;
+const VideoWrapper = styled.div`
     @media screen and (max-width: 480px) {
         position: sticky;
         top: 0;
