@@ -8,9 +8,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
-import Loading from 'components/Loading';
 import VideoPlayer from 'components/Video';
 import Comment from './Comment';
+import WatchSkeleton from './Skeleton';
 
 export const VideoContext = createContext<string>('');
 
@@ -42,6 +42,7 @@ const Watch = () => {
         }
     }, [videoRef, status, data]);
 
+
     if(isFetchedAfterMount && status === 'success')
         return (
             <Container>
@@ -71,9 +72,9 @@ const Watch = () => {
         )
     else
         return (
-            <>
-                <Loading />
-            </>
+            <Container>
+                <WatchSkeleton />
+            </Container>
         )
 }
 
