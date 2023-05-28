@@ -120,10 +120,22 @@ const CommentItem = (props: VideoComment) => {
 
 CommentItem.Container = styled.div`
     display: flex;
+    flex-flow: row wrap;
+    width: 100%;
     margin: 1.0rem 0;
 `
 
+CommentItem.ProfileIcon = styled.div`
+    flex: 1 1 1;
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    background-color: #a0a0a0;
+    border-radius: 50%;
+`
+
 CommentItem.Content = styled.div`
+    flex: 1 1 0;
     margin-left: 0.5rem;    
 `
 
@@ -147,14 +159,6 @@ CommentItem.Body = styled.div`
     padding: 0.75rem 0;
     font-weight: 400;
 
-`
-
-CommentItem.ProfileIcon = styled.div`
-width: 32px;
-height: 32px;
-margin-right: 8px;
-background-color: #a0a0a0;
-border-radius: 50%;
 `
 
 Write.Container = styled.div`
