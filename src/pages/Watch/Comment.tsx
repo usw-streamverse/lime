@@ -41,6 +41,17 @@ const Comment = () => {
         )
 }
 
+const Container = styled.div`
+    position: relative;
+    min-height: 100px;
+`
+
+const Header = styled.div`
+    margin-bottom: 1.0rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+`
+
 const Write = () => {
     const videoContext = useContext(VideoContext);
     const commentRef = useRef<HTMLTextAreaElement>(null);
@@ -74,12 +85,6 @@ const Write = () => {
         </Write.Container>
     )
 }
-
-const Header = styled.div`
-    margin-bottom: 1.0rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-`
 
 const rotate = keyframes`
     0% {
@@ -168,10 +173,6 @@ Write.ButtonWrapper = styled.div`
     :hover {
         color: var(--main-text-color);
     }
-`
-
-const Container = styled.div`
-    position: relative;
 `
 
 export default Comment;
