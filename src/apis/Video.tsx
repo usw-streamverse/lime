@@ -68,7 +68,11 @@ const Video = () => {
         return JwtInterceptor().instance.post<{active: boolean}>(`/videos/${props.id}/like`);
     }
 
-    return { upload, list, watch, update, like };
+    const write_comment = (props: {id: string, parent_id: string, comment: string}) => {
+        return JwtInterceptor().instance.post<{success: boolean}>(`/videos/${props.id}/comment`, props);
+    }
+
+    return { upload, list, watch, update, like, write_comment };
 }
 
 export default Video;
