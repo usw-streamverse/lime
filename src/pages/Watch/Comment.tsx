@@ -1,12 +1,13 @@
 import { useContext, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { VideoContext } from '.';
 import FormTextBox from 'components/FormTextBox';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import Video, { VideoComment } from 'apis/Video';
 import { BsSend } from 'react-icons/bs';
-import Loading from 'components/Loading';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import LoadingPage from 'components/Loading';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 
 const Comment = () => {
@@ -27,7 +28,7 @@ const Comment = () => {
                 <Write />
                 {
                     data.data.map(i => {
-                        return <CommentItem {...i} />
+                        return <CommentItem key={i.id} {...i} />
                     })
                 }
             </Container>
@@ -35,7 +36,7 @@ const Comment = () => {
     else
         return (
             <Container>
-                <Loading />
+                <LoadingPage />
             </Container>
         )
 }
@@ -46,10 +47,9 @@ const Write = () => {
     const queryClient = useQueryClient();
     const [warning, setWarning] = useState<boolean>(false);
 
-    const { mutate } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
+    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['video', 'comment', videoContext]);
-            //setActive(data.data.active);
             setWarning(false);
         },
         onError: (error) => {
@@ -57,11 +57,19 @@ const Write = () => {
         }
     });
 
+    const postComment = () => {
+        if(status !== 'loading'){
+            mutate({id: videoContext, parent_id: '0', comment: commentRef.current?.value || ''});
+            if(commentRef.current?.value)
+                commentRef.current.value = '';
+        }
+    }
+
     return (
         <Write.Container>
             <FormTextBox warning={warning} ref={commentRef} type="textarea" height="60px" borderBottomOnly textarea />
-            <Write.ButtonWrapper onClick={() => {mutate({id: videoContext, parent_id: '0', comment: commentRef.current?.value || ''}); if(commentRef.current?.value) commentRef.current.value = '';}}>
-                <BsSend size={20} />
+            <Write.ButtonWrapper onClick={postComment}>
+                {status === 'loading' ? <Loading><AiOutlineLoading3Quarters size={20} /></Loading> : <BsSend size={20} />}
             </Write.ButtonWrapper>
         </Write.Container>
     )
@@ -71,6 +79,23 @@ const Header = styled.div`
     margin-bottom: 1.0rem;
     font-size: 1.125rem;
     font-weight: 500;
+`
+
+const rotate = keyframes`
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+`
+
+const Loading = styled.div`
+    line-height: 0;
+    svg {
+        color: var(--main-text-color);
+        animation: 1s ${rotate} linear infinite;
+    }
 `
 
 const CommentItem = (props: VideoComment) => {
