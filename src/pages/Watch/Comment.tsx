@@ -7,11 +7,13 @@ import { AxiosError, AxiosResponse } from 'axios';
 import Video, { VideoComment } from 'apis/Video';
 import { BsSend } from 'react-icons/bs';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import LoadingPage from 'components/Loading';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 
 const Comment = () => {
     const videoContext = useContext(VideoContext);
+    const [show, setShow] = useState<boolean>(false);
     const { isFetchedAfterMount, data, status } = useQuery({
         queryKey: ['video', 'comment', videoContext],
         staleTime: 0,
@@ -24,13 +26,19 @@ const Comment = () => {
     if(isFetchedAfterMount && status === 'success')
         return (
             <Container>
-                <Header>댓글 {data.data.length}개</Header>
-                <Write />
-                {
-                    data.data.map(i => {
-                        return <CommentItem key={i.id} {...i} />
-                    })
-                }
+                <Header onClick={() => setShow(!show)}>댓글 {data.data.length}개
+                    <HeaderIcon>{show ? <MdArrowDropUp size={24} /> : <MdArrowDropDown size={24} />}</HeaderIcon>
+                </Header>
+                <CommentContainer show={show}>
+                    <Write />
+                    <CommentItemContainer>
+                    {
+                        data.data.map(i => {
+                            return <CommentItem key={i.id} {...i} />
+                        })
+                    }
+                    </CommentItemContainer>
+                </CommentContainer>
             </Container>
         )
     else
@@ -44,12 +52,30 @@ const Comment = () => {
 const Container = styled.div`
     position: relative;
     min-height: 100px;
+    padding: 1.0rem 0;
+    
 `
 
 const Header = styled.div`
+    display: flex;
+    align-items: center;
+    position: relative;
     margin-bottom: 1.0rem;
     font-size: 1.125rem;
     font-weight: 500;
+    cursor: pointer;
+`
+
+const HeaderIcon = styled.div`
+    line-height: 0;
+`
+
+const CommentContainer = styled.div<{show: boolean}>`
+    display: flex;
+    flex-direction: column;
+    max-height: ${(props) => props.show ? '350px' : '0'};
+    overflow: hidden;
+    transition: all 250ms ease-in-out;
 `
 
 const Write = () => {
@@ -85,6 +111,12 @@ const Write = () => {
         </Write.Container>
     )
 }
+
+const CommentItemContainer = styled.div`
+    flex: 1 1 1;
+    height: 300px;
+    overflow-y: scroll;
+`
 
 const rotate = keyframes`
     0% {
