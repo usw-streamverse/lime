@@ -48,6 +48,10 @@ const ChannelInfo = () => {
                     <Skeleton style={{width: '100px'}}>Readership</Skeleton>
                 </ChannelInfo.Detail>
             </ChannelInfo.Container>
+            <ChannelInfo.ButtonListContainer>
+                <Skeleton style={{width: '5.25rem', height: '5.25rem'}} />
+                <Skeleton style={{width: '5.25rem', height: '5.25rem'}} />
+            </ChannelInfo.ButtonListContainer>
         </ChannelInfoStyle>
     )
 }
@@ -82,6 +86,17 @@ ChannelInfo.ProfileIcon = styled(Skeleton)`
         width: 32px;
         height: 32px;
         margin-right: 8px;
+    }
+`
+
+ChannelInfo.ButtonListContainer = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    @media screen and (max-width: 480px) {
+        flex: 1 0 100%;
+        justify-content: center;
+        margin-top: 1.0rem;
     }
 `
 
