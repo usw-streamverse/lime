@@ -26,7 +26,7 @@ const Container = styled.div`
     top: 0; left: 0; bottom: 0; right: 0;
     svg {
         margin: 1.0rem;
-        color: #3d94ef;
+        color: var(--main-text-color-light);
         animation: 1s ${rotate} linear infinite;
     }
 `
