@@ -299,13 +299,12 @@ const GlobalStyle = createGlobalStyle`
 
     textarea {
         ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-            background-color: #e6e6e6;
+            width: 6px;
+            height: 6px;
+            background-color: #ebebeb;
         }
         ::-webkit-scrollbar-thumb {
-            background: #979cab;
-            border-radius: 4px;
+            background: #babdc7;
         }
     }
 `;
