@@ -2,24 +2,28 @@ import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface FormTextBoxProps {
-    label: string,
+    label?: string,
     type?: string,
     warning?: boolean,
     labelSize?: number,
     labelWeight?: number,
     textarea?: boolean,
-    height?: string
+    height?: string,
+    borderBottomOnly?: boolean
 }
 
-const FormTextBox = forwardRef<any, FormTextBoxProps>(({label, type = 'text', warning = false, labelSize = 0.875, labelWeight = 600, textarea = false, height = '100px'}: FormTextBoxProps, ref) => {
+const FormTextBox = forwardRef<any, FormTextBoxProps>(({label = '', type = 'text', warning = false, labelSize = 0.875, labelWeight = 600, textarea = false, height = '100px', borderBottomOnly = false}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
 
     return (
         <Wrap focus={focus} onClick={() => {if(typeof ref !== 'function' && ref) ref.current?.focus()}} warning={warning}>
-            <Label size={labelSize} weight={labelWeight}>{label}</Label>
+            {
+                label !== '' &&
+                <Label size={labelSize} weight={labelWeight}>{label}</Label>
+            }
             {
                 textarea ?        
-                <TextArea ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} height={height} /> 
+                <TextArea ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} height={height} borderBottomOnly={borderBottomOnly} /> 
                 :              
                 <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} />
             }
@@ -70,7 +74,7 @@ const Input = styled.input<{warning: boolean}>`
     transition: all 200ms ease;
 `;
 
-const TextArea = styled.textarea<{warning: boolean, height: string}>`
+const TextArea = styled.textarea<{warning: boolean, height: string, borderBottomOnly: boolean}>`
     width: 100%;
     height: ${(props) => props.height};
     padding: 1.0rem;
@@ -84,6 +88,12 @@ const TextArea = styled.textarea<{warning: boolean, height: string}>`
         color: var(--main-text-color);
     ` 
     }
+    ${(props) => props.borderBottomOnly && css `
+        border-top: 0 !important;
+        border-right: 0 !important;
+        border-left: 0 !important;
+        border-radius: 0;
+    `}
     font-weight: 400;
     resize: none;
     transition: all 200ms ease;
