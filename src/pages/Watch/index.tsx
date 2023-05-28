@@ -10,8 +10,9 @@ import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
 import ChannelInfo from './ChannelInfo';
 import Loading from 'components/Loading';
 import VideoPlayer from 'components/Video';
+import Comment from './Comment';
 
-const VideoContext = createContext<string>('');
+export const VideoContext = createContext<string>('');
 
 const Watch = () => {
     const navigate = useNavigate();
@@ -63,6 +64,7 @@ const Watch = () => {
                                 <Like active={data?.data.like} />
                             </ChannelInfo.ButtonListContainer>
                         </ChannelInfo>
+                        <Comment />
                     </InnerContainer>
                 </VideoContext.Provider>
             </Container>

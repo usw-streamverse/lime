@@ -45,6 +45,19 @@ export interface VideoUpdateResult {
     id: number
 }
 
+export interface VideoComment {
+    id: number,
+    nickname: string,
+    duration: number,
+    parent_id: number,
+    writer: number,
+    comment: string,
+    status: string,
+    created: string,
+    like_count: number,
+    reply_count: number
+}
+
 
 
 const Video = () => {
@@ -72,7 +85,11 @@ const Video = () => {
         return JwtInterceptor().instance.post<{success: boolean}>(`/videos/${props.id}/comment`, props);
     }
 
-    return { upload, list, watch, update, like, write_comment };
+    const get_comment = (id: string) => {
+        return JwtInterceptor().instance.get<VideoComment[]>(`/videos/${id}/comment`);
+    }
+
+    return { upload, list, watch, update, like, write_comment, get_comment };
 }
 
 export default Video;
