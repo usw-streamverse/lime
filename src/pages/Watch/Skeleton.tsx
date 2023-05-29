@@ -25,8 +25,8 @@ const loading = keyframes`
 
 const Skeleton = styled.div`
     position: relative;
-    background-color: #fdfdfd;
-    background: linear-gradient(90deg, #fdfdfd 0%, #ececec 50%, #fdfdfd 100%) #fdfdfd;
+    background-color: var(--skeleton-bg-color);
+    background: linear-gradient(90deg, var(--skeleton-bg-color) 0%, var(--skeleton-bg-color-animation) 50%, var(--skeleton-bg-color) 100%) #fdfdfd;
     background-size: 200% 100%;
     color: transparent;
     animation: ${loading} 1500ms infinite linear;
