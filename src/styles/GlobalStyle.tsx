@@ -29,6 +29,18 @@ const GlobalStyle = createGlobalStyle`
     html {
         font-size: 14px;
     }
+
+    div {
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            background-color: #e6e6e6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #979cab;
+            border-radius: 4px;
+        }
+    }
     
     body {
         --red: red;
