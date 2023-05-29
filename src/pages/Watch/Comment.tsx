@@ -53,7 +53,6 @@ const Container = styled.div`
     position: relative;
     min-height: 100px;
     padding: 1.0rem 0;
-    
 `
 
 const Header = styled.div`

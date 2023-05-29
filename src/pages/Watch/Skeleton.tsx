@@ -2,7 +2,7 @@ import styled, {keyframes} from 'styled-components';
 
 const WatchSkeleton = () => {
     return (
-        <>
+        <Container>
             <Skeleton style={{width: '100%', aspectRatio: '16 / 9'}} />
             <InnerContainer>
                 <Skeleton style={{width: '220px', fontSize: '1.875rem', marginTop: '1.5rem'}}>Title</Skeleton>
@@ -10,7 +10,7 @@ const WatchSkeleton = () => {
                 <Skeleton style={{width: '100%', lineHeight: '1.5rem', marginTop: '1.5rem', padding: '1.0rem'}}>Body</Skeleton>
                 <ChannelInfo />
             </InnerContainer>
-        </>
+        </Container>
     )
 }
 
@@ -30,6 +30,10 @@ const Skeleton = styled.div`
     background-size: 200% 100%;
     color: transparent;
     animation: ${loading} 1500ms infinite linear;
+`
+
+const Container = styled.div`
+    padding: 1.25rem;
 `
 
 const InnerContainer = styled.div`

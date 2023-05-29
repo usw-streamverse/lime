@@ -149,10 +149,12 @@ const Container = styled.div`
 `
 
 const VideoWrapper = styled.div`
+    margin: 1.25rem;
     @media screen and (max-width: 480px) {
         position: sticky;
         top: 0;
         z-index: 97;
+        margin: 0;
     }
 `
 
