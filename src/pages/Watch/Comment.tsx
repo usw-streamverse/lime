@@ -7,7 +7,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import Video, { VideoComment } from 'apis/Video';
 import { BsSend } from 'react-icons/bs';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
+import { MdArrowDropUp } from 'react-icons/md';
 import LoadingPage from 'components/Loading';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 
@@ -27,7 +27,7 @@ const Comment = () => {
         return (
             <Container>
                 <Header onClick={() => setShow(!show)}>댓글 {data.data.length}개
-                    <HeaderIcon>{show ? <MdArrowDropUp size={24} /> : <MdArrowDropDown size={24} />}</HeaderIcon>
+                    <HeaderIcon show={show}><MdArrowDropUp size={24} /></HeaderIcon>
                 </Header>
                 <CommentContainer show={show}>
                     <Write />
@@ -59,23 +59,28 @@ const Container = styled.div`
 const Header = styled.div`
     display: flex;
     align-items: center;
-    position: relative;
-    margin-bottom: 1.0rem;
+    position: sticky;
+    top: -1px;
+    padding: 1.0rem;
+    background-color: var(--main-bg-color);
     font-size: 1.125rem;
     font-weight: 500;
     cursor: pointer;
+
+    @media screen and (max-width: 480px) {
+        top: calc(100vw / 16 * 9);
+    }
 `
 
-const HeaderIcon = styled.div`
+const HeaderIcon = styled.div<{show: boolean}>`
     line-height: 0;
+    transform: rotate(${(props) => props.show ? '180deg' : '0deg'});
+    transition: all 200ms ease;
 `
 
 const CommentContainer = styled.div<{show: boolean}>`
-    display: flex;
-    flex-direction: column;
-    max-height: ${(props) => props.show ? '350px' : '0'};
-    overflow: hidden;
-    transition: all 250ms ease-in-out;
+    display: ${(props) => props.show ? 'block' : 'none'};
+    margin: 0 1.25rem;
 `
 
 const Write = () => {
@@ -104,7 +109,7 @@ const Write = () => {
 
     return (
         <Write.Container>
-            <FormTextBox warning={warning} ref={commentRef} type="textarea" height="60px" borderBottomOnly textarea />
+            <FormTextBox warning={warning} ref={commentRef} type="textarea" height="45px" borderBottomOnly textarea />
             <Write.ButtonWrapper onClick={postComment}>
                 {status === 'loading' ? <Loading><AiOutlineLoading3Quarters size={20} /></Loading> : <BsSend size={20} />}
             </Write.ButtonWrapper>
@@ -113,9 +118,7 @@ const Write = () => {
 }
 
 const CommentItemContainer = styled.div`
-    flex: 1 1 1;
-    height: 300px;
-    overflow-y: scroll;
+
 `
 
 const rotate = keyframes`
@@ -154,7 +157,7 @@ CommentItem.Container = styled.div`
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    margin: 1.0rem 0;
+    margin: 2.0rem 0;
 `
 
 CommentItem.ProfileIcon = styled.div`
@@ -181,7 +184,7 @@ CommentItem.Nickname = styled.div`
 `
 
 CommentItem.Date = styled.div`
-    margin-left: 1.0rem;
+    margin-left: 0.5rem;
     color: var(--main-text-color-light);
     font-size: 0.875rem;
     font-weight: 400;

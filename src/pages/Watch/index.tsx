@@ -48,27 +48,25 @@ const Watch = () => {
             <Container>
                 <VideoContext.Provider value={id || ''}>
                     <VideoWrapper><VideoPlayer ref={videoRef} /></VideoWrapper>
-                    <InnerContainer>
-                        <Title>{data?.data.title}</Title>
-                        <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
-                        <Body text={data?.data.explanation} />
-                        <ChannelInfo>
-                            <ChannelInfo.Container>
-                                <ChannelInfo.ProfileIcon />
-                                <ChannelInfo.Detail>
-                                    <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                                    <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
-                                </ChannelInfo.Detail>
-                            </ChannelInfo.Container>
-                            <ChannelInfo.ButtonListContainer>
-                                <Subscribe />
-                                <Like active={data?.data.like} />
-                                <Share />
-                                <AddPlayList />
-                            </ChannelInfo.ButtonListContainer>
-                        </ChannelInfo>
-                        <Comment />
-                    </InnerContainer>
+                    <Title>{data?.data.title}</Title>
+                    <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                    <Body text={data?.data.explanation} />
+                    <ChannelInfo>
+                        <ChannelInfo.Container>
+                            <ChannelInfo.ProfileIcon />
+                            <ChannelInfo.Detail>
+                                <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
+                                <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
+                            </ChannelInfo.Detail>
+                        </ChannelInfo.Container>
+                        <ChannelInfo.ButtonListContainer>
+                            <Subscribe />
+                            <Like active={data?.data.like} />
+                            <Share />
+                            <AddPlayList />
+                        </ChannelInfo.ButtonListContainer>
+                    </ChannelInfo>
+                    <Comment />
                 </VideoContext.Provider>
             </Container>
         )
@@ -141,22 +139,12 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    padding: 1.25rem;
+    padding: 0;
     background-color: var(--main-bg-color);
     overflow-y: auto;
-    @media screen and (max-width: 480px) {
-        padding: 0;
-    }
     ::-webkit-scrollbar {
         width: 0;
         height: 0;
-    }
-`
-
-const InnerContainer = styled.div`
-    @media screen and (max-width: 480px) {
-        padding: 1.25rem;
-        padding-top: 0;
     }
 `
 
@@ -170,6 +158,7 @@ const VideoWrapper = styled.div`
 
 const Title = styled.div`
     margin-top: 1.5rem;
+    padding: 0 1.25rem;
     font-size: 1.875rem;
 `
 
@@ -199,7 +188,7 @@ const Body = (props: {text: string}) => {
 
 Body.Container = styled.div`
     position: relative;
-    margin-top: 1.5rem;
+    margin: 1.5rem 1.0rem 0 1.0rem;
     padding: 1.0rem;
     border-radius: 0.5rem;
     background-color: var(--watch-body-bg-color);
@@ -226,7 +215,7 @@ Body.FullText = styled.div`
 `
 
 const Date = styled.div`
-    margin: 0.5rem 0;
+    margin: 0.5rem 1.25rem;
     color: var(--main-text-color-light);
     font-weight: 400;
 `

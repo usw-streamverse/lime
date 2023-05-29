@@ -10,7 +10,7 @@ const ChannelInfoStyle = styled.div`
     align-items: center;
     flex-wrap: wrap;
     position: relative;
-    margin: 1.75rem 0;
+    margin: 1.75rem 1.25rem;
 `
 
 ChannelInfo.Detail = styled.div`
@@ -55,7 +55,7 @@ ChannelInfo.ButtonListContainer = styled.div`
     display: flex;
     flex: 1;
     justify-content: flex-end;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 600px) {
         flex: 1 0 100%;
         justify-content: center;
         margin-top: 1.0rem;
