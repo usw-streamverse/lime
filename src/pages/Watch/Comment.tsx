@@ -146,7 +146,13 @@ const CommentItem = (props: VideoComment) => {
                     <CommentItem.Nickname>{props.nickname}</CommentItem.Nickname>
                     <CommentItem.Date>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}</CommentItem.Date>
                 </CommentItem.Detail>
-                <CommentItem.Body>{props.comment}</CommentItem.Body>
+                <CommentItem.Body>
+                    {
+                        props.comment.split('\n').map((i, idx) => {
+                            return <div key={idx}>{i}</div>
+                        })
+                    }
+                </CommentItem.Body>
             </CommentItem.Content>
         </CommentItem.Container>
     )
@@ -191,8 +197,10 @@ CommentItem.Date = styled.div`
 
 CommentItem.Body = styled.div`
     padding: 0.75rem 0;
-    font-weight: 400;
-
+    div {
+        line-height: 1.375rem;
+        font-weight: 400;
+    }
 `
 
 Write.Container = styled.div`
