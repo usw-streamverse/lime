@@ -84,11 +84,13 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
     }
 
 
-    @media screen and (min-width: 481px) {
-        :hover {
-            color: var(--main-text-color-light);
+    ${(props) => !props.active && `
+        @media screen and (min-width: 481px) {
+            :hover {
+                color: var(--main-text-color-light);
+            }
         }
-    }
+    `};
 `
  
 
