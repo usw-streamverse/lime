@@ -119,10 +119,15 @@ const Container = styled.div`
     height: 100%;
     padding: 1.25rem;
     background-color: var(--main-bg-color);
-    overflow-x: auto;
+    overflow-y: auto;
     @media screen and (max-width: 480px) {
         padding: 0;
     }
+    ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+}
 `
 
 const InnerContainer = styled.div`
