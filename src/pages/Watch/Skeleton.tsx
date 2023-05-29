@@ -51,6 +51,8 @@ const ChannelInfo = () => {
             <ChannelInfo.ButtonListContainer>
                 <Skeleton style={{width: '5.25rem', height: '5.25rem'}} />
                 <Skeleton style={{width: '5.25rem', height: '5.25rem'}} />
+                <Skeleton style={{width: '5.25rem', height: '5.25rem'}} />
+                <Skeleton style={{width: '5.25rem', height: '5.25rem'}} />
             </ChannelInfo.ButtonListContainer>
         </ChannelInfoStyle>
     )

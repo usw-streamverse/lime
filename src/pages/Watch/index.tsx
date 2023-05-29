@@ -6,7 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
-import { VscBell, VscHeart, VscHeartFilled } from 'react-icons/vsc'
+import { CiBellOn, CiCirclePlus, CiHeart, CiShare2 } from 'react-icons/ci'
 import ChannelInfo from './ChannelInfo';
 import VideoPlayer from 'components/Video';
 import Comment from './Comment';
@@ -63,6 +63,8 @@ const Watch = () => {
                             <ChannelInfo.ButtonListContainer>
                                 <Subscribe />
                                 <Like active={data?.data.like} />
+                                <Share />
+                                <AddPlayList />
                             </ChannelInfo.ButtonListContainer>
                         </ChannelInfo>
                         <Comment />
@@ -83,7 +85,7 @@ const Subscribe = () => {
 
     return (
         <ChannelInfo.ButtonContainer>
-            <ChannelInfo.ButtonIcon><VscBell size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.ButtonIcon><CiBellOn size={32} /></ChannelInfo.ButtonIcon>
             <ChannelInfo.ButtonName>구독</ChannelInfo.ButtonName>
         </ChannelInfo.ButtonContainer>
     )
@@ -107,8 +109,30 @@ const Like = (props: {active: boolean}) => {
 
     return (
         <ChannelInfo.ButtonContainer active={active} onClick={() => mutate({id: videoId})}>
-            <ChannelInfo.ButtonIcon>{active ? <VscHeartFilled size={32} /> : <VscHeart size={32} />}</ChannelInfo.ButtonIcon>
+            <ChannelInfo.ButtonIcon><CiHeart size={32} /></ChannelInfo.ButtonIcon>
             <ChannelInfo.ButtonName>좋아요</ChannelInfo.ButtonName>
+        </ChannelInfo.ButtonContainer>
+    )
+}
+
+const Share = () => {
+    const videoId = useContext(VideoContext);
+
+    return (
+        <ChannelInfo.ButtonContainer>
+            <ChannelInfo.ButtonIcon><CiShare2 size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.ButtonName>공유</ChannelInfo.ButtonName>
+        </ChannelInfo.ButtonContainer>
+    )
+}
+
+const AddPlayList = () => {
+    const videoId = useContext(VideoContext);
+
+    return (
+        <ChannelInfo.ButtonContainer>
+            <ChannelInfo.ButtonIcon><CiCirclePlus size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.ButtonName>재생목록</ChannelInfo.ButtonName>
         </ChannelInfo.ButtonContainer>
     )
 }
@@ -127,7 +151,6 @@ const Container = styled.div`
         width: 0;
         height: 0;
     }
-}
 `
 
 const InnerContainer = styled.div`

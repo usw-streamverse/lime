@@ -25,7 +25,7 @@ ChannelInfo.Name = styled.div`
     font-weight: 400;
     overflow-x: hidden;
     text-overflow: ellipsis;
-    white-space:nowrap;
+    white-space: nowrap;
 `
 
 ChannelInfo.Readership = styled.div`
@@ -73,38 +73,20 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
     cursor: pointer;
     transition: all 150ms ease;
 
-    ::after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        z-index: -1;
-        transition: all 150ms ease-in-out;
-        content: '';
+    svg {
+        transition: all 200ms ease-in-out;
     }
 
     :active {
-        ::after {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0.5rem;
-            background-color: rgb(170, 170, 170, 0.3);
+        svg {
+            transform: scale(0.90);;
         }
     }
 
+
     @media screen and (min-width: 481px) {
         :hover {
-            ::after {
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border-radius: 0.5rem;
-                background-color: rgb(170, 170, 170, 0.15);
-            }
+            color: var(--main-text-color-light);
         }
     }
 `
@@ -117,7 +99,7 @@ ChannelInfo.ButtonIcon = styled.div`
 ChannelInfo.ButtonName = styled.div`
     margin-top: 0.25rem;
     color: var(--main-text-color);
-    font-weight: 500;
+    font-weight: 400;
 `
 
 export default ChannelInfo;
