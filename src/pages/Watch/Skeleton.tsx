@@ -33,7 +33,9 @@ const Skeleton = styled.div`
 `
 
 const Container = styled.div`
-    padding: 1.25rem;
+    @media screen and (min-width: 481px) {
+        padding: 1.25rem;
+    }
 `
 
 const InnerContainer = styled.div`
