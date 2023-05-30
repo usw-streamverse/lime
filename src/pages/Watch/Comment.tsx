@@ -15,20 +15,14 @@ const Comment = () => {
     const videoContext = useContext(VideoContext);
     
     const [show, setShow] = useState<boolean>(false);
-    const { refetch, isFetchedAfterMount, data, status } = useQuery({
-        queryKey: ['video', 'comment', videoContext],
+    const { isFetchedAfterMount, data, status } = useQuery({
+        queryKey: ['video', 'comment'],
         staleTime: 0,
-        enabled: false,
         queryFn: () => Video().get_comment(videoContext),
         onError: (error: AxiosError) => {
             console.log(error.response?.status);
         }
     });
-
-    useEffect(() => {
-        if(videoContext !== '')
-            refetch();
-    }, [videoContext])
 
     if(isFetchedAfterMount && status === 'success')
         return (
@@ -97,7 +91,7 @@ const Write = () => {
 
     const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
         onSuccess: (data) => {
-            queryClient.invalidateQueries(['video', 'comment', videoContext]);
+            queryClient.invalidateQueries(['video', 'comment']);
             setWarning(false);
         },
         onError: (error) => {

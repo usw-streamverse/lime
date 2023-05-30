@@ -18,9 +18,8 @@ const Watch = () => {
     const navigate = useNavigate();
     const id = useParams()['id'];
     const videoRef = useRef<HTMLVideoElement>(null);
-
     const { isFetchedAfterMount, data, status } = useQuery({
-        queryKey: ['watch'],
+        queryKey: ['video'],
         staleTime: 0,
         queryFn: () => Video().watch(id || ''),
         onError: (error: AxiosError) => {
