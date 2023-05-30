@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { VideoContext } from '.';
 import FormTextBox from 'components/FormTextBox';
@@ -13,15 +13,22 @@ import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 
 const Comment = () => {
     const videoContext = useContext(VideoContext);
+    
     const [show, setShow] = useState<boolean>(false);
-    const { isFetchedAfterMount, data, status } = useQuery({
+    const { refetch, isFetchedAfterMount, data, status } = useQuery({
         queryKey: ['video', 'comment', videoContext],
         staleTime: 0,
+        enabled: false,
         queryFn: () => Video().get_comment(videoContext),
         onError: (error: AxiosError) => {
             console.log(error.response?.status);
         }
     });
+
+    useEffect(() => {
+        if(videoContext !== '')
+            refetch();
+    }, [videoContext])
 
     if(isFetchedAfterMount && status === 'success')
         return (
