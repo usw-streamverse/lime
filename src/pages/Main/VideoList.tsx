@@ -38,18 +38,16 @@ const Container = styled.div`
     position: relative;
     width: calc(100% / var(--thumbnail-row) - 12px);
     margin: 6px;
+    padding: 0.5rem;
+    box-shadow: 0 0 1.0rem 0 rgb(212, 212, 212);
+    border-radius: 0.25rem;
     cursor: pointer;
     --thumbnail-row: 5;
-
-    div:first-child {
-        transition: all 150ms ease;
-    }
-
+    transition: all 200ms ease;
     @media screen and (min-width: 481px) {
         :hover {
-            div:first-child {
-                transform: scale(1.05);
-            }
+            box-shadow: 0 0 2.0rem 0 rgb(165, 165, 165);
+            transform: translateY(-0.5rem);
         }
     }
 
