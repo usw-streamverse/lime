@@ -79,6 +79,8 @@ const GlobalStyle = createGlobalStyle`
         --watch-body-bg-color: #f1f1f1;
         --skeleton-bg-color: #fdfdfd;
         --skeleton-bg-color-animation: #ececec;
+        --videolist-shadow: #d4d4d4;
+        --videolist-shadow-hover: #a5a5a5;
     }
 
     body.dark {
@@ -118,6 +120,8 @@ const GlobalStyle = createGlobalStyle`
         --watch-body-bg-color: #505050;
         --skeleton-bg-color: #202020;
         --skeleton-bg-color-animation: #272727;
+        --videolist-shadow: #101010;
+        --videolist-shadow-hover: #000000;
     }
 
     body {
@@ -189,31 +193,35 @@ const GlobalStyle = createGlobalStyle`
 
     .modal2-enter {
         opacity: 0;
-        > div {
-            transform: translateY(50%);
-        }
     }
 
     .modal2-enter-active {
+        top: 0 !important;
+        left: 0 !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
         opacity: 1;
-        transition: all 300ms ease-in-out;
-        > div {
-            transform: translateY(0);
-            transition: all 300ms ease-in-out;
-        }
+        transition: all 300ms ease;
+    }
+
+    .modal2-enter-done {
+        top: 0 !important;
+        left: 0 !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
     }
 
     .modal2-exit {
+        top: 0 !important;
+        left: 0 !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
         opacity: 1;
     }
 
     .modal2-exit-active {
         opacity: 0;
         transition: all 300ms ease-in-out;
-        > div {
-            transform: translateY(100%);
-            transition: all 300ms ease-in-out;
-        }
     }
 
     .left-swipe-enter {

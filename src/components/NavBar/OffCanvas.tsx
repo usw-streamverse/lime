@@ -134,7 +134,7 @@ const Shadow = styled.div<{show: boolean}>`
     top: 0; bottom: 0;
     left: 0; right: 0;
     background-color: transparent;
-    z-index: 95;
+    z-index: 99;
     transition: background-color 200ms ease;
     @media screen and (max-width: 1024px) {
         display: block;
@@ -159,7 +159,7 @@ const Wrap = styled.div<{show: boolean}>`
     background-color: var(--navbar-bg-color);
     border-right: 1px solid var(--navbar-border-color);
     overflow-x: hidden;
-    z-index: 98;
+    z-index: 101;
     transition: left 200ms ease;
     ${(props) => 
         props.show &&

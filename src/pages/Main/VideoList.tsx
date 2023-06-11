@@ -3,6 +3,9 @@ import Video, { VideoItem as videoItem } from 'apis/Video';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
+import { useContext } from 'react';
+import { ModalStartFormContext } from '.';
+import { AnimationStartForm } from 'components/PageModal';
 const VideoList = () => {
     const {status, data} = useQuery(['videoList'], Video().list);
 
@@ -18,10 +21,18 @@ const VideoList = () => {
     )
 }
 
+const handleClick = (e: React.MouseEvent<HTMLDivElement>, modalStartForm: AnimationStartForm) => {
+    modalStartForm.x = e.currentTarget.offsetLeft - window.scrollX;
+    modalStartForm.y = e.currentTarget.offsetTop - window.scrollY;
+    modalStartForm.width = e.currentTarget.offsetWidth;
+    modalStartForm.height = e.currentTarget.offsetHeight;
+}
+
 const VideoItem = (props: videoItem) => {
+    const modalStartForm = useContext(ModalStartFormContext);
     const navigate = useNavigate();
     return (
-        <Container onClick={() => navigate(`/watch/${props.id}`)}>
+        <Container onClick={(e) => {handleClick(e, modalStartForm); navigate(`/watch/${props.id}`)}}>
             <Thumbnail>
                 <img src={props.thumbnail} />
                 <Duration>{getDurationFormat(props.duration)}</Duration>
@@ -39,14 +50,14 @@ const Container = styled.div`
     width: calc(100% / var(--thumbnail-row) - 12px);
     margin: 6px;
     padding: 0.5rem;
-    box-shadow: 0 0 1.0rem 0 rgb(212, 212, 212);
+    box-shadow: 0 0 1.0rem 0 var(--videolist-shadow);
     border-radius: 0.25rem;
     cursor: pointer;
     --thumbnail-row: 5;
     transition: all 200ms ease;
     @media screen and (min-width: 481px) {
         :hover {
-            box-shadow: 0 0 2.0rem 0 rgb(165, 165, 165);
+            box-shadow: 0 0 2.0rem 0 var(--videolist-shadow-hover);
             transform: translateY(-0.5rem);
         }
     }
