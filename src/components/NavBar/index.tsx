@@ -1,8 +1,8 @@
 import { CiLight, CiDark, CiMenuBurger, CiUser } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import OffCanvas from './OffCanvas';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Sign from 'pages/Sign';
 import Modal from 'components/Modal';
 import useUserQuery from 'hooks/useUserQuery';
@@ -38,6 +38,7 @@ const NavBar = ({children}: NavBarProps) => {
     const [offCanvas, setOffCanvas] = useState<boolean>(window.innerWidth > 1024);
     const [signIn, setSignIn] = useState(false);
     const [dropdown, setDropdown] = useState(false);
+
     return (
         <>
             <Modal show={signIn} setShow={setSignIn}><Sign setShow={setSignIn} /></Modal>
@@ -101,7 +102,7 @@ const Wrap = styled.div`
     border-bottom: 1px solid var(--navbar-border-color);
     background-color: var(--navbar-bg-color);
     transition: all 100ms ease;
-    z-index: 97;
+    z-index: 100;
 `;
 
 const LeftSide = styled.div`
