@@ -43,10 +43,11 @@ const Wrapper = styled.div`
     top: 0; left: 0;
     width: 100%;
     height: 100%;
+    padding-top: 4.0rem;
     overflow: hidden;
     z-index: 101;
     @media screen and (min-width: 481px) {
-        position: absolute;
+        position: fixed;
         z-index: 4;
     }
 `
