@@ -139,6 +139,16 @@ const Loading = styled.div`
 `
 
 const CommentItem = (props: VideoComment) => {
+    const videoContext = useContext(VideoContext);
+    const queryClient = useQueryClient();
+    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().delete_comment, {
+        onSuccess: (data) => {
+            queryClient.invalidateQueries(['video', 'comment']);
+        },
+        onError: (error) => {
+        }
+    });
+
     return (
         <CommentItem.Container>
             <CommentItem.ProfileIcon />
@@ -154,6 +164,13 @@ const CommentItem = (props: VideoComment) => {
                         })
                     }
                 </CommentItem.Body>
+                <CommentItem.MenuContainer>
+                    <CommentItem.Menu>답글</CommentItem.Menu>
+                    {
+                        props.writer == localStorage.id &&
+                        <CommentItem.Menu onClick={() => mutate({video_id: videoContext, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
+                    }
+                </CommentItem.MenuContainer>
             </CommentItem.Content>
         </CommentItem.Container>
     )
@@ -164,6 +181,16 @@ CommentItem.Container = styled.div`
     flex-flow: row wrap;
     width: 100%;
     margin: 2.0rem 0;
+`
+
+CommentItem.MenuContainer = styled.div`
+    display: flex;
+`
+
+CommentItem.Menu = styled.div`
+    margin-right: 0.5rem;
+    font-weight: 400;
+    cursor: pointer;
 `
 
 CommentItem.ProfileIcon = styled.div`

@@ -58,8 +58,6 @@ export interface VideoComment {
     reply_count: number
 }
 
-
-
 const Video = () => {
     const upload = (formData: any, config: AxiosRequestConfig) => {
         return JwtInterceptor().instance.post<UploadResult>('/videos', formData, config);
@@ -89,7 +87,11 @@ const Video = () => {
         return JwtInterceptor().instance.get<VideoComment[]>(`/videos/${id}/comment`);
     }
 
-    return { upload, list, watch, update, like, write_comment, get_comment };
+    const delete_comment = (props: {video_id: string, comment_id: string}) => {
+        return JwtInterceptor().instance.delete<{success: boolean}>(`/videos/${props.video_id}/comment/${props.comment_id}`);
+    }
+
+    return { upload, list, watch, update, like, write_comment, get_comment, delete_comment };
 }
 
 export default Video;
