@@ -3,7 +3,7 @@ import { FiArrowUp } from 'react-icons/fi';
 import { useState, useRef, createContext, useContext } from 'react';
 import Video, { UploadResult } from 'apis/Video';
 import Result from './Result';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosProgressEvent } from 'axios';
 
 export interface iStep {
     step: number,
@@ -47,8 +47,8 @@ const VideoUpload = () => {
         setUploading(true);
         Video().upload(formData, {
             onUploadProgress:
-                (e: ProgressEvent) => {
-                    setProgress(e.loaded / e.total * 100)
+                (e: AxiosProgressEvent) => {
+                    if(e.total) setProgress(e.loaded / e.total * 100)
                 }
         })
         .then((e) => {
