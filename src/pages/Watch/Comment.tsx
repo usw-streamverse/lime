@@ -24,7 +24,14 @@ const Comment = () => {
         }
     });
 
-    if(isFetchedAfterMount && status === 'success')
+    if(isFetchedAfterMount && status === 'success'){
+        let replyList = {} as VideoComment[][];
+        data.data.forEach(i => {
+            if(i.parent_id !== 0){
+                if(!replyList[i.parent_id]) replyList[i.parent_id] = [];
+                replyList[i.parent_id].push(i);
+            }
+        })
         return (
             <Container>
                 <Header onClick={() => setShow(!show)}>댓글 {data.data.length}개
@@ -34,15 +41,15 @@ const Comment = () => {
                     <Write />
                     <CommentItemContainer>
                     {
-                        data.data.map(i => {
-                            return <CommentItem key={i.id} {...i} />
+                        data.data.filter(i => i.parent_id === 0).map(i => {
+                            return <CommentItem reply={false} replyList={replyList[i.id]} key={i.id} {...i} />
                         })
                     }
                     </CommentItemContainer>
                 </CommentContainer>
             </Container>
         )
-    else
+    } else
         return (
             <Container>
                 <LoadingPage />
@@ -138,9 +145,10 @@ const Loading = styled.div`
     }
 `
 
-const CommentItem = (props: VideoComment) => {
+const CommentItem = (props: {reply: boolean, replyList?: VideoComment[]} & VideoComment) => {
     const videoContext = useContext(VideoContext);
     const queryClient = useQueryClient();
+    const [reply, setReply] = useState<boolean>(false);
     const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().delete_comment, {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['video', 'comment']);
@@ -150,37 +158,90 @@ const CommentItem = (props: VideoComment) => {
     });
 
     return (
-        <CommentItem.Container>
-            <CommentItem.ProfileIcon />
-            <CommentItem.Content>
-                <CommentItem.Detail>
-                    <CommentItem.Nickname>{props.nickname}</CommentItem.Nickname>
-                    <CommentItem.Date>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}</CommentItem.Date>
-                </CommentItem.Detail>
-                <CommentItem.Body>
-                    {
-                        props.comment.split('\n').map((i, idx) => {
-                            return <div key={idx}>{i}</div>
-                        })
-                    }
-                </CommentItem.Body>
-                <CommentItem.MenuContainer>
-                    <CommentItem.Menu>답글</CommentItem.Menu>
-                    {
-                        props.writer == localStorage.id &&
-                        <CommentItem.Menu onClick={() => mutate({video_id: videoContext, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
-                    }
-                </CommentItem.MenuContainer>
-            </CommentItem.Content>
-        </CommentItem.Container>
+        <>
+            <CommentItem.Container reply={props.reply}>
+                <CommentItem.ProfileIcon />
+                <CommentItem.Content>
+                    <CommentItem.Detail>
+                        <CommentItem.Nickname>{props.nickname}</CommentItem.Nickname>
+                        <CommentItem.Date>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}</CommentItem.Date>
+                    </CommentItem.Detail>
+                    <CommentItem.Body>
+                        {
+                            props.comment.split('\n').map((i, idx) => {
+                                return <div key={idx}>{i}</div>
+                            })
+                        }
+                    </CommentItem.Body>
+                    <CommentItem.MenuContainer>
+                        {
+                            props.parent_id === 0 &&
+                            <CommentItem.Menu onClick={() => setReply(!reply)}>답글</CommentItem.Menu>
+                        }
+                        {
+                            props.writer == localStorage.id &&
+                            <CommentItem.Menu onClick={() => mutate({video_id: videoContext, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
+                        }
+                    </CommentItem.MenuContainer>
+                </CommentItem.Content>
+            </CommentItem.Container>
+            {
+                props.replyList &&
+                <CommentItemContainer>
+                {
+                    props.replyList.map(i => {
+                        return <CommentItem reply={true} key={i.id} {...i} />
+                    })
+                }
+                </CommentItemContainer>
+            }
+            {reply && <Reply parent={props.id.toString()} />}
+        </>
     )
 }
 
-CommentItem.Container = styled.div`
+const Reply = (props: {parent: string}) => {
+    const queryClient = useQueryClient();
+    const videoContext = useContext(VideoContext);
+    const commentRef = useRef<HTMLTextAreaElement>(null);
+    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
+        onSuccess: (data) => {
+            queryClient.invalidateQueries(['video', 'comment']);
+        },
+        onError: (error) => {
+        }
+    });
+
+    const postReply = () => {
+        if(status !== 'loading'){
+            mutate({id: videoContext, parent_id: props.parent, comment: commentRef.current?.value || ''});
+            if(commentRef.current?.value)
+                commentRef.current.value = '';
+        }
+    }
+
+    return (
+        <Reply.Container>
+            <FormTextBox ref={commentRef} type="textarea" height="45px" borderBottomOnly textarea />
+            <Write.ButtonWrapper onClick={postReply}>
+                {status === 'loading' ? <Loading><AiOutlineLoading3Quarters size={20} /></Loading> : <BsSend size={20} />}
+                답글 쓰기
+            </Write.ButtonWrapper>
+        </Reply.Container>
+    )
+}
+
+Reply.Container = styled.div`
+    margin-top: -2.0rem;
+    padding: 0.5rem;
+`
+
+CommentItem.Container = styled.div<{reply: boolean}>`
     display: flex;
     flex-flow: row wrap;
     width: 100%;
     margin: 2.0rem 0;
+    ${(props) => props.reply && `padding-left: 2.0rem;`}
 `
 
 CommentItem.MenuContainer = styled.div`
