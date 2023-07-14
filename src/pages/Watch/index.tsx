@@ -36,8 +36,8 @@ const Watch = () => {
         if(videoRef.current && status === 'success'){
             const hls = new Hls();
             hls.loadSource(JSON.parse(data?.data.url).m3u8);
-            
             hls.attachMedia(videoRef.current);
+            videoRef.current.poster = data?.data.thumbnail;
         }
     }, [videoRef, status, data]);
 
