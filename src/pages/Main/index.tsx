@@ -3,15 +3,29 @@ import Search from "./Search";
 import VideoList from './VideoList';
 import Watch from 'pages/Watch';
 import { useEffect, useState, useContext, createContext, useRef } from 'react';
-import PageModal, { AnimationStartForm } from 'components/PageModal';
+import PageModal from 'components/PageModal';
 import { useLocation } from 'react-router-dom';
 
-export const ModalStartFormContext = createContext<AnimationStartForm>({x: 0, y: 0, width: 0, height: 0});
+const Thumbnail = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 16/9;
+    line-height: 0;
+    opacity: 0;
+    display: none;
+    img {
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+`
+
 
 const Main = () => {
     const [watch, setWatch] = useState<boolean>(false);
     const location = useLocation();
-    const modalStartForm = useRef<AnimationStartForm>({x: 0, y: 0, width: 0, height: 0});
     useEffect(() => {
         setWatch(location.pathname.split('/')[1] === 'watch');
     }, [location.pathname]);
@@ -20,10 +34,11 @@ const Main = () => {
         <Container>
             <SearchWrap><Search /></SearchWrap>
             <Wrapper>
-                <ModalStartFormContext.Provider value={modalStartForm.current}>
-                    <VideoList />
-                    <PageModal show={watch} setShow={setWatch} animationName="modal2" animationStartForm={modalStartForm.current}><Watch /></PageModal>
-                </ModalStartFormContext.Provider>
+                <VideoList />
+                <PageModal show={watch} setShow={setWatch} animationName="modal2"><Watch /></PageModal>
+                <Thumbnail>
+                    <img src="https://svlimestorage.blob.core.windows.net/lime/v1685515640893-thumbnail.png" />
+                </Thumbnail>
             </Wrapper>
         </Container>
     )

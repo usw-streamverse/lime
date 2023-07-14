@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
 import { useContext } from 'react';
-import { ModalStartFormContext } from '.';
-import { AnimationStartForm } from 'components/PageModal';
+
 const VideoList = () => {
     const {status, data} = useQuery(['videoList'], Video().list);
 
@@ -21,18 +20,11 @@ const VideoList = () => {
     )
 }
 
-const handleClick = (e: React.MouseEvent<HTMLDivElement>, modalStartForm: AnimationStartForm) => {
-    modalStartForm.x = e.currentTarget.offsetLeft - window.scrollX;
-    modalStartForm.y = e.currentTarget.offsetTop - window.scrollY;
-    modalStartForm.width = e.currentTarget.offsetWidth;
-    modalStartForm.height = e.currentTarget.offsetHeight;
-}
 
 const VideoItem = (props: videoItem) => {
-    const modalStartForm = useContext(ModalStartFormContext);
     const navigate = useNavigate();
     return (
-        <Container onClick={(e) => {handleClick(e, modalStartForm); navigate(`/watch/${props.id}`)}}>
+        <Container onClick={(e) => navigate(`/watch/${props.id}`)}>
             <Thumbnail>
                 <img src={props.thumbnail} />
                 <Duration>{getDurationFormat(props.duration)}</Duration>
