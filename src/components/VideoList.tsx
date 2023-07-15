@@ -1,18 +1,13 @@
 import styled from 'styled-components';
-import Video, { VideoItem as videoItem } from 'apis/Video';
-import { useQuery } from '@tanstack/react-query';
+import { VideoItem as videoItem } from 'apis/Video';
 import { useNavigate } from 'react-router-dom';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
-import { useContext } from 'react';
 
-const VideoList = () => {
-    const {status, data} = useQuery(['videoList'], Video().list);
-
+const VideoList = (props: {item: videoItem[]}) => {
     return (
         <>
         {
-            status === 'success' &&
-            data?.data.map((e) => {
+            props.item.map((e) => {
                 return <VideoItem key={e.id} {...e} />
             })
         }
