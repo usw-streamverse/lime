@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'apis';
 import { AxiosError } from 'axios';
-import Tab from './Tab';
+import Tab from 'components/Tab';
 
 const Channel = () => {
     const userid = useParams()['id'];
