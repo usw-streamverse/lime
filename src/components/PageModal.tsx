@@ -39,6 +39,7 @@ const Wrapper = styled.div`
     z-index: 101;
     @media screen and (min-width: 481px) {
         position: absolute;
+        height: calc(100vh - 4.0rem);
         z-index: 4;
     }
 `
