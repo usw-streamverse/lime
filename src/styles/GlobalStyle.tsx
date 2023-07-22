@@ -77,6 +77,7 @@ const GlobalStyle = createGlobalStyle`
         --sign-signin-bg-color-active: #0068eb;
         --tab-border-color: #bebebe;
         --watch-body-bg-color: #f1f1f1;
+        --watch-comment-reply-bg-color: #f2f3f6;
         --skeleton-bg-color: #fdfdfd;
         --skeleton-bg-color-animation: #ececec;
         --videolist-shadow: #d4d4d4;
@@ -118,6 +119,7 @@ const GlobalStyle = createGlobalStyle`
         --sign-signin-bg-color-active: #0052b9;
         --tab-border-color: #666666;
         --watch-body-bg-color: #505050;
+        --watch-comment-reply-bg-color: #333;
         --skeleton-bg-color: #202020;
         --skeleton-bg-color-animation: #272727;
         --videolist-shadow: #101010;

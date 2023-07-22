@@ -9,7 +9,7 @@ import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import { CiBellOn, CiCirclePlus, CiHeart, CiShare2 } from 'react-icons/ci'
 import ChannelInfo from './ChannelInfo';
 import VideoPlayer from 'components/Video';
-import Comment from './Comment';
+import Comment from 'components/Comment/Comment';
 import WatchSkeleton from './Skeleton';
 
 export const VideoContext = createContext<string>('');
@@ -65,7 +65,7 @@ const Watch = () => {
                             <AddPlayList />
                         </ChannelInfo.ButtonListContainer>
                     </ChannelInfo>
-                    <Comment />
+                    <Comment id={id || ''} />
                 </VideoContext.Provider>
             </Container>
         )
@@ -78,8 +78,6 @@ const Watch = () => {
 }
 
 const Subscribe = () => {
-    const videoId = useContext(VideoContext);
-
     return (
         <ChannelInfo.ButtonContainer>
             <ChannelInfo.ButtonIcon><CiBellOn size={32} /></ChannelInfo.ButtonIcon>
@@ -113,8 +111,6 @@ const Like = (props: {active: boolean}) => {
 }
 
 const Share = () => {
-    const videoId = useContext(VideoContext);
-
     return (
         <ChannelInfo.ButtonContainer>
             <ChannelInfo.ButtonIcon><CiShare2 size={32} /></ChannelInfo.ButtonIcon>
@@ -124,8 +120,6 @@ const Share = () => {
 }
 
 const AddPlayList = () => {
-    const videoId = useContext(VideoContext);
-
     return (
         <ChannelInfo.ButtonContainer>
             <ChannelInfo.ButtonIcon><CiCirclePlus size={32} /></ChannelInfo.ButtonIcon>
