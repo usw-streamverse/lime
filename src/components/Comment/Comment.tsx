@@ -8,7 +8,7 @@ import LoadingPage from 'components/Loading';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import WriteComment from './WriteComment';
 import WriteReply from './WriteReply';
-import { CiEraser, CiTurnL1 } from 'react-icons/ci';
+import { CiChat1, CiHeart } from 'react-icons/ci';
 
 const Comment = (props: {id: string}) => {
     const [show, setShow] = useState<boolean>(false);
@@ -22,13 +22,6 @@ const Comment = (props: {id: string}) => {
     });
 
     if(isFetchedAfterMount && status === 'success'){
-        let replyList = {} as VideoComment[][];
-        data.data.forEach(i => {
-            if(i.parent_id !== 0){
-                if(!replyList[i.parent_id]) replyList[i.parent_id] = [];
-                replyList[i.parent_id].push(i);
-            }
-        })
         return (
             <Container>
                 <Header onClick={() => setShow(!show)}>댓글 {data.data.length}개
@@ -39,7 +32,7 @@ const Comment = (props: {id: string}) => {
                     <CommentItemContainer>
                     {
                         data.data.filter(i => i.parent_id === 0).map(i => {
-                            return <CommentItem videoId={props.id} reply={false} replyList={replyList[i.id]} key={i.id} {...i} />
+                            return <CommentItem videoId={props.id} key={i.id} {...i} />
                         })
                     }
                     </CommentItemContainer>
@@ -56,8 +49,8 @@ const Comment = (props: {id: string}) => {
 
 const Container = styled.div`
     position: relative;
-    min-height: 100px;
-    padding: 1.0rem 0;
+    margin: 1.0rem;
+    transition: all 200ms ease;
 `
 
 const Header = styled.div`
@@ -91,7 +84,7 @@ const CommentItemContainer = styled.div`
 
 `
 
-const CommentItem = (props: {videoId: string, reply: boolean, replyList?: VideoComment[]} & VideoComment) => {
+const CommentItem = (props: {videoId: string} & VideoComment) => {
     const queryClient = useQueryClient();
     const [reply, setReply] = useState<boolean>(false);
     const { mutate } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().delete_comment, {
@@ -119,29 +112,47 @@ const CommentItem = (props: {videoId: string, reply: boolean, replyList?: VideoC
                         }
                     </CommentItem.Body>
                     <CommentItem.MenuContainer>
+                        <CommentItem.Menu style={{marginLeft: '-0.5rem'}}><CiHeart size={16} />{props.like_count}</CommentItem.Menu>
                         {
                             props.parent_id === 0 &&
-                            <CommentItem.Menu onClick={() => setReply(!reply)}><CiTurnL1 size={16} />답글</CommentItem.Menu>
+                            <CommentItem.Menu onClick={() => setReply(!reply)}><CiChat1 size={16} />{props.reply_count}</CommentItem.Menu>
                         }
                         {
                             props.writer === parseInt(localStorage.id) &&
-                            <CommentItem.Menu onClick={() => mutate({video_id: props.videoId, comment_id: props.id.toString()})}><CiEraser size={16} />삭제</CommentItem.Menu>
+                            <CommentItem.Menu onClick={() => mutate({video_id: props.videoId, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
                         }
                     </CommentItem.MenuContainer>
                 </CommentItem.Content>
             </CommentItem.Container>
-            {reply && <WriteReply videoId={props.videoId} parent={props.id.toString()} />}
+            {/*reply && <WriteReply videoId={props.videoId} parent={props.id.toString()} />*/}
             {
-                props.replyList &&
-                <CommentItem.ReplyContainer>
-                {
-                    props.replyList.map(i => {
-                        return <CommentItem videoId={props.videoId} reply={true} key={i.id} {...i} />
-                    })
-                }
-                </CommentItem.ReplyContainer>
+                reply &&
+                <Reply videoId={props.videoId} id={props.id} />
             }
         </>
+    )
+}
+
+const Reply = (props: {videoId: string, id: number}) => {
+    const { data, status } = useQuery({
+        queryKey: ['comment', props.id],
+        staleTime: 0,
+        queryFn: () => Video().get_reply(props.videoId, props.id),
+        onError: (error: AxiosError) => {
+            console.log(error.response?.status);
+        }
+    });
+
+    return (
+        <CommentItem.ReplyContainer>
+            <WriteReply videoId={props.videoId} parent={props.id.toString()} />
+            {
+                status === 'success' &&
+                data.data.map(i => {
+                    return <CommentItem videoId={props.videoId} key={i.id} {...i} />
+                })
+            }
+        </CommentItem.ReplyContainer>
     )
 }
 
@@ -151,12 +162,12 @@ CommentItem.ReplyContainer = styled.div`
     border-radius: 0.5rem;
 `
 
-
 CommentItem.Container = styled.div`
     display: flex;
     flex-flow: row wrap;
     width: 100%;
     margin: 2.0rem 0;
+    padding: 1.0rem 0;
     :first-child {
         margin-top: 0;
     }
@@ -173,12 +184,18 @@ CommentItem.MenuContainer = styled.div`
 CommentItem.Menu = styled.div`
     display: flex;
     align-items: center;
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
     font-size: 0.875rem;
     font-weight: 400;
     cursor: pointer;
+    transition: all 150ms ease;
+    :hover {
+        background-color: var(--watch-comment-reply-bg-color);
+    }
     svg {
-        margin-right: 0.125rem;;
+        margin-right: 0.25rem;
     }
 `
 
@@ -206,7 +223,7 @@ CommentItem.Nickname = styled.div`
 `
 
 CommentItem.Date = styled.div`
-    margin-left: 0.5rem;
+    margin-left: 1.0rem;
     color: var(--main-text-color-light);
     font-size: 0.875rem;
     font-weight: 400;

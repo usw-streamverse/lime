@@ -12,6 +12,7 @@ const WriteReply = (props: {videoId: string, parent: string}) => {
     const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['comment']);
+            queryClient.invalidateQueries(['comment', props.parent]);
         },
         onError: (error) => {
         }
@@ -43,6 +44,7 @@ const PostButton = styled.button`
     border-radius: 0.25rem;
     background-color: transparent;
     color: var(--main-text-color-light);
+    font-weight: 400;
     cursor: pointer;
     transition: all 200ms ease-in-out;
     :hover {
@@ -68,9 +70,6 @@ const Loading = styled.div`
 `
 
 const Container = styled.div`
-    margin-top: -1.0rem;
-    margin-bottom: 1.0rem;
-    padding: 1.0rem;
     background-color: var(--watch-comment-reply-bg-color);
     text-align: right;
 `

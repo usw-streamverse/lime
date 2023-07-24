@@ -34,7 +34,7 @@ const WriteComment = (props: {videoId: string}) => {
         <Container>
             <FormTextBox warning={warning} ref={commentRef} type='textarea' height='45px' borderBottomOnly textarea />
             <ButtonWrapper onClick={postComment}>
-                {status === 'loading' ? <Loading><AiOutlineLoading3Quarters size={20} /></Loading> : <BsSend size={20} />}
+                {status === 'loading' ? <Loading><AiOutlineLoading3Quarters size={20} /></Loading> : <>댓글 쓰기</>}
             </ButtonWrapper>
         </Container>
     )
@@ -52,6 +52,7 @@ const ButtonWrapper = styled.div`
     align-items: center;
     padding: 0.375rem;
     color: var(--main-text-color-light);
+    font-weight: 400;
     cursor: pointer;
     transition: all 200ms ease-in-out;
     :hover {

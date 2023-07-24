@@ -87,11 +87,15 @@ const Video = () => {
         return JwtInterceptor().instance.get<VideoComment[]>(`/videos/${id}/comment`);
     }
 
+    const get_reply = (id: string, parent_id: number) => {
+        return JwtInterceptor().instance.get<VideoComment[]>(`/videos/${id}/comment/${parent_id}`);
+    }
+    
     const delete_comment = (props: {video_id: string, comment_id: string}) => {
         return JwtInterceptor().instance.delete<{success: boolean}>(`/videos/${props.video_id}/comment/${props.comment_id}`);
     }
 
-    return { upload, list, watch, update, like, write_comment, get_comment, delete_comment };
+    return { upload, list, watch, update, like, write_comment, get_comment, delete_comment, get_reply };
 }
 
 export default Video;
