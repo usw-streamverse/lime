@@ -36,20 +36,28 @@ const Main = () => {
 
     return (
         <Container>
-            <SearchWrap><Search /></SearchWrap>
-            <Wrapper>
-                <VideoList item={status === 'success' ? data?.data : []} />
-                <PageModal show={watch} setShow={setWatch} animationName="modal2"><Watch /></PageModal>
-                <Thumbnail>
-                    <img src="https://svlimestorage.blob.core.windows.net/lime/v1685515640893-thumbnail.png" />
-                </Thumbnail>
-            </Wrapper>
+            <PageModal show={watch} setShow={setWatch} animationName="modal2"><Watch /></PageModal>
+            <Inner>
+                <SearchWrap><Search /></SearchWrap>
+                <Wrapper>
+                    <VideoList item={status === 'success' ? data?.data : []} />
+                    <Thumbnail>
+                        <img src="https://svlimestorage.blob.core.windows.net/lime/v1685515640893-thumbnail.png" />
+                    </Thumbnail>
+                </Wrapper>
+            </Inner>
         </Container>
     )
 }
 
 const Container = styled.div`
     position: relative;
+`
+
+const Inner = styled.div`
+    position: relative;
+    height: calc(100vh - 4.0rem);
+    overflow-y: scroll;
 `
 
 const Wrapper = styled.div`
@@ -64,9 +72,10 @@ const SearchWrap = styled.div`
     display: flex;
     justify-content: flex-end;
     position: sticky;
-    top: 3.5rem;
+    top: 0;
     padding: 1.5rem;
     padding-bottom: 1.0rem;
+    background-color: var(--main-bg-color);
     z-index: 2;
 `
 
