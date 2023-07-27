@@ -36,7 +36,7 @@ const Container = styled.div`
     position: relative;
     width: calc(100% / var(--thumbnail-row) - 12px);
     margin: 6px;
-    padding: 0.5rem;
+    padding: 1.0rem;
     box-shadow: 0 0 1.0rem 0 var(--videolist-shadow);
     border-radius: 0.25rem;
     cursor: pointer;
@@ -44,7 +44,6 @@ const Container = styled.div`
     transition: all 200ms ease;
     @media screen and (min-width: 481px) {
         :hover {
-            box-shadow: 0 0 2.0rem 0 var(--videolist-shadow-hover);
             transform: translateY(-0.5rem);
         }
     }
@@ -81,18 +80,20 @@ const Duration = styled.span`
 
 const Title = styled.div`
     margin: 0.5rem 0;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 400;
 `
 
 const Uploader = styled.div`
     margin-bottom: 0.25rem;
     color: var(--main-text-color-light);
+    font-size: 0.875rem;
     font-weight: 300;
 `
 
 const Detail = styled.div`
     color: var(--main-text-color-light);
+    font-size: 0.875rem;
     font-weight: 300;
 `
 

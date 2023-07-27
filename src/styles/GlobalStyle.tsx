@@ -76,12 +76,13 @@ const GlobalStyle = createGlobalStyle`
         --sign-signin-bg-color-hover: #4b9bff;
         --sign-signin-bg-color-active: #0068eb;
         --tab-border-color: #bebebe;
-        --watch-body-bg-color: #f1f1f1;
+        --watch-body-bg-color: #f2f4f6;
+        --watch-comment-bg-color: #f2f4f6;
         --watch-comment-reply-bg-color: #f2f3f6;
+        --watch-comment-button-bg-color: #e8eaec;
         --skeleton-bg-color: #fdfdfd;
         --skeleton-bg-color-animation: #ececec;
         --videolist-shadow: #d4d4d4;
-        --videolist-shadow-hover: #a5a5a5;
     }
 
     body.dark {
@@ -119,11 +120,12 @@ const GlobalStyle = createGlobalStyle`
         --sign-signin-bg-color-active: #0052b9;
         --tab-border-color: #666666;
         --watch-body-bg-color: #505050;
+        --watch-comment-bg-color: #333;
         --watch-comment-reply-bg-color: #333;
+        --watch-comment-button-bg-color: #3737;
         --skeleton-bg-color: #202020;
         --skeleton-bg-color-animation: #272727;
         --videolist-shadow: #101010;
-        --videolist-shadow-hover: #000000;
     }
 
     body {
