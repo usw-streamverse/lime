@@ -1,8 +1,10 @@
-import React, { useRef, Dispatch, SetStateAction, ReactNode, RefObject, useEffect } from 'react';
-import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting } from 'react-icons/ai';
+import React, { useRef, Dispatch, SetStateAction, ReactNode, RefObject, useEffect, useContext, createContext } from 'react';
+import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting, AiOutlineVideoCamera } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import useRippleEffect from 'hooks/useRippleEffect';
+
+const ItemContext = createContext<{pathname: string, setShow: React.Dispatch<React.SetStateAction<boolean>>, selectionBar: React.RefObject<HTMLDivElement>}>({} as any);
 
 interface OffCanvasProps {
   show: boolean,
@@ -10,17 +12,15 @@ interface OffCanvasProps {
 }
 
 interface ItemProps {
-  pathname: string,
   path: string,
-  setShow: Dispatch<SetStateAction<boolean>>
   children: ReactNode,
-  selectionBar: RefObject<HTMLDivElement>
 }
 
-const Item = ({pathname, path, setShow, children, selectionBar}: ItemProps) => {
+const Item = ({path, children}: ItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const ripple = useRippleEffect(ref, 'var(--navbar-menu-ripple)');
   const navigate = useNavigate();
+  const {pathname, setShow, selectionBar} = useContext(ItemContext);
 
   const onClick = () => {
     navigate(path);
@@ -76,12 +76,15 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
   return (
     <Container show={show}>
       <Wrap show={show}>
-        <Group>Menu</Group>
-        <Item pathname={pathname} setShow={setShow} path="" selectionBar={selectionBarRef}><AiFillHome size="24" />홈</Item>
-        <Item pathname={pathname} setShow={setShow} path="/feed/library" selectionBar={selectionBarRef}><AiFillFolder size="24" />보관함</Item>
-        <Item pathname={pathname} setShow={setShow} path="/feed/subscriptions" selectionBar={selectionBarRef}><AiFillStar size="24" />구독</Item>
-        <Group>General</Group>
-        <Item pathname={pathname} setShow={setShow} path="/setting" selectionBar={selectionBarRef}><AiFillSetting size="24" />설정</Item>
+        <ItemContext.Provider value={{pathname: pathname, setShow: setShow, selectionBar: selectionBarRef}}>
+          <Group>Menu</Group>
+          <Item path=""><AiFillHome size="24" />홈</Item>
+          <Item path="/feed/library"><AiFillFolder size="24" />보관함</Item>
+          <Item path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
+          <Item path="/broadcast"><AiOutlineVideoCamera size="24" />라이브 스트리밍</Item>
+          <Group>General</Group>
+          <Item path="/setting"><AiFillSetting size="24" />설정</Item>
+        </ItemContext.Provider>
         <SelectionBar ref={selectionBarRef} />
       </Wrap>
       <Shadow show={show} onClick={() => setShow(false)}/>
