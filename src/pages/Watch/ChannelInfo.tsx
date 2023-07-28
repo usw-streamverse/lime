@@ -72,14 +72,28 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
     color: var(${(props) => props.active ? '--blue' : '--gray'});
     cursor: pointer;
     transition: all 150ms ease;
-
-    svg {
-        transition: all 200ms ease-in-out;
+    z-index: 0;
+    ::after {
+        position: absolute;
+        border-radius: 50%;
+        background-color: var(--watch-channel-menu-ripple);
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transform: scale(1);
+        transition: all 500ms ease;
+        z-index: -1;
+        content: '';
     }
 
     :active {
+        ::after {
+            opacity: 1;
+            transform: scale(0);
+            transition: all 0ms;
+        }
         svg {
-            transform: scale(0.90);;
+            transform: scale(0.85);
         }
     }
 
