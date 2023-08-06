@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import React, { useRef, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
+import styled from 'styled-components';
+import { useRef, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 interface PageModalProps {
@@ -11,10 +11,6 @@ interface PageModalProps {
 
 const PageModal = ({children, show, setShow, animationName = 'modal2'}: PageModalProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        document.body.style.overflowY = show ? 'hidden' : 'overlay';
-    }, [show]);
 
     return (
         <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames={animationName} unmountOnExit>
