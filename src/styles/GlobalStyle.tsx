@@ -80,9 +80,9 @@ const GlobalStyle = createGlobalStyle`
         --watch-comment-bg-color: #f2f4f6;
         --watch-comment-reply-bg-color: #f2f3f6;
         --watch-comment-button-bg-color: #e8eaec;
+        --watch-channel-menu-ripple: #797d83;
         --skeleton-bg-color: #fdfdfd;
         --skeleton-bg-color-animation: #ececec;
-        --videolist-shadow: #d4d4d4;
     }
 
     body.dark {
@@ -123,9 +123,9 @@ const GlobalStyle = createGlobalStyle`
         --watch-comment-bg-color: #333;
         --watch-comment-reply-bg-color: #333;
         --watch-comment-button-bg-color: #3737;
+        --watch-channel-menu-ripple: #d6d6d6;
         --skeleton-bg-color: #202020;
         --skeleton-bg-color-animation: #272727;
-        --videolist-shadow: #101010;
     }
 
     body {

@@ -21,7 +21,7 @@ const VideoItem = (props: videoItem) => {
     return (
         <Container onClick={(e) => navigate(`/watch/${props.id}`)}>
             <Thumbnail>
-                <img src={props.thumbnail} />
+                <img src={props.thumbnail} alt="Thumbnail" />
                 <Duration>{getDurationFormat(props.duration)}</Duration>
             </Thumbnail>
             <Title>{props.title}</Title>
@@ -37,7 +37,6 @@ const Container = styled.div`
     width: calc(100% / var(--thumbnail-row) - 12px);
     margin: 6px;
     padding: 1.0rem;
-    box-shadow: 0 0 1.0rem 0 var(--videolist-shadow);
     border-radius: 0.25rem;
     cursor: pointer;
     --thumbnail-row: 5;
@@ -62,6 +61,7 @@ const Thumbnail = styled.div`
     img {
         width: 100%;
         height: 100%;
+        border-radius: 0.25rem;
         pointer-events: none;
     }
 `
