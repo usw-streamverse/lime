@@ -14,13 +14,16 @@ const DropDown = (props: DropDownProps) => {
     const profile = useUserQuery().Profile();
     const nodeRef = useRef<HTMLDivElement>(null);
     return (
-        <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="dropdown" unmountOnExit>
-            <Container ref={nodeRef}>
-                <Item onClick={() => navigate('/myinfo')}><CiUser size={24} />내 정보</Item>
-                <Item onClick={() => navigate('/@/' + profile.data?.userid)}><CiVideoOn size={24} />내 채널</Item>
-                <Item onClick={(e) => {localStorage.clear(); profile.update()}}><CiLogin size={24} />로그아웃</Item>
-            </Container>
-        </CSSTransition>
+        <>
+            <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="dropdown" unmountOnExit>
+                <Container ref={nodeRef}>
+                    <Item onClick={() => navigate('/myinfo')}><CiUser size={24} />내 정보</Item>
+                    <Item onClick={() => navigate('/@/' + profile.data?.userid)}><CiVideoOn size={24} />내 채널</Item>
+                    <Item onClick={(e) => {localStorage.clear(); profile.update()}}><CiLogin size={24} />로그아웃</Item>
+                </Container>
+            </CSSTransition>
+            <Shadow show={props.show} />
+        </>
     );
 }
 
@@ -37,6 +40,7 @@ const Container = styled.div`
     border-bottom-right-radius: 0.25rem;
     cursor: default;
     transform-origin: 100% 0;
+    z-index: 100;
 
     @media screen and (max-width: 480px) {
         position: fixed;
@@ -44,6 +48,28 @@ const Container = styled.div`
         width: 100%;
         border-left: 0;
         border-right: 0;
+    }
+`
+
+const Shadow = styled.div<{show: boolean}>`
+    display: none;
+    position: fixed;
+    top: 4.0rem; bottom: 0;
+    left: 0; right: 0;
+    background-color: transparent;
+    z-index: 99;
+    transition: background-color 200ms ease;
+    @media screen and (max-width: 480px) {
+        display: block;
+        background-color: #000000b3;
+        
+        ${(props) => 
+            !props.show &&
+            `
+              background-color: transparent;
+              pointer-events: none;
+            `
+        }
     }
 `
 
