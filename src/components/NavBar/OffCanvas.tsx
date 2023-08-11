@@ -1,5 +1,5 @@
-import React, { useRef, Dispatch, SetStateAction, ReactNode, RefObject, useEffect, useContext, createContext } from 'react';
-import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting, AiOutlineVideoCamera } from 'react-icons/ai';
+import React, { useRef, Dispatch, SetStateAction, ReactNode, useEffect, useContext, createContext } from 'react';
+import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting, AiFillVideoCamera } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import useRippleEffect from 'hooks/useRippleEffect';
@@ -67,7 +67,7 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
     document.body.classList.remove('preventScroll');
 
   useEffect(() => {
-    const paths = ['', '/feed/library', '/feed/subscriptions', '/setting'];
+    const paths = ['', '/feed/library', '/feed/subscriptions', '/broadcast', '/setting'];
     if(selectionBarRef.current){
       selectionBarRef.current.style.display = paths.indexOf(pathname) === -1 ? 'none' : 'block';
     }
@@ -81,7 +81,7 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
           <Item path=""><AiFillHome size="24" />홈</Item>
           <Item path="/feed/library"><AiFillFolder size="24" />보관함</Item>
           <Item path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
-          <Item path="/broadcast"><AiOutlineVideoCamera size="24" />라이브 스트리밍</Item>
+          <Item path="/broadcast"><AiFillVideoCamera size="24" />라이브 스트리밍</Item>
           <Group>General</Group>
           <Item path="/setting"><AiFillSetting size="24" />설정</Item>
         </ItemContext.Provider>
