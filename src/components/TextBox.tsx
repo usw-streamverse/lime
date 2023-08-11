@@ -27,7 +27,7 @@ export default TextBox;
 const Wrap = styled.div<{focus: Boolean}>`
     display: flex;
     background-color: var(--textbox-bg-color);
-    box-shadow: var(--textbox-shadow) 0 0 3px 1px;
+    box-shadow: var(--textbox-shadow) 0 0 2px 1px;
     border: 1px solid var(--textbox-border-color);
     transition: all 200ms ease;
     ${(props) => props.focus && css `
