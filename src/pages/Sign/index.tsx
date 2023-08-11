@@ -23,7 +23,7 @@ const Container = styled.div`
     width: 450px;
     max-width: 100%;
     height: 700px;
-    max-height: 100%;
+    max-height: 100vh;
     background-color: var(--main-bg-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
