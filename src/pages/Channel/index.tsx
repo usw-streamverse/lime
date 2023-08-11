@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { Outlet, useHref, useNavigate, useParams } from 'react-router-dom';
+import { useHref, useNavigate, useParams } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'apis';
 import { AxiosError } from 'axios';
 import Tab from 'components/Tab';
+import VideoList from './VideoList';
 
 const Channel = () => {
     const userid = useParams()['id'];
     const [page, setPage] = useState<string>(useParams()['page'] || '');
     const url = useHref(`/@/${userid}`);
     const navigate = useNavigate();
-    const { data, status } = useQuery({
+    const { data } = useQuery({
         queryKey: ['channel'],
         staleTime: 0,
         retry: false,
@@ -26,7 +27,8 @@ const Channel = () => {
     });
 
     useEffect(() => {
-        window.history.replaceState(null, page, page === '' ? url : url + '/' + page)
+        window.history.replaceState(null, page, page === '' ? url : url + '/' + page);
+        console.log(page);
     }, [page, url])
 
     return (
@@ -47,12 +49,22 @@ const Channel = () => {
                     </ChannelInfo.InfoContainer>
                 </ChannelInfo>
             </HeaderContainer>
-            <Tab selected={page}>
-                <Tab.Item name="" onClick={() => setPage('')}>홈</Tab.Item>
-                <Tab.Item name="playlist" onClick={() => setPage('playlist')}>재생목록</Tab.Item>
-                <Tab.Item name="about" onClick={() => setPage('about')}>정보</Tab.Item>
+            <Tab selected={{'playlist': 1, 'about': 2}[page] || 0}>
+                <Tab.Item index={0} onClick={() => setPage('')}>홈</Tab.Item>
+                <Tab.Item index={1} onClick={() => setPage('playlist')}>재생목록</Tab.Item>
+                <Tab.Item index={2} onClick={() => setPage('about')}>정보</Tab.Item>
             </Tab>
-            <Outlet />
+            {
+                (() => {
+                    switch(page){
+                        case 'playlist':
+                        case 'about':
+                            return <></>
+                        default:
+                            return <VideoList />
+                    }
+                })()
+            }
         </Container>
     )
 }
