@@ -81,14 +81,14 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
         height: 100%;
         opacity: 0;
         transform: scale(1);
-        transition: all 500ms ease;
+        transition: transform 400ms ease, opacity 800ms ease;
         z-index: -1;
         content: '';
     }
 
     :active {
         ::after {
-            opacity: 1;
+            opacity: 0.66;
             transform: scale(0);
             transition: all 0ms;
         }
