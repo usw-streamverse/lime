@@ -87,7 +87,15 @@ const CommentItemContainer = styled.div`
 const CommentItem = (props: {videoId: string} & VideoComment) => {
     const queryClient = useQueryClient();
     const [reply, setReply] = useState<boolean>(false);
-    const { mutate } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().delete_comment, {
+    const deleteComment = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().delete_comment, {
+        onSuccess: (data) => {
+            queryClient.invalidateQueries(['comment']);
+        },
+        onError: (error) => {
+        }
+    });
+
+    const likeComment = useMutation<AxiosResponse<{active: boolean}>, AxiosError<{active: boolean}>, {comment_id: number}>(Video().like_comment, {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['comment']);
         },
@@ -112,14 +120,14 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
                         }
                     </CommentItem.Body>
                     <CommentItem.MenuContainer>
-                        <CommentItem.Menu style={{marginLeft: '-0.5rem'}}><CiHeart size={16} />{props.like_count}</CommentItem.Menu>
+                        <CommentItem.Menu onClick={() => likeComment.mutate({comment_id: props.id})} style={{marginLeft: '-0.5rem'}}><CiHeart size={16} />{props.like_count}</CommentItem.Menu>
                         {
                             props.parent_id === 0 &&
                             <CommentItem.Menu onClick={() => setReply(!reply)}><CiChat1 size={16} />{props.reply_count}</CommentItem.Menu>
                         }
                         {
                             props.writer === parseInt(localStorage.id) &&
-                            <CommentItem.Menu onClick={() => mutate({video_id: props.videoId, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
+                            <CommentItem.Menu onClick={() => deleteComment.mutate({video_id: props.videoId, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
                         }
                     </CommentItem.MenuContainer>
                 </CommentItem.Content>

@@ -95,7 +95,11 @@ const Video = () => {
         return JwtInterceptor().instance.delete<{success: boolean}>(`/videos/${props.video_id}/comment/${props.comment_id}`);
     }
 
-    return { upload, list, watch, update, like, write_comment, get_comment, delete_comment, get_reply };
+    const like_comment = (props: {comment_id: number}) => {
+        return JwtInterceptor().instance.post<{active: boolean}>(`/videos/comment/${props.comment_id}/like`);
+    }
+
+    return { upload, list, watch, update, like, write_comment, get_comment, delete_comment, get_reply, like_comment };
 }
 
 export default Video;
