@@ -1,26 +1,26 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, forwardRef, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface TextBoxProps {
     width: string,
     icon: ReactNode,
     placeholder: string
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
-
-const TextBox = ({width, icon, placeholder}: TextBoxProps) => {
+ 
+const TextBox = forwardRef<any, TextBoxProps>(({width, icon, placeholder, onKeyDown}: TextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
-    const refText = useRef<HTMLInputElement>(null);
     return (
         <div style={{width: width}}>
-            <Wrap focus={focus} onClick={() => refText.current?.focus()}>
+            <Wrap focus={focus} onClick={() => typeof ref !== 'function' && ref && ref.current?.focus()}>
                 {
                     {icon} && <Icon>{icon}</Icon>
                 }
-                <Input type="text" ref={refText} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} placeholder={placeholder} />
+                <Input type="text" ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} placeholder={placeholder} onKeyDown={onKeyDown}/>
             </Wrap>
         </div>
     )
-}
+});
 
 export default TextBox;
 
