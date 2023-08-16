@@ -120,7 +120,7 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
                         }
                     </CommentItem.Body>
                     <CommentItem.MenuContainer>
-                        <CommentItem.Menu onClick={() => likeComment.mutate({comment_id: props.id})} style={{marginLeft: '-0.5rem'}}><CiHeart size={16} />{props.like_count}</CommentItem.Menu>
+                        <CommentItem.Menu onClick={() => likeComment.mutate({comment_id: props.id})} style={{marginLeft: '-0.5rem', color: props.liked ? 'var(--watch-comment-like-active)' : 'inherit'}}><CiHeart size={16} />{props.like_count}</CommentItem.Menu>
                         {
                             props.parent_id === 0 &&
                             <CommentItem.Menu onClick={() => setReply(!reply)}><CiChat1 size={16} />{props.reply_count}</CommentItem.Menu>

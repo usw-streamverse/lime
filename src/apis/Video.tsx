@@ -55,7 +55,8 @@ export interface VideoComment {
     status: string,
     created: string,
     like_count: number,
-    reply_count: number
+    reply_count: number,
+    liked: boolean,
 }
 
 const Video = () => {
