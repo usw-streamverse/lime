@@ -23,6 +23,7 @@ export interface VideoItem {
 
 export interface VideoWatch {
     id: number,
+    channel_id: number,
     nickname: string,
     duration: number,
     title: string,
@@ -33,6 +34,7 @@ export interface VideoWatch {
     like_count: number,
     created: string,
     like: boolean
+    subscribe: boolean
 }
 
 export interface VideoUpdate {

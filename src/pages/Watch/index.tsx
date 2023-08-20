@@ -11,6 +11,9 @@ import ChannelInfo from './ChannelInfo';
 import VideoPlayer from 'components/Video';
 import Comment from 'components/Comment/Comment';
 import WatchSkeleton from './Skeleton';
+import Channel from 'apis/Channel';
+import Modal from 'components/Modal';
+import PlayList from 'components/Modal/PlayList';
 
 export const VideoContext = createContext<string>('');
 
@@ -41,7 +44,6 @@ const Watch = () => {
         }
     }, [videoRef, status, data]);
 
-
     if(isFetchedAfterMount && status === 'success')
         return (
             <Container>
@@ -59,7 +61,7 @@ const Watch = () => {
                             </ChannelInfo.Detail>
                         </ChannelInfo.Container>
                         <ChannelInfo.ButtonListContainer>
-                            <Subscribe />
+                            <Subscribe active={data?.data.subscribe} channelId={data?.data.channel_id} />
                             <Like active={data?.data.like} />
                             <Share />
                             <AddPlayList />
@@ -77,9 +79,23 @@ const Watch = () => {
         )
 }
 
-const Subscribe = () => {
+const Subscribe = (props: {active: boolean, channelId: number}) => {
+    const [active, setActive] = useState<boolean>(props.active);
+    const { mutate } = useMutation<AxiosResponse<{active: boolean}>, AxiosError<{active: boolean}>, {id: number}>(Channel().subscribe, {
+        onSuccess: (data) => {
+            setActive(data.data.active);
+        },
+        onError: (error) => {
+            alert(error.response?.status);
+        }
+    });
+
+    useEffect(() => {
+        setActive(props.active);
+    }, [props.active])
+
     return (
-        <ChannelInfo.ButtonContainer>
+        <ChannelInfo.ButtonContainer active={active} onClick={() => mutate({id: props.channelId})}>
             <ChannelInfo.ButtonIcon><CiBellOn size={32} /></ChannelInfo.ButtonIcon>
             <ChannelInfo.ButtonName>구독</ChannelInfo.ButtonName>
         </ChannelInfo.ButtonContainer>
@@ -120,11 +136,15 @@ const Share = () => {
 }
 
 const AddPlayList = () => {
+    const [show, setShow] = useState<boolean>(false);
     return (
-        <ChannelInfo.ButtonContainer>
-            <ChannelInfo.ButtonIcon><CiCirclePlus size={32} /></ChannelInfo.ButtonIcon>
-            <ChannelInfo.ButtonName>재생목록</ChannelInfo.ButtonName>
-        </ChannelInfo.ButtonContainer>
+        <>
+            <Modal show={show} setShow={setShow}><PlayList /></Modal>
+            <ChannelInfo.ButtonContainer onClick={() => setShow(true)}>
+                <ChannelInfo.ButtonIcon><CiCirclePlus size={32} /></ChannelInfo.ButtonIcon>
+                <ChannelInfo.ButtonName>재생목록</ChannelInfo.ButtonName>
+            </ChannelInfo.ButtonContainer>
+        </>
     )
 }
 

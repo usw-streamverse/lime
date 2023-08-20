@@ -25,7 +25,11 @@ const Channel = () => {
         return JwtInterceptor().instance.get<VideoItem[]>(`/channels/${id}/video`);
     }
 
-    return { videoList };
+    const subscribe = (props: {id: number}) => {
+        return JwtInterceptor().instance.post<{active: boolean}>(`/channels/${props.id}/subscribe`);
+    }
+
+    return { videoList, subscribe };
 }
 
 export default Channel;
