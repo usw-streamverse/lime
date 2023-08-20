@@ -5,11 +5,10 @@ import { CSSTransition } from 'react-transition-group';
 interface PageModalProps {
     children: ReactNode,
     show: boolean,
-    setShow: Dispatch<SetStateAction<boolean>>,
     animationName?: string
 }
 
-const PageModal = ({children, show, setShow, animationName = 'modal2'}: PageModalProps) => {
+const PageModal = ({children, show, animationName = 'modal2'}: PageModalProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
 
     return (

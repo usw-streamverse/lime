@@ -25,6 +25,7 @@ const AnimatedSwitch = () => {
     <Routes location={location}>
       <Route path="/" element={<Main />} />
       <Route path="/myinfo" element={<MyInfo />} />
+      <Route path="/search/:query" element={<Main />} />      
       <Route path="/watch/:id" element={<Main />} />
       <Route path="/video/upload" element={<Upload />} />
       <Route path="/@/:id/:page?" element={<Channel />} />
