@@ -4,11 +4,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import Video, { VideoComment } from 'apis/Video';
 import { MdArrowDropUp } from 'react-icons/md';
-import LoadingPage from 'components/Loading';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import WriteComment from './WriteComment';
 import WriteReply from './WriteReply';
 import { CiChat1, CiHeart } from 'react-icons/ci';
+import CommentSkeleton from './CommentSkeleton';
 
 const Comment = (props: {id: string}) => {
     const [show, setShow] = useState<boolean>(false);
@@ -41,9 +41,7 @@ const Comment = (props: {id: string}) => {
         )
     } else
         return (
-            <Container>
-                <LoadingPage />
-            </Container>
+            <CommentSkeleton />
         )
 }
 
