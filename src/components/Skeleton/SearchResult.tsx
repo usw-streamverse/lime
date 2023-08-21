@@ -1,37 +1,12 @@
-import styled from 'styled-components';
-import { SearchItem as searchItem } from 'apis/Search';
-import { useNavigate } from 'react-router-dom';
-import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
-import { CiCloudDrizzle } from 'react-icons/ci';
+import styled, {keyframes} from 'styled-components';
 
-const NoResult = () => {
-    return (
-        <NoResult.Container>
-            <CiCloudDrizzle size={64} />
-            <NoResult.Text>검색 결과가 존재하지 않습니다.</NoResult.Text>
-        </NoResult.Container>
-    )
-}
-
-NoResult.Container = styled.div`
-    text-align: center;
-`
-
-NoResult.Text = styled.div`
-    margin-top: 0.5rem;
-    font-weight: 500;
-`
-
-const SearchResult = (props: {item: searchItem[]}) => {
+const SearchResultSkeleton = () => {
     return (
         <ResultContainer>
-        {
-            props.item.length ? 
-            props.item.map((e) => {
-                return <SearchItem key={e.id} {...e} />
-            })
-            : <NoResult />
-        }
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
         </ResultContainer>
     )
 }
@@ -40,19 +15,15 @@ const ResultContainer = styled.div`
     position: relative;
 `
 
-const SearchItem = (props: searchItem) => {
-    const navigate = useNavigate();
+const SearchItem = () => {
     return (
-        <Container onClick={(e) => navigate(`/watch/${props.id}`)}>
-            <Thumbnail>
-                <img src={props.thumbnail} alt="Thumbnail" />
-                <Duration>{getDurationFormat(props.duration)}</Duration>
-            </Thumbnail>
+        <Container>
+            <Thumbnail><Skeleton /></Thumbnail>
             <Infor>
-                <Title>{props.title}</Title>
-                <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
-                <Uploader>{props.nickname}</Uploader>
-                <Explanation>{props.explanation}</Explanation>
+                <Title><Skeleton style={{width: '230px'}}>Title</Skeleton></Title>
+                <Detail><Skeleton style={{width: '150px'}}>Detail</Skeleton></Detail>
+                <Uploader><Skeleton style={{width: '100px'}}>Uploader</Skeleton></Uploader>
+                <Explanation><Skeleton style={{width: '300px'}}>Explanation</Skeleton></Explanation>
             </Infor>
         </Container>
     )
@@ -78,7 +49,7 @@ const Thumbnail = styled.div`
     width: 400px;
     aspect-ratio: 16/9;
     line-height: 0;
-    img {
+    div {
         width: 100%;
         height: 100%;
         border-radius: 0.25rem;
@@ -103,18 +74,6 @@ const Infor = styled.div`
         margin: 0.5rem 0 1.0rem 0;
         padding: 0;
     }
-`
-
-const Duration = styled.span`
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    padding: 0.75rem 0.5rem;
-    background-color: rgba(0, 0, 0, 0.66);
-    border-radius: 0.25rem;
-    color: #fff;
-    font-size: 0.875rem;
-    font-weight: 400;
 `
 
 const Title = styled.div`
@@ -152,6 +111,24 @@ const Explanation = styled.div`
     @media screen and (max-width: 768px) {
         display: none;
     }
- `
+`
 
-export default SearchResult;
+const loading = keyframes`
+    0% {
+        background-position-x: 0%;
+    }
+    100% {
+        background-position-x: 200%;
+    }
+`
+
+const Skeleton = styled.div`
+    position: relative;
+    background-color: var(--skeleton-bg-color);
+    background: linear-gradient(90deg, var(--skeleton-bg-color) 0%, var(--skeleton-bg-color-animation) 50%, var(--skeleton-bg-color) 100%) #fdfdfd;
+    background-size: 200% 100%;
+    color: transparent;
+    animation: ${loading} 1500ms infinite linear;
+`
+
+export default SearchResultSkeleton;

@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import SearchResult from 'components/SearchResult';
 import Search from 'apis/Search';
+import SearchResultSkeleton from 'components/Skeleton/SearchResult';
 
 const Thumbnail = styled.div`
     position: absolute;
@@ -56,9 +57,9 @@ const Main = () => {
                         ((page) => {
                             switch(page){
                                 case 'search':
-                                    return <SearchResult item={search.status === 'success' ? search.data?.data : []} />
+                                    return search.isFetching ? <SearchResultSkeleton /> : <SearchResult item={search.status === 'success' ? search.data?.data : []} />
                                 default:
-                                    return <VideoList item={list.status === 'success' ? list.data?.data : []} />
+                                    return list.isFetching ? <>로딩 중</> : <VideoList item={list.status === 'success' ? list.data?.data : []} />
                             }
                         })(page)
                     }
