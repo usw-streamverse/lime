@@ -94,6 +94,7 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
         }
         svg {
             transform: scale(0.85);
+            transition: all 200ms ease;
         }
     }
 
@@ -107,9 +108,29 @@ ChannelInfo.ButtonContainer = styled.div<{active?: boolean}>`
     `};
 `
  
+ChannelInfo.IconWrapper = styled.div<{size: number}>`
+    position: relative;
+    margin-bottom: 0.5rem;
+    ${(props) => 
+    `
+    width: ${props.size}px;
+    height: ${props.size}px;
+    `
+    }
+`
 
-ChannelInfo.ButtonIcon = styled.div`
-    
+ChannelInfo.ButtonIcon = styled.div<{show: boolean}>`
+    position: absolute;
+    ${(props) => props.show ? 
+    `
+        opacity: 1.0;
+        transition: all 400ms ease;
+    `:
+    `
+        opacity: 0;
+        transform: scale(0) rotateX(180deg);
+        transition: all 400ms ease;
+    `}
 `
 
 ChannelInfo.ButtonName = styled.div`

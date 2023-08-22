@@ -6,7 +6,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
-import { CiBellOn, CiCirclePlus, CiHeart, CiShare2 } from 'react-icons/ci'
 import ChannelInfo from './ChannelInfo';
 import VideoPlayer from 'components/Video';
 import Comment from 'components/Comment/Comment';
@@ -14,6 +13,7 @@ import WatchSkeleton from './Skeleton';
 import Channel from 'apis/Channel';
 import Modal from 'components/Modal';
 import PlayList from 'components/Modal/PlayList';
+import { BsCollectionPlay, BsHeart, BsHeartFill, BsShare, BsStar, BsStarFill } from 'react-icons/bs';
 
 export const VideoContext = createContext<string>('');
 
@@ -96,7 +96,14 @@ const Subscribe = (props: {active: boolean, channelId: number}) => {
 
     return (
         <ChannelInfo.ButtonContainer active={active} onClick={() => mutate({id: props.channelId})}>
-            <ChannelInfo.ButtonIcon><CiBellOn size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.IconWrapper size={24}>
+                <ChannelInfo.ButtonIcon show={active}>
+                    <BsStarFill size={24} />
+                </ChannelInfo.ButtonIcon>
+                <ChannelInfo.ButtonIcon show={!active}>
+                    <BsStar size={24} />
+                </ChannelInfo.ButtonIcon>
+            </ChannelInfo.IconWrapper>
             <ChannelInfo.ButtonName>구독</ChannelInfo.ButtonName>
         </ChannelInfo.ButtonContainer>
     )
@@ -120,7 +127,14 @@ const Like = (props: {active: boolean}) => {
 
     return (
         <ChannelInfo.ButtonContainer active={active} onClick={() => mutate({id: videoId})}>
-            <ChannelInfo.ButtonIcon><CiHeart size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.IconWrapper size={24}>
+                <ChannelInfo.ButtonIcon show={active}>
+                    <BsHeartFill size={24} />
+                </ChannelInfo.ButtonIcon>
+                <ChannelInfo.ButtonIcon show={!active}>
+                    <BsHeart size={24} />
+                </ChannelInfo.ButtonIcon>
+            </ChannelInfo.IconWrapper>
             <ChannelInfo.ButtonName>좋아요</ChannelInfo.ButtonName>
         </ChannelInfo.ButtonContainer>
     )
@@ -129,7 +143,11 @@ const Like = (props: {active: boolean}) => {
 const Share = () => {
     return (
         <ChannelInfo.ButtonContainer>
-            <ChannelInfo.ButtonIcon><CiShare2 size={32} /></ChannelInfo.ButtonIcon>
+            <ChannelInfo.IconWrapper size={24}>
+                <ChannelInfo.ButtonIcon show={true}>
+                    <BsShare style={{color: 'var(--main-text-color)'}} size={24} />
+                </ChannelInfo.ButtonIcon>
+            </ChannelInfo.IconWrapper>
             <ChannelInfo.ButtonName>공유</ChannelInfo.ButtonName>
         </ChannelInfo.ButtonContainer>
     )
@@ -141,7 +159,11 @@ const AddPlayList = () => {
         <>
             <Modal show={show} setShow={setShow}><PlayList /></Modal>
             <ChannelInfo.ButtonContainer onClick={() => setShow(true)}>
-                <ChannelInfo.ButtonIcon><CiCirclePlus size={32} /></ChannelInfo.ButtonIcon>
+                <ChannelInfo.IconWrapper size={24}>
+                    <ChannelInfo.ButtonIcon show={true}>
+                        <BsCollectionPlay style={{color: 'var(--main-text-color)'}} size={24} />
+                    </ChannelInfo.ButtonIcon>
+                </ChannelInfo.IconWrapper>
                 <ChannelInfo.ButtonName>재생목록</ChannelInfo.ButtonName>
             </ChannelInfo.ButtonContainer>
         </>
