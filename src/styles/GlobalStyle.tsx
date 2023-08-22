@@ -80,7 +80,7 @@ const GlobalStyle = createGlobalStyle`
         --watch-comment-bg-color: #f2f4f6;
         --watch-comment-reply-bg-color: #f2f3f6;
         --watch-comment-button-bg-color: #e8eaec;
-        --watch-comment-like-active: #ff0000;
+        --watch-comment-like-active: #ff5050;
         --watch-channel-menu-ripple: #797d83;
         --skeleton-bg-color: #fdfdfd;
         --skeleton-bg-color-animation: #ececec;

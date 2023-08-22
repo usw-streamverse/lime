@@ -7,8 +7,8 @@ import { MdArrowDropUp } from 'react-icons/md';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import WriteComment from './WriteComment';
 import WriteReply from './WriteReply';
-import { CiChat1, CiHeart } from 'react-icons/ci';
 import CommentSkeleton from './CommentSkeleton';
+import { BsChatLeft, BsHeart, BsHeartFill } from 'react-icons/bs';
 
 const Comment = (props: {id: string}) => {
     const [show, setShow] = useState<boolean>(false);
@@ -118,10 +118,13 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
                         }
                     </CommentItem.Body>
                     <CommentItem.MenuContainer>
-                        <CommentItem.Menu onClick={() => likeComment.mutate({comment_id: props.id})} style={{marginLeft: '-0.5rem', color: props.liked ? 'var(--watch-comment-like-active)' : 'inherit'}}><CiHeart size={16} />{props.like_count}</CommentItem.Menu>
+                        <CommentItem.Menu onClick={() => likeComment.mutate({comment_id: props.id})} style={{marginLeft: '-0.5rem', color: props.liked ? 'var(--watch-comment-like-active)' : 'inherit'}}>
+                            {props.liked ? <BsHeartFill size={14} /> : <BsHeart size={14} />}
+                            {props.like_count}
+                        </CommentItem.Menu>
                         {
                             props.parent_id === 0 &&
-                            <CommentItem.Menu onClick={() => setReply(!reply)}><CiChat1 size={16} />{props.reply_count}</CommentItem.Menu>
+                            <CommentItem.Menu onClick={() => setReply(!reply)}><BsChatLeft size={14} />{props.reply_count}</CommentItem.Menu>
                         }
                         {
                             props.writer === parseInt(localStorage.id) &&
