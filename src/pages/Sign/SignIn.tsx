@@ -79,8 +79,8 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
                 <Form onSubmit={handleSubmit}>
                     <Head>로그인</Head>
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-                    <FormTextBox warning={error === 3} ref={id} label="ID" />
-                    <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" />
+                    <FormTextBox warning={error === 3} ref={id} label="ID" style={{marginBottom: '2.0rem'}} />
+                    <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" style={{marginBottom: '2.0rem'}} />
                     <Error visible={error !== 0}>{errorMessage}</Error>
                     <SignInContainer>
                         <CheckBox id="auto_login">자동 로그인</CheckBox>

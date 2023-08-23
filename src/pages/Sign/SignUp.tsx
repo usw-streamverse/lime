@@ -87,10 +87,10 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
                 <Form onSubmit={handleSubmit}>
                     <Head>회원가입</Head>
                     <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
-                    <FormTextBox warning={[2, 3].includes(error)} ref={id} label="ID" />
-                    <FormTextBox warning={[4, 6].includes(error)} ref={password} type="password" label="PASSWORD" />
-                    <FormTextBox warning={error === 6} ref={confirm_password} type="password" label="CONFIRM PASSWORD" />
-                    <FormTextBox warning={error === 5} ref={nickname} label="NICKNAME" />
+                    <FormTextBox warning={[2, 3].includes(error)} ref={id} label="ID" style={{marginBottom: '2.0rem'}} />
+                    <FormTextBox warning={[4, 6].includes(error)} ref={password} type="password" label="PASSWORD" style={{marginBottom: '2.0rem'}} />
+                    <FormTextBox warning={error === 6} ref={confirm_password} type="password" label="CONFIRM PASSWORD" style={{marginBottom: '2.0rem'}} />
+                    <FormTextBox warning={error === 5} ref={nickname} label="NICKNAME" style={{marginBottom: '2.0rem'}} />
                     <Error visible={error !== 0}>{errorMessage}</Error>
                     <ButtonContainer>
                         <SignIn onClick={() => setPage(0)}><HiOutlineChevronLeft />로그인</SignIn>
