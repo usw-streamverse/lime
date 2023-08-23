@@ -157,7 +157,7 @@ const AddPlayList = () => {
     const [show, setShow] = useState<boolean>(false);
     return (
         <>
-            <Modal show={show} setShow={setShow}><PlayList /></Modal>
+            <Modal show={show} setShow={setShow}><PlayList setShow={setShow} /></Modal>
             <ChannelInfo.ButtonContainer onClick={() => setShow(true)}>
                 <ChannelInfo.IconWrapper size={24}>
                     <ChannelInfo.ButtonIcon show={true}>
