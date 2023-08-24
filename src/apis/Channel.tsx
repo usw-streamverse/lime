@@ -20,6 +20,12 @@ export interface VideoItem {
     thumbnail: string
 }
 
+export interface PlayList {
+    id: number,
+    name: string,
+    created: string,
+}
+
 const Channel = () => {
     const videoList = (id: string) => {
         return JwtInterceptor().instance.get<VideoItem[]>(`/channels/${id}/video`);
@@ -29,7 +35,15 @@ const Channel = () => {
         return JwtInterceptor().instance.post<{active: boolean}>(`/channels/${props.id}/subscribe`);
     }
 
-    return { videoList, subscribe };
+    const newPlayList = (props: {name: string}) => {
+        return JwtInterceptor().instance.post<{success: boolean}>(`/channels/playlist`, {name: props.name});
+    }
+
+    const getMyPlayList = () => {
+        return JwtInterceptor().instance.get<PlayList[]>(`/channels/playlist`);
+    }
+
+    return { videoList, subscribe, newPlayList, getMyPlayList };
 }
 
 export default Channel;

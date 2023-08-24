@@ -54,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-border-color: #e5e5e5;
         --navbar-item-bg-color: #fff;
         --navbar-item-ripple: #dcffce;
-        --navbar-menu-hover: #ededed;
+        --navbar-menu-hover: #edeff3;
         --navbar-menu-ripple: #bdbdbd;
         --navbar-menu-text-color-inactive: #778495;
         --navbar-menu-text-color-active: #000;

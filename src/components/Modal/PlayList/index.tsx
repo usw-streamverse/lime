@@ -14,26 +14,18 @@ const PlayListModal = (props: {setShow: React.Dispatch<React.SetStateAction<bool
     )
 }
 
-const Button = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 1.0rem 0.5rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 200ms ease;
-    :hover {
-        background-color: var(--navbar-menu-hover);
-    }
-    svg {
-        margin-right: 0.25rem;
-    }
-`
-
 const ListWrapper = styled.div`
+    flex: 1 1 auto;
     margin-top: 1.0rem;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 const Container = styled.div`
+    display: flex;
+    flex-direction: column;
     position: relative;
     width: 450px;
     max-width: 100%;
@@ -42,7 +34,7 @@ const Container = styled.div`
     background-color: var(--main-bg-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    overflow: hidden;
+    /overflow: hidden;
     @media screen and (max-width: 480px) {
         width: 100%;
         height: 100%;
