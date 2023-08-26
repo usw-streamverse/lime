@@ -14,6 +14,7 @@ import Channel from 'apis/Channel';
 import Modal from 'components/Modal';
 import PlayList from 'components/Modal/PlayList';
 import { BsCollectionPlay, BsHeart, BsHeartFill, BsShare, BsStar, BsStarFill } from 'react-icons/bs';
+import Overlay, { OverlayContext } from 'components/Overlay';
 
 export const VideoContext = createContext<string>('');
 
@@ -154,11 +155,15 @@ const Share = () => {
 }
 
 const AddPlayList = () => {
-    const [show, setShow] = useState<boolean>(false);
+    const overlayContext = useContext(OverlayContext);
+
+    useEffect(() => {
+        overlayContext.push(<PlayList />, 'PlayList')
+    }, []);
+
     return (
         <>
-            <Modal show={show} setShow={setShow}><PlayList setShow={setShow} /></Modal>
-            <ChannelInfo.ButtonContainer onClick={() => setShow(true)}>
+            <ChannelInfo.ButtonContainer onClick={() => overlayContext.show('PlayList')}>
                 <ChannelInfo.IconWrapper size={24}>
                     <ChannelInfo.ButtonIcon show={true}>
                         <BsCollectionPlay style={{color: 'var(--main-text-color)'}} size={24} />

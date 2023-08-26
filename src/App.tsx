@@ -6,8 +6,9 @@ import Upload from 'pages/video/Upload';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Channel from 'pages/Channel';
 import NotFound from 'pages/NotFound';
-import Watch from 'pages/Watch';
 import MyInfo from 'pages/MyInfo';
+import { createContext, useContext, useRef } from 'react';
+import Overlay from 'components/Overlay';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,14 +37,16 @@ const AnimatedSwitch = () => {
 }
 
 const App = () => {
-  
+  const overlayRef = useRef<any>(null);
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <GlobalStyle />
-        <NavBar>
-          <AnimatedSwitch />
-        </NavBar>
+        <Overlay>
+          <NavBar>
+            <AnimatedSwitch />
+          </NavBar>
+        </Overlay>
       </BrowserRouter>
     </QueryClientProvider>
   )

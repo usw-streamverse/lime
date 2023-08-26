@@ -1,12 +1,15 @@
+import { OverlayContext } from 'components/Overlay';
 import PlayList from 'components/PlayList';
+import { useContext } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
 import styled from 'styled-components';
 
-const PlayListModal = (props: {setShow: React.Dispatch<React.SetStateAction<boolean>>}) => {
+const PlayListModal = () => {
+    const overlayContext = useContext(OverlayContext);
     return (
         <Container>
             <Head>내 재생목록</Head>
-            <Close onClick={() => props.setShow(false)}><HiOutlineX size={32} /></Close>
+            <Close onClick={() => overlayContext.hide('PlayList')}><HiOutlineX size={32} /></Close>
             <ListWrapper>
                 <PlayList />
             </ListWrapper>
@@ -34,7 +37,7 @@ const Container = styled.div`
     background-color: var(--main-bg-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    /overflow: hidden;
+    overflow: hidden;
     @media screen and (max-width: 480px) {
         width: 100%;
         height: 100%;

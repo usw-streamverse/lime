@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { HiOutlineChevronLeft, HiOutlineX } from 'react-icons/hi';
-import { useRef, useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useRef, useState, useEffect, Dispatch, SetStateAction, useContext } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import { CSSTransition } from 'react-transition-group';
 import Button from './Button';
@@ -9,14 +9,15 @@ import { Auth } from 'apis';
 import { TailSpin } from  'react-loader-spinner'
 import { AxiosError, AxiosResponse } from 'axios';
 import { RegisterParam, RegisterResult } from 'apis/Auth';
+import { OverlayContext } from 'components/Overlay';
 
 interface SignUpProps {
     setPage: Dispatch<SetStateAction<number>>,
-    show: boolean,
-    setShow: Dispatch<SetStateAction<boolean>>
+    show: boolean
 }
 
-const SignUp = ({setPage, show, setShow}: SignUpProps) => {
+const SignUp = ({setPage, show}: SignUpProps) => {
+    const overlayContext = useContext(OverlayContext);
     const id = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     const confirm_password = useRef<HTMLInputElement>(null);
@@ -86,7 +87,7 @@ const SignUp = ({setPage, show, setShow}: SignUpProps) => {
             <Container ref={nodeRef}>
                 <Form onSubmit={handleSubmit}>
                     <Head>회원가입</Head>
-                    <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
+                    <Close onClick={() => overlayContext.hide('Sign')}><HiOutlineX size={32} /></Close>
                     <FormTextBox warning={[2, 3].includes(error)} ref={id} label="ID" style={{marginBottom: '2.0rem'}} />
                     <FormTextBox warning={[4, 6].includes(error)} ref={password} type="password" label="PASSWORD" style={{marginBottom: '2.0rem'}} />
                     <FormTextBox warning={error === 6} ref={confirm_password} type="password" label="CONFIRM PASSWORD" style={{marginBottom: '2.0rem'}} />

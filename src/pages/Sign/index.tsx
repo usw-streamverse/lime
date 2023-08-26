@@ -3,17 +3,13 @@ import styled from 'styled-components';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 
-interface SignProps {
-    setShow: Dispatch<SetStateAction<boolean>>,
-}
-
-const Sign = ({setShow}: SignProps) => {
+const Sign = () => {
     const [page, setPage] = useState<number>(0);
 
     return (
         <Container>
-            <SignIn setShow={setShow} show={page === 0} setPage={setPage} />
-            <SignUp setShow={setShow} show={page === 1} setPage={setPage} />
+            <SignIn show={page === 0} setPage={setPage} />
+            <SignUp show={page === 1} setPage={setPage} />
         </Container>
     )
 }

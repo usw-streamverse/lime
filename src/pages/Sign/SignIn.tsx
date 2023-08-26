@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { HiOutlineX } from 'react-icons/hi';
-import React, { useRef, useState, Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useRef, useState, Dispatch, SetStateAction, useEffect, useContext } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import CheckBox from 'components/CheckBox';
 import { CSSTransition } from 'react-transition-group';
@@ -11,14 +11,15 @@ import { TailSpin } from  'react-loader-spinner'
 import { AxiosError, AxiosResponse } from 'axios';
 import { LoginParam, LoginResult } from 'apis/Auth';
 import useUserQuery from 'hooks/useUserQuery';
+import { OverlayContext } from 'components/Overlay';
 
 interface SignInProps {
     setPage: Dispatch<SetStateAction<number>>,
-    show: boolean,
-    setShow: Dispatch<SetStateAction<boolean>>
+    show: boolean
 }
 
-const SignIn = ({setPage, show, setShow}: SignInProps) => {
+const SignIn = ({setPage, show}: SignInProps) => {
+    const overlayContext = useContext(OverlayContext);
     const id = useRef<HTMLInputElement>(null);
     const password = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<number>(0);
@@ -54,7 +55,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
             localStorage.setItem('userid', data.data.userid);
             localStorage.setItem('nickname', data.data.nickname);            
             profile.update();
-            setShow(false);
+            overlayContext.hide('Sign');
         },
         onError: (error) => {
             setError(error.response?.data?.code || 99);
@@ -78,7 +79,7 @@ const SignIn = ({setPage, show, setShow}: SignInProps) => {
             <Container ref={nodeRef}>
                 <Form onSubmit={handleSubmit}>
                     <Head>로그인</Head>
-                    <Close onClick={() => setShow(false)}><HiOutlineX size={32} /></Close>
+                    <Close onClick={() => overlayContext.hide('Sign')}><HiOutlineX size={32} /></Close>
                     <FormTextBox warning={error === 3} ref={id} label="ID" style={{marginBottom: '2.0rem'}} />
                     <FormTextBox warning={error === 4} ref={password} type="password" label="PASSWORD" style={{marginBottom: '2.0rem'}} />
                     <Error visible={error !== 0}>{errorMessage}</Error>

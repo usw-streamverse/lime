@@ -1,12 +1,13 @@
 import { CiLight, CiDark, CiMenuBurger, CiUser } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import OffCanvas from './OffCanvas';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Sign from 'pages/Sign';
 import Modal from 'components/Modal';
 import useUserQuery from 'hooks/useUserQuery';
 import DropDown from './DropDown';
+import { OverlayContext } from 'components/Overlay';
 
 interface NavBarProps {
     children: ReactNode
@@ -32,16 +33,19 @@ const Menu = ({children, tooltip='', onClick, onMouseEnter, onMouseLeave}: MenuP
 }
 
 const NavBar = ({children}: NavBarProps) => {
+    const overlayContext = useContext(OverlayContext);
     const profile = useUserQuery().Profile();
     const navigate = useNavigate();
     const [dark, setDark] = useState(false);
     const [offCanvas, setOffCanvas] = useState<boolean>(window.innerWidth > 1024);
-    const [signIn, setSignIn] = useState(false);
     const [dropdown, setDropdown] = useState(false);
+
+    useEffect(() => {
+        overlayContext.push(<Sign />, 'Sign');
+    }, []);
 
     return (
         <>
-            <Modal show={signIn} setShow={setSignIn}><Sign setShow={setSignIn} /></Modal>
             <Wrap>
                 <LeftSide>
                     <MenuButton onClick={() => setOffCanvas(!offCanvas)}>
@@ -57,7 +61,7 @@ const NavBar = ({children}: NavBarProps) => {
                         <DropDown show={dropdown} />
                     </Menu>
                     :
-                    <Menu onClick={() => setSignIn(true)}>로그인</Menu>
+                    <Menu onClick={() => overlayContext.show('Sign')}>로그인</Menu>
                 }
             </Wrap>
             <Container>

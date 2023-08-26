@@ -1,40 +1,40 @@
 import styled, { css } from 'styled-components';
-import { useRef, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
+import { useRef, useEffect, ReactNode, Dispatch, SetStateAction, useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { OverlayContext } from './Overlay';
 
 interface ModalProps {
     children: ReactNode,
     show: boolean,
-    setShow: Dispatch<SetStateAction<boolean>>
+    'data-key': string
 }
 
-
-const Modal = ({children, show, setShow}: ModalProps) => {
+const Modal = (props: ModalProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
-    
+    const overlayContext = useContext(OverlayContext);
+
     const closeModal = () => {
-        setShow(false);
-    };
+        overlayContext.hide(props['data-key']);
+    }
 
     useEffect(() => {
-        document.body.style.overflowY = show ? 'hidden' : 'overlay';
+        document.body.style.overflowY = 'hidden';
 
-        if(show){
-            window.history.pushState(null, '', window.location.href);
-            window.addEventListener('popstate', closeModal);
-        }
+        window.history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', closeModal);
 
         return () => {
+            document.body.style.overflowY = 'overlay';
             window.removeEventListener('popstate', closeModal);
         };
-    }, [show]);
+    }, []);
 
     return (
-        <CSSTransition in={show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
+        <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
             <Container>
-                <Shadow ref={nodeRef} show={show} onClick={() => setShow(false)}>
+                <Shadow ref={nodeRef} onClick={closeModal}>
                     <Wrapper onClick={(e) => e.stopPropagation()}>
-                        {children}
+                        {props.children}
                     </Wrapper>
                 </Shadow>
             </Container>
@@ -47,7 +47,7 @@ const Container = styled.div`
     z-index: 999;
 `
 
-const Shadow = styled.div<{show: boolean}>`
+const Shadow = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
