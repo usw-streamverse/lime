@@ -8,7 +8,7 @@ import Channel from 'pages/Channel';
 import NotFound from 'pages/NotFound';
 import MyInfo from 'pages/MyInfo';
 import { createContext, useContext, useRef } from 'react';
-import Overlay from 'components/Shadow';
+import Overlay from 'components/Overlay';
 import Subscription from 'pages/Subscription';
 
 const queryClient = new QueryClient({

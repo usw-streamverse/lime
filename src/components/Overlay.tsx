@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import Modal from './Modal';
 
 export const OverlayContext = createContext<{push: (element: JSX.Element, key: string) => void, show: (key: string) => void, hide: (key: string) => void}>([] as any);
@@ -7,8 +7,11 @@ const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
     const [update, setUpdate] = useState<boolean>(false);
     const [OverlayElements, setOverlayElements] = useState<{element: JSX.Element, key: string, show: boolean}[]>([]); 
 
+
     const push = (element: JSX.Element, key: string) => {
-        if(OverlayElements.find(e => e.key === key)) return;
+        const res = OverlayElements.findIndex((e) => e.key === key);
+        if(res > -1)
+            OverlayElements.splice(res, 1);
         setOverlayElements([{element: element, key: key, show: false}, ...OverlayElements]);
     }
 
@@ -28,8 +31,14 @@ const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
         }
     }
 
+    const data = useMemo(() => ({
+        push: push,
+        show: show,
+        hide: hide
+    }), [push, show, hide]);
+
     return (
-        <OverlayContext.Provider value={{push: push, show: show, hide: hide}}>
+        <OverlayContext.Provider value={data}>
             {
                 OverlayElements.map(i => {
                     return <Modal key={i.key} data-key={i.key} show={i.show}>{i.element}</Modal>

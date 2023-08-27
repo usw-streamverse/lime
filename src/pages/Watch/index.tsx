@@ -155,11 +155,18 @@ const Share = () => {
 }
 
 const AddPlayList = () => {
+    const id = useParams()['id'];
     const overlayContext = useContext(OverlayContext);
 
     useEffect(() => {
-        overlayContext.push(<PlayList />, 'PlayList')
-    }, []);
+        if(id)
+            overlayContext.push(<VideoContext.Provider value={id || ''}><PlayList /></VideoContext.Provider>, 'PlayList')
+
+        return () => {
+            if(id)
+                overlayContext.hide('PlayList');
+        }
+    }, [id]);
 
     return (
         <>
