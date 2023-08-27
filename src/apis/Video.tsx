@@ -107,8 +107,8 @@ const Video = () => {
         return JwtInterceptor().instance.post<{active: boolean}>(`/videos/comment/${props.comment_id}/like`);
     }
 
-    const addPlayList = (props: {video_id: number}) => {
-        return JwtInterceptor().instance.post<{active: boolean}>(`/videos/${props.video_id}/playlist`);
+    const addPlayList = (props: {videoId: number, playListId: number}) => {
+        return JwtInterceptor().instance.post<{success: boolean}>(`/videos/${props.videoId}/playlist`, {playlist: props.playListId});
     }
 
     return { upload, list, subscriptionList, watch, update, like, write_comment, get_comment, delete_comment, get_reply, like_comment, addPlayList };

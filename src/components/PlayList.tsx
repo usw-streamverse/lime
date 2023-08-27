@@ -1,14 +1,16 @@
 import { CiSquarePlus } from 'react-icons/ci'
 import styled from 'styled-components'
 import FormTextBox from './FormTextBox'
-import { useRef } from 'react'
+import { createContext, useContext, useRef } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import Channel, { PlayList as PlayListInterface } from 'apis/Channel'
 import { BsFolderPlus } from 'react-icons/bs'
+import { VideoContext } from 'pages/Watch'
+import Video from 'apis/Video'
 
 const PlayList = () => {
-    const { isFetchedAfterMount, data, status } = useQuery({
+    const { data, status } = useQuery({
         queryKey: ['myPlayList'],
         staleTime: 0,
         queryFn: () => Channel().getMyPlayList(),
@@ -51,10 +53,24 @@ const ListContainer = styled.div`
 `
 
 const PlayListItem = (props: PlayListInterface) => {
+    const videoId = useContext(VideoContext);
+    const { mutate } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {videoId: number, playListId: number}>(Video().addPlayList, {
+        onSuccess: (data) => {
+            alert('추가 완료.');
+        },
+        onError: (error) => {
+            alert(error.response?.status);
+        }
+    });
+
+    const addPlayList = () => {
+        mutate({videoId: parseInt(videoId), playListId: props.id});
+    }
+
     return (
         <PlayListItem.Container>
             {props.name}
-            <PlayListItem.Add><CiSquarePlus size={24} /></PlayListItem.Add>
+            <PlayListItem.Add onClick={addPlayList}><CiSquarePlus size={24} /></PlayListItem.Add>
         </PlayListItem.Container>
     )
 }
