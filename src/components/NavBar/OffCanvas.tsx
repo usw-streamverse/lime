@@ -79,8 +79,8 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
         <ItemContext.Provider value={{pathname: pathname, setShow: setShow, selectionBar: selectionBarRef}}>
           <Group>Menu</Group>
           <Item path=""><AiFillHome size="24" />홈</Item>
-          <Item path="/feed/library"><AiFillFolder size="24" />보관함</Item>
-          <Item path="/feed/subscriptions"><AiFillStar size="24" />구독</Item>
+          <Item path="/library"><AiFillFolder size="24" />보관함</Item>
+          <Item path="/subscription"><AiFillStar size="24" />구독</Item>
           <Item path="/broadcast"><AiFillVideoCamera size="24" />라이브 스트리밍</Item>
           <Group>General</Group>
           <Item path="/setting"><AiFillSetting size="24" />설정</Item>

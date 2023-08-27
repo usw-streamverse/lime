@@ -8,7 +8,8 @@ import Channel from 'pages/Channel';
 import NotFound from 'pages/NotFound';
 import MyInfo from 'pages/MyInfo';
 import { createContext, useContext, useRef } from 'react';
-import Overlay from 'components/Overlay';
+import Overlay from 'components/Shadow';
+import Subscription from 'pages/Subscription';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ const AnimatedSwitch = () => {
       <Route path="/myinfo" element={<MyInfo />} />
       <Route path="/search/:query" element={<Main />} />      
       <Route path="/watch/:id" element={<Main />} />
+      <Route path="/subscription" element={<Subscription />} />
       <Route path="/video/upload" element={<Upload />} />
       <Route path="/@/:id/:page?" element={<Channel />} />
       <Route path="/404" element={<NotFound />} />

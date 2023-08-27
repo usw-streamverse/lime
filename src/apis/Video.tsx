@@ -70,6 +70,11 @@ const Video = () => {
         return JwtInterceptor().instance.get<VideoItem[]>('/videos');
     }
 
+    const subscriptionList = () => {
+        return JwtInterceptor().instance.get<VideoItem[]>('/subscribe');
+    }
+
+
     const watch = (id: string) => {
         return JwtInterceptor().instance.get<VideoWatch>(`/videos/${id}`);
     }
@@ -102,7 +107,11 @@ const Video = () => {
         return JwtInterceptor().instance.post<{active: boolean}>(`/videos/comment/${props.comment_id}/like`);
     }
 
-    return { upload, list, watch, update, like, write_comment, get_comment, delete_comment, get_reply, like_comment };
+    const addPlayList = (props: {video_id: number}) => {
+        return JwtInterceptor().instance.post<{active: boolean}>(`/videos/${props.video_id}/playlist`);
+    }
+
+    return { upload, list, subscriptionList, watch, update, like, write_comment, get_comment, delete_comment, get_reply, like_comment, addPlayList };
 }
 
 export default Video;
