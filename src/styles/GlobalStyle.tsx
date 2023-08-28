@@ -60,9 +60,9 @@ const GlobalStyle = createGlobalStyle`
         --navbar-menu-text-color-active: #000;
         --navbar-menu-icon-color-active: #03cb00;
         --select-bg-color: #fff;
-        --select-shadow-inset: #e9e9e9;
-        --select-shadow-hover: #668ddd33;
-        --select-border-color: #747474;
+        --select-shadow-inset: #eeeeee;
+        --select-shadow-hover: #7f96c533;
+        --select-border-color: #656565;
         --select-option-border-color: #efefef;
         --select-option-bg-color-hover: #eaf2ff;
         --textbox-bg-color: #fff;
