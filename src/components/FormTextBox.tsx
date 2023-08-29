@@ -11,10 +11,11 @@ interface FormTextBoxProps {
     height?: string,
     borderBottomOnly?: boolean
     placeholder?: string,
-    style?: React.CSSProperties
+    style?: React.CSSProperties,
+    value?: string,
 }
 
-const FormTextBox = forwardRef<any, FormTextBoxProps>(({label = '', type = 'text', warning = false, labelSize = 0.875, labelWeight = 600, textarea = false, height = '100px', borderBottomOnly = false, placeholder = '', style={}}: FormTextBoxProps, ref) => {
+const FormTextBox = forwardRef<any, FormTextBoxProps>(({label = '', type = 'text', warning = false, labelSize = 0.875, labelWeight = 600, textarea = false, height = '100px', borderBottomOnly = false, placeholder = '', style = {}, value = ''}: FormTextBoxProps, ref) => {
     const [focus, setFocus] = useState<boolean>(false);
 
     return (
@@ -25,9 +26,9 @@ const FormTextBox = forwardRef<any, FormTextBoxProps>(({label = '', type = 'text
             }
             {
                 textarea ?        
-                <TextArea ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} height={height} borderBottomOnly={borderBottomOnly} placeholder={placeholder} style={style} /> 
+                <TextArea ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} height={height} borderBottomOnly={borderBottomOnly} placeholder={placeholder} style={style} defaultValue={value} />
                 :              
-                <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} placeholder={placeholder} style={style}/>
+                <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} placeholder={placeholder} style={style} defaultValue={value} />
             }
         </Wrap>
     )
