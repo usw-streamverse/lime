@@ -1,4 +1,5 @@
 import axios, { AxiosRequestHeaders } from 'axios'
+import { API_SERVER } from 'config';
 
 interface CustomRequestHeaders extends AxiosRequestHeaders {
     Authorization: string;
@@ -6,7 +7,7 @@ interface CustomRequestHeaders extends AxiosRequestHeaders {
 
 const JwtInterceptor = () => {
     const instance = axios.create({
-        baseURL: 'http://localhost:3000'
+        baseURL: API_SERVER
     });
 
     instance.interceptors.request.use(
