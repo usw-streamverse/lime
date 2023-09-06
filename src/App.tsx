@@ -7,9 +7,11 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Channel from 'pages/Channel';
 import NotFound from 'pages/NotFound';
 import MyInfo from 'pages/MyInfo';
-import { createContext, useContext, useRef } from 'react';
+import { useRef } from 'react';
 import Overlay from 'components/Overlay';
 import Subscription from 'pages/Subscription';
+import Broadcast from 'pages/Broadcast';
+import LiveStreaming from 'pages/LiveStreaming';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,12 +24,13 @@ const queryClient = new QueryClient({
 
 const AnimatedSwitch = () => {
   const location = useLocation();
-      
   return (
     <Routes location={location}>
       <Route path="/" element={<Main />} />
       <Route path="/myinfo" element={<MyInfo />} />
-      <Route path="/search/:query" element={<Main />} />      
+      <Route path="/broadcast" element={<Broadcast />} />
+      <Route path="/live" element={<LiveStreaming />} />
+      <Route path="/search/:query" element={<Main />} />
       <Route path="/watch/:id" element={<Main />} />
       <Route path="/subscription" element={<Subscription />} />
       <Route path="/video/upload" element={<Upload />} />
