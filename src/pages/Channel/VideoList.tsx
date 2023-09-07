@@ -3,8 +3,8 @@ import Channel from 'apis/Channel';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-const VideoList = () => {
-    const {status, data} = useQuery(['channel', 'asd123', 'videoList'], () => Channel().videoList('asd123'));
+const VideoList = (props: {id: string}) => {
+    const {status, data} = useQuery(['channel', props.id, 'videoList'], () => Channel().videoList(props.id));
     return (
         <Container>
             <VideoListComponent item={status === 'success' ? data?.data : []} />

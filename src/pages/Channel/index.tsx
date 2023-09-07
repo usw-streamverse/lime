@@ -8,7 +8,7 @@ import Tab from 'components/Tab';
 import VideoList from './VideoList';
 
 const Channel = () => {
-    const userid = useParams()['id'];
+    const userid = useParams()['id'] || '';
     const [page, setPage] = useState<string>(useParams()['page'] || '');
     const url = useHref(`/@/${userid}`);
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ const Channel = () => {
                         case 'about':
                             return <></>
                         default:
-                            return <VideoList />
+                            return <VideoList id={userid} />
                     }
                 })()
             }
