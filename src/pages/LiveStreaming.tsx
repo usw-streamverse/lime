@@ -46,8 +46,16 @@ const LiveStreaming = () => {
 
             remote.current.ontrack = (e) => {
                 if(!videoRef.current) return;
-                videoRef.current.srcObject = e.streams[0];
-                videoRef.current.autoplay = true;
+                const video = videoRef.current;
+                video.srcObject = e.streams[0];
+                video.play();
+                
+                const tracks = video.srcObject.getTracks();
+                for(const i of e.streams[0].getTracks()){
+                    if(!tracks.includes(i))
+                        video.srcObject.addTrack(i);
+                }
+                
                 console.log('ontrack', e.streams[0]);
             }
 
