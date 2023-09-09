@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRef, useEffect, ReactNode, Dispatch, SetStateAction } from 'react';
+import { useRef, ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 interface PageModalProps {

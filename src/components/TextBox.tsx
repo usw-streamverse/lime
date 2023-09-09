@@ -1,4 +1,4 @@
-import { ReactNode, forwardRef, useRef, useState } from 'react';
+import { ReactNode, forwardRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface TextBoxProps {

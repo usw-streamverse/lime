@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { User } from 'apis';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { ProfileResult } from 'apis/User';
 
 const useUserQuery = () => {

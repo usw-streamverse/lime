@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { useRef, useEffect, ReactNode, Dispatch, SetStateAction, useContext } from 'react';
+import styled from 'styled-components';
+import { useRef, useEffect, ReactNode, useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { OverlayContext } from './Overlay';
 

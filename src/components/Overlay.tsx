@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import Modal from './Modal';
 
 export const OverlayContext = createContext<{push: (element: JSX.Element, key: string) => void, show: (key: string) => void, hide: (key: string) => void}>([] as any);
@@ -31,14 +31,8 @@ const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
         }
     }
 
-    const data = useMemo(() => ({
-        push: push,
-        show: show,
-        hide: hide
-    }), [push, show, hide]);
-
     return (
-        <OverlayContext.Provider value={data}>
+        <OverlayContext.Provider value={{push: push, show: show, hide: hide}}>
             {
                 OverlayElements.map(i => {
                     return <Modal key={i.key} data-key={i.key} show={i.show}>{i.element}</Modal>

@@ -1,4 +1,4 @@
-import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 interface FormTextBoxProps {
@@ -25,7 +25,7 @@ const FormTextBox = forwardRef<any, FormTextBoxProps>(({label = '', type = 'text
                 <Label size={labelSize} weight={labelWeight}>{label}</Label>
             }
             {
-                textarea ?        
+                textarea ?
                 <TextArea ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} height={height} borderBottomOnly={borderBottomOnly} placeholder={placeholder} style={style} defaultValue={value} />
                 :              
                 <Input type={type} ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} warning={warning} placeholder={placeholder} style={style} defaultValue={value} />

@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { RxCheck } from 'react-icons/rx';
 
 interface CheckBoxProps {

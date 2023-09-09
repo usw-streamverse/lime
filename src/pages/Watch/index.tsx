@@ -11,10 +11,9 @@ import VideoPlayer from 'components/Video';
 import Comment from 'components/Comment/Comment';
 import WatchSkeleton from './Skeleton';
 import Channel from 'apis/Channel';
-import Modal from 'components/Modal';
 import PlayList from 'components/Modal/PlayList';
 import { BsCollectionPlay, BsHeart, BsHeartFill, BsShare, BsStar, BsStarFill } from 'react-icons/bs';
-import Overlay, { OverlayContext } from 'components/Overlay';
+import { OverlayContext } from 'components/Overlay';
 
 export const VideoContext = createContext<string>('');
 

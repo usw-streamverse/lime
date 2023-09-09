@@ -4,7 +4,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import FormTextBox from 'components/FormTextBox';
 import { useRef, useState } from 'react';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { BsSend } from 'react-icons/bs';
 import styled, { keyframes } from 'styled-components';
 
 const WriteComment = (props: {videoId: string}) => {

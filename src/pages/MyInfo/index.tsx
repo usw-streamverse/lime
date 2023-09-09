@@ -1,9 +1,4 @@
 import styled from 'styled-components';
-import { Outlet, useHref, useNavigate, useParams } from 'react-router-dom';
-import { ReactNode, useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { User } from 'apis';
-import { AxiosError } from 'axios';
 import useUserQuery from 'hooks/useUserQuery';
 
 const MyInfo = () => {

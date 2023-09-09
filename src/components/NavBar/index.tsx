@@ -1,10 +1,9 @@
-import { CiLight, CiDark, CiMenuBurger, CiUser } from 'react-icons/ci';
+import { CiLight, CiDark, CiMenuBurger } from 'react-icons/ci';
 import styled, { css } from 'styled-components';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import OffCanvas from './OffCanvas';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Sign from 'pages/Sign';
-import Modal from 'components/Modal';
 import useUserQuery from 'hooks/useUserQuery';
 import DropDown from './DropDown';
 import { OverlayContext } from 'components/Overlay';
