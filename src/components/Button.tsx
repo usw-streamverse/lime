@@ -28,14 +28,14 @@ Button.Group = styled.div`
     display: flex;
     button:first-child {
         border-radius: 0;
-        border-top-left-radius: 0.125rem;
-        border-bottom-left-radius: 0.125rem;
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
         border-right: 0;
     }
     button:last-child {
         border-radius: 0;
-        border-top-right-radius: 0.125rem;
-        border-bottom-right-radius: 0.125rem;
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
         border-left: 0;
     }
 `
@@ -48,7 +48,7 @@ const StyledButton = styled.button<{bgColor: string, borderColor: string, color:
     max-width: 100%;
     padding: ${(props) => props.padding};
     border: 1px solid ${(props) => props.borderColor};
-    border-radius: 2px;
+    border-radius: 0.25rem;
     background-color: ${(props) => props.bgColor};
     color: ${(props) => props.color};
     font-size: ${(props) => props.fontSize};;
