@@ -87,23 +87,23 @@ const Video = () => {
         return JwtInterceptor().instance.post<{active: boolean}>(`/videos/${props.id}/like`);
     }
 
-    const write_comment = (props: {id: string, parent_id: string, comment: string}) => {
+    const writeComment = (props: {id: string, parent_id: string, comment: string}) => {
         return JwtInterceptor().instance.post<{success: boolean}>(`/videos/${props.id}/comment`, props);
     }
 
-    const get_comment = (id: string) => {
+    const getComment = (id: string) => {
         return JwtInterceptor().instance.get<VideoComment[]>(`/videos/${id}/comment`);
     }
 
-    const get_reply = (id: string, parent_id: number) => {
+    const getReply = (id: string, parent_id: number) => {
         return JwtInterceptor().instance.get<VideoComment[]>(`/videos/${id}/comment/${parent_id}`);
     }
     
-    const delete_comment = (props: {video_id: string, comment_id: string}) => {
+    const deleteComment = (props: {video_id: string, comment_id: string}) => {
         return JwtInterceptor().instance.delete<{success: boolean}>(`/videos/${props.video_id}/comment/${props.comment_id}`);
     }
 
-    const like_comment = (props: {comment_id: number}) => {
+    const likeComment = (props: {comment_id: number}) => {
         return JwtInterceptor().instance.post<{active: boolean}>(`/videos/comment/${props.comment_id}/like`);
     }
 
@@ -111,7 +111,7 @@ const Video = () => {
         return JwtInterceptor().instance.post<{success: boolean}>(`/videos/${props.videoId}/playlist`, {playlist: props.playListId});
     }
 
-    return { upload, list, subscriptionList, watch, update, like, write_comment, get_comment, delete_comment, get_reply, like_comment, addPlayList };
+    return { upload, list, subscriptionList, watch, update, like, writeComment, getComment, deleteComment, getReply, likeComment, addPlayList };
 }
 
 export default Video;

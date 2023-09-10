@@ -11,7 +11,7 @@ const WriteComment = (props: {videoId: string}) => {
     const queryClient = useQueryClient();
     const [warning, setWarning] = useState<boolean>(false);
 
-    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
+    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().writeComment, {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['comment']);
             setWarning(false);

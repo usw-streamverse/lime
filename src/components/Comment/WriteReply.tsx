@@ -9,7 +9,7 @@ import styled, { keyframes } from 'styled-components';
 const WriteReply = (props: {videoId: string, parent: string}) => {
     const queryClient = useQueryClient();
     const commentRef = useRef<HTMLTextAreaElement>(null);
-    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().write_comment, {
+    const { mutate, status } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: string, parent_id: string, comment: string}>(Video().writeComment, {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['comment']);
             queryClient.invalidateQueries(['comment', props.parent]);
