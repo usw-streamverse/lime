@@ -6,6 +6,7 @@ import { User } from 'apis';
 import { AxiosError } from 'axios';
 import Tab from 'components/Tab';
 import VideoList from './VideoList';
+import Menu from 'components/Menu';
 
 const Channel = () => {
     const userid = useParams()['id'] || '';
@@ -35,9 +36,9 @@ const Channel = () => {
         <Container>
             {
             localStorage.userid === userid &&
-            <MyMenu>
-                <MyMenu.Button onClick={() => navigate('/video/upload')}>동영상 업로드</MyMenu.Button>
-            </MyMenu>
+            <Menu>
+                <Menu.Button onClick={() => navigate('/video/upload')}>동영상 업로드</Menu.Button>
+            </Menu>
             }
             <HeaderContainer>
                 <ProfileImage />
@@ -122,34 +123,6 @@ ChannelInfo.Info = styled.div`
     font-weight: 400;
     @media screen and (max-width: 480px) {
         margin-top: 0.25rem;
-    }
-`
-
-const MyMenuStyle = styled.div`
-    padding: 1.0rem 1.0rem 0 0;
-    float: right;
-`
-
-const MyMenu = (props: {children: ReactNode}) => {
-    return <MyMenuStyle>{props.children}</MyMenuStyle>
-}
-
-MyMenu.Button = styled.button`
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 0.875rem;
-    background: linear-gradient(to left, var(--main-bg-color) 50%, var(--navbar-menu-hover) 50%) right;
-    background-size: 200%;
-    border: 0;
-    border-radius: 0.25rem;
-    color: var(--main-text-color);
-    cursor: pointer;
-    font-size: 1.0rem;
-    font-weight: 500;
-    transition: all 150ms ease-in-out;
-    :hover {
-        background-position: left;
     }
 `
 
