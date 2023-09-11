@@ -15,11 +15,10 @@ const LiveList = (props: {item: liveItem[]}) => {
     )
 }
 
-
 const LiveItem = (props: liveItem) => {
     const navigate = useNavigate();
     return (
-        <Container onClick={(e) => navigate(`/watch/${props.channel}`)}>
+        <Container onClick={(e) => navigate(`/live/${props.channel}`)}>
             <Thumbnail>
                 <img src={props.thumbnail} alt="Thumbnail" />
                 <Box>LIVE</Box>

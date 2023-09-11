@@ -1,5 +1,6 @@
 import { LIVE_STREAMING_SERVER } from 'config';
 import { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const iceServers: RTCConfiguration = {iceServers: [{ urls: [
@@ -16,10 +17,12 @@ const offerOptions:RTCOfferOptions = {
 };
 
 const LiveStreaming = () => {
+    const userid = useParams()['id'] || '';
     const videoRef = useRef<HTMLVideoElement>(null);
     const ws = useRef<WebSocket>();
     const remote = useRef<RTCPeerConnection>();
 
+    console.log(userid);
 
     const connect = () => {
         if(!videoRef.current) return;
@@ -32,7 +35,6 @@ const LiveStreaming = () => {
         ws.current = new WebSocket(LIVE_STREAMING_SERVER);
         ws.current.onopen = (e) => {
             if(!ws.current) return;
-
             remote.current = new RTCPeerConnection(iceServers);
 
             remote.current.createOffer(
@@ -40,7 +42,7 @@ const LiveStreaming = () => {
                     if(!remote.current) return;
                     remote.current.setLocalDescription(desc, () => console.log('LocalSuccess'), () => alert('setLocalDescription Error'));
                     if(ws.current)
-                        ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'stream',  'desc': desc}));
+                        ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'stream', 'channel': userid, 'desc': desc}));
                 }
             , () => console.log('description error'), offerOptions);
 
@@ -55,8 +57,6 @@ const LiveStreaming = () => {
                     if(!tracks.includes(i))
                         video.srcObject.addTrack(i);
                 }
-                
-                console.log('ontrack', e.streams[0]);
             }
 
             
@@ -64,8 +64,6 @@ const LiveStreaming = () => {
                 if(ws.current)
                     ws.current.send(JSON.stringify({'type': 'icecandidate', 'data': e.candidate}));
             }
-            //setVideoSrc(URL.createObjectURL(mediaSource.current));
-    
         }
         
         ws.current.onmessage = (e) => {

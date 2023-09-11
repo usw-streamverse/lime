@@ -11,6 +11,7 @@ import Overlay from 'components/Overlay';
 import Subscription from 'pages/Subscription';
 import Broadcast from 'pages/Broadcast';
 import Live from 'pages/Live';
+import LiveStreaming from 'pages/Live/LiveStreaming';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ const AnimatedSwitch = () => {
       <Route path="/myinfo" element={<MyInfo />} />
       <Route path="/broadcast" element={<Broadcast />} />
       <Route path="/live" element={<Live />} />
+      <Route path="/live/:id" element={<LiveStreaming />} />
       <Route path="/search/:query" element={<Main />} />
       <Route path="/watch/:id" element={<Main />} />
       <Route path="/subscription" element={<Subscription />} />
