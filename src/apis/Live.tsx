@@ -4,7 +4,7 @@ export interface LiveItem {
     channel: string,
     nickname: string,
     title: string,
-    created: string,
+    created: number,
     viewer: number,
     thumbnail: string
 }
