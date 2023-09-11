@@ -1,5 +1,5 @@
 import React, { useRef, Dispatch, SetStateAction, ReactNode, useEffect, useContext, createContext } from 'react';
-import { AiFillHome, AiFillFolder, AiFillStar, AiFillSetting, AiFillVideoCamera } from 'react-icons/ai';
+import { AiFillHome, AiFillFolder, AiFillStar, AiFillVideoCamera } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import useRippleEffect from 'hooks/useRippleEffect';
@@ -81,9 +81,7 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
           <Item path=""><AiFillHome size="24" />홈</Item>
           <Item path="/library"><AiFillFolder size="24" />보관함</Item>
           <Item path="/subscription"><AiFillStar size="24" />구독</Item>
-          <Item path="/broadcast"><AiFillVideoCamera size="24" />라이브 스트리밍</Item>
-          <Group>General</Group>
-          <Item path="/setting"><AiFillSetting size="24" />설정</Item>
+          <Item path="/live"><AiFillVideoCamera size="24" />라이브 스트리밍</Item>
         </ItemContext.Provider>
         <SelectionBar ref={selectionBarRef} />
       </Wrap>
