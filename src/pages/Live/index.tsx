@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const Live = () => {
     const navigate = useNavigate();
-    const list = useQuery(['videoList'], live().list);
+    const list = useQuery(['liveList'], live().list);
     return (
         <Container>
             <Menu>
