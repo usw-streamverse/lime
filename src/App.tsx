@@ -7,11 +7,10 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Channel from 'pages/Channel';
 import NotFound from 'pages/NotFound';
 import MyInfo from 'pages/MyInfo';
-import { useRef } from 'react';
 import Overlay from 'components/Overlay';
 import Subscription from 'pages/Subscription';
 import Broadcast from 'pages/Broadcast';
-import LiveStreaming from 'pages/LiveStreaming';
+import Live from 'pages/Live';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +28,7 @@ const AnimatedSwitch = () => {
       <Route path="/" element={<Main />} />
       <Route path="/myinfo" element={<MyInfo />} />
       <Route path="/broadcast" element={<Broadcast />} />
-      <Route path="/live" element={<LiveStreaming />} />
+      <Route path="/live" element={<Live />} />
       <Route path="/search/:query" element={<Main />} />
       <Route path="/watch/:id" element={<Main />} />
       <Route path="/subscription" element={<Subscription />} />
@@ -42,7 +41,6 @@ const AnimatedSwitch = () => {
 }
 
 const App = () => {
-  const overlayRef = useRef<any>(null);
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
