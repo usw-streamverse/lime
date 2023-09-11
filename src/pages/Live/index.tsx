@@ -11,7 +11,7 @@ const Live = () => {
     return (
         <Container>
             <Menu>
-                <Menu.Button onClick={() => navigate('/broadcast')}>라이브 스트리밍 하기</Menu.Button>
+                <Menu.Button onClick={() => navigate('/broadcast')}>라이브 스트리밍 송출하기</Menu.Button>
             </Menu>
             <LiveList item={list.status === 'success' ? list.data?.data : []} />
         </Container>
