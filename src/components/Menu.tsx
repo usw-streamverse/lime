@@ -2,8 +2,9 @@ import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const MenuStyle = styled.div`
+    display: flex;
+    justify-content: right;
     padding: 1.0rem 1.0rem 0 0;
-    float: right;
 `
 
 const Menu = (props: {children: ReactNode}) => {
