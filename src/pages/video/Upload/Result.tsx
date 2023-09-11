@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Upload, { StepContext, iStep } from '.';
+import { StepContext, iStep } from '.';
 import { useContext, useRef } from 'react';
 import FormTextBox from 'components/FormTextBox';
 import Button from 'components/Button';
@@ -10,14 +10,14 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Result = () => {
-    const {step, setStep, uploadResult}: iStep = useContext(StepContext);
+    const {uploadResult}: iStep = useContext(StepContext);
     const titleRef = useRef<HTMLInputElement>(null);
     const explanationRef = useRef<HTMLTextAreaElement>(null);
     const navigate = useNavigate();
     
     const video = Video();
-    const { mutate, status } = useMutation<AxiosResponse<VideoUpdateResult>, AxiosError<VideoUpdateResult>, VideoUpdate>(video.update, {
-        onSuccess: (data) => {
+    const { mutate } = useMutation<AxiosResponse<VideoUpdateResult>, AxiosError<VideoUpdateResult>, VideoUpdate>(video.update, {
+        onSuccess: () => {
             navigate('/');
         },
         onError: (error) => {
@@ -33,15 +33,15 @@ const Result = () => {
         <Container>
             <MenuContainer>
                 <Button.Group>
-                    <Button color="#e72020" bgColor="transparent" bgColorOver="transparent" borderColor="transparent">취소</Button>
-                    <Button color="#fff" bgColor="#2c7fe5" bgColorOver="#0e5ab9" borderColor="transparent" onClick={post}>게시하기</Button>
+                    <Button color="var(--navbar-menu-text-color-active)" bgColor="var(--navbar-bg-color)" bgColorOver="var(--navbar-menu-hover)">취소</Button>
+                    <Button color="#fff" bgColor="#2c7fe5" bgColorOver="#0e5ab9" onClick={post}>게시하기</Button>
                 </Button.Group>
             </MenuContainer>
             <FlexContainer>
                 <VideoDetail>
                     <Thumbnail src={uploadResult.current.thumbnail} />
                     <H2>주소</H2>
-                    <H3><a href={`http://lime.k2e.shop/lime/watch/${uploadResult.current.id}`} target="_blank">http://lime.k2e.shop/lime/watch/{uploadResult.current.id}</a></H3>
+                    <H3><a href={`http://lime.k2e.shop/lime/watch/${uploadResult.current.id}`} target="_blank" rel="noreferrer">http://lime.k2e.shop/lime/watch/{uploadResult.current.id}</a></H3>
                     <H2>파일 이름</H2>
                     <H3>{uploadResult.current.filename}</H3>
                     <H2>동영상 길이</H2>

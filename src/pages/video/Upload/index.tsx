@@ -6,7 +6,6 @@ import Result from './Result';
 import { AxiosError, AxiosProgressEvent } from 'axios';
 
 export interface iStep {
-    step: number,
     setStep: React.Dispatch<React.SetStateAction<number>>,
     uploadResult: React.MutableRefObject<UploadResult>
 }
@@ -17,7 +16,7 @@ const Upload = () => {
     const [step, setStep] = useState<number>(0);
     const uploadResult = useRef<UploadResult>({} as any);
     return (
-        <StepContext.Provider value={{step, setStep, uploadResult}}>
+        <StepContext.Provider value={{setStep, uploadResult}}>
         {{
             0:
                 <VideoUpload />,
@@ -29,7 +28,7 @@ const Upload = () => {
 }
 
 const VideoUpload = () => {
-    const {step, setStep, uploadResult}: iStep = useContext(StepContext);
+    const {setStep, uploadResult}: iStep = useContext(StepContext);
     const [drop, setDrop] = useState<boolean>(false);
     const [uploading, setUploading] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0);
@@ -141,7 +140,7 @@ const UploadIcon = styled.div<{state: number, progress?: number}>`
     margin: 0 auto;
     line-height: 0;
     cursor: pointer;
-    ${(props) => props.state == 2 ?
+    ${(props) => props.state === 2 ?
     css `
         width: 10.0rem;
         height: 10.0rem;
@@ -156,7 +155,7 @@ const UploadIcon = styled.div<{state: number, progress?: number}>`
             animation: ${upload_animation} 500ms ease infinite;
             animation-direction: alternate;
         }
-    ` : props.state == 1 ?
+    ` : props.state === 1 ?
     css `
         width: 10.0rem;
         height: 10.0rem;
