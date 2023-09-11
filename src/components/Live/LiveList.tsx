@@ -2,18 +2,40 @@ import styled from 'styled-components';
 import { LiveItem as liveItem } from 'apis/Live';
 import { useNavigate } from 'react-router-dom';
 import { getDifferenceTimeFormat } from 'utils/Time';
+import { CiCloudDrizzle } from 'react-icons/ci';
 
 const LiveList = (props: {item: liveItem[]}) => {
     return (
         <>
         {
+            props.item.length ? 
             props.item.map((e) => {
                 return <LiveItem key={e.channel} {...e} />
-            })
+            }) :
+            <NoResult />
         }
         </>
     )
 }
+
+const NoResult = () => {
+    return (
+        <NoResult.Container>
+            <CiCloudDrizzle size={64} />
+            <NoResult.Text>진행 중인 라이브 스트리밍이 없습니다.</NoResult.Text>
+        </NoResult.Container>
+    )
+}
+
+NoResult.Container = styled.div`
+    margin-top: 2.0rem;
+    text-align: center;
+`
+
+NoResult.Text = styled.div`
+    margin-top: 0.5rem;
+    font-weight: 500;
+`
 
 const LiveItem = (props: liveItem) => {
     const navigate = useNavigate();
