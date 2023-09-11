@@ -1,5 +1,5 @@
-import { LIVE_STREAMING_SERVER } from "config";
-import { useRef } from "react";
+import { LIVE_STREAMING_SERVER } from 'config';
+import { useEffect, useRef } from 'react';
 
 const iceServers: RTCConfiguration = {iceServers: [{ urls: [
     'stun:stun.l.google.com:19302',
@@ -9,32 +9,53 @@ const iceServers: RTCConfiguration = {iceServers: [{ urls: [
     'stun:stun4.l.google.com:19302',
 ]}]};
 
-const useBroadcast = () => {
+export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void};
+
+const useBroadcast = (): useBroadcastType => {
     const stream = useRef<MediaStream>();
     const ws = useRef<WebSocket>();
     const state = useRef<number>(0);
     const remote = useRef<RTCPeerConnection>();
 
+    useEffect(() => {
+        return () => {
+            if(ws.current) ws.current.close();
+            if(remote.current) remote.current.close();
+        }
+    }, []);
+
     const connect = () => {
         return new Promise(((resolve, reject) => {
-            ws.current = new WebSocket(LIVE_STREAMING_SERVER);
+            ws.current = new WebSocket(LIVE_STREAMING_SERVER, );
             const w = ws.current;
             w.onopen = (e) => {
-                resolve(e);
+                const token = localStorage.getItem('accessToken');
+                w.send(JSON.stringify({'type': 'authorization', 'token': token}));
             }
             w.onclose = () => {
                 state.current = 0;
             }
             w.onerror = (e) => {
                 state.current = 0;
-                reject(e);
+                reject();
             }
             w.onmessage = (e) => {
-                if(!remote.current) return;
                 try {
                     const data = JSON.parse(e.data);
                     switch(data.type){
+                        case 'error':
+                            alert(data.message);
+                            break;
+                        case 'authorization':
+                            if(data.result){
+                                resolve(e);
+                            }else{
+                                alert('로그인을 해주세요.');
+                                reject();
+                            }
+                            break;
                         case 'offer': {
+                            if(!remote.current) return;
                             const desc = new RTCSessionDescription(data.desc);
                             remote.current.setRemoteDescription(desc,
                                 () => {
@@ -46,6 +67,7 @@ const useBroadcast = () => {
                         }
                             break;
                         case 'icecandidate':
+                            if(!remote.current) return;
                             remote.current.addIceCandidate(new RTCIceCandidate(data.data));
                             break;
                     }
@@ -56,26 +78,37 @@ const useBroadcast = () => {
         }));
     }
 
-    const run = async (refVideo: React.RefObject<HTMLVideoElement>) => {
-        if(state.current === 1){
-            alert('스트리밍 서버와 연결 중입니다.');
-            return;
+    const setVideo = (refVideo: React.RefObject<HTMLVideoElement>) => {
+        if(refVideo.current && stream.current){
+            refVideo.current.srcObject = stream.current;
+            refVideo.current.volume = 0;
+            refVideo.current.play();
         }
+    }
+
+    const run = async (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => {
+        if(state.current === 1) throw new Error('Already running');
+
         state.current = 1;
 
         try {
             await connect();
 
-            stream.current = await navigator.mediaDevices.getDisplayMedia({
+            stream.current = isDisplayMedia ? 
+            await navigator.mediaDevices.getDisplayMedia({
                 audio: true, 
                 video: { 
-                    //width: videoResolution.current.width,
-                    //hiehgt: videoResolution.current.height,
+                    frameRate: {ideal: 30, max: 30},
+                }
+            }) : 
+            await navigator.mediaDevices.getUserMedia({
+                audio: true, 
+                video: { 
                     frameRate: {ideal: 30, max: 30},
                 }
             });
             
-            if(refVideo.current){
+            if(refVideo && refVideo.current){
                 refVideo.current.srcObject = stream.current;
                 refVideo.current.volume = 0;
                 refVideo.current.play();
@@ -101,12 +134,12 @@ const useBroadcast = () => {
                     ws.current.send(JSON.stringify({'type': 'icecandidate', 'data': e.candidate}));
             }
         } catch (error) {
-            console.log(error);
-            alert('알 수 없는 오류가 발생하였습니다.');
+            state.current = 0;
+            throw error;
         }
     }
 
-    return { run };
+    return { run, setVideo };
 }
 
 export default useBroadcast
