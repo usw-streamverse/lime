@@ -14,6 +14,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    position: relative;
     width: 250px;
     height: 200px;
     margin: 0 0.5rem;
@@ -31,12 +32,6 @@ const Container = styled.div`
             transform: scale(0.9);
         }
     }
-    :first-child {
-        margin-left: 0;
-    }
-    :last-child {
-        margin-right: 0;
-    }
     @media screen and (max-width: 480px) {
         .description {
             margin-top: 72px;
@@ -48,6 +43,7 @@ const Container = styled.div`
 Card.Container = styled.div`
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     position: relative;
 `
 
