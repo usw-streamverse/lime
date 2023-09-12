@@ -17,9 +17,10 @@ import { OverlayContext } from 'components/Overlay';
 
 export const VideoContext = createContext<string>('');
 
-const Watch = () => {
+const Watch = (props: {id?: string}) => {
     const navigate = useNavigate();
-    const id = useParams()['id'];
+    const paramId = useParams()['id'];
+    const id = props.id || paramId;
     const videoRef = useRef<HTMLVideoElement>(null);
     const { isFetchedAfterMount, data, status } = useQuery({
         queryKey: ['video'],
@@ -64,7 +65,7 @@ const Watch = () => {
                             <Subscribe active={data?.data.subscribe} channelId={data?.data.channel_id} />
                             <Like active={data?.data.like} />
                             <Share />
-                            <AddPlayList />
+                            <AddPlayList id={id || ''} />
                         </ChannelInfo.ButtonListContainer>
                     </ChannelInfo>
                     <Comment id={id || ''} />
@@ -153,13 +154,13 @@ const Share = () => {
     )
 }
 
-const AddPlayList = () => {
-    const id = useParams()['id'];
+const AddPlayList = (props: {id: string}) => {
+    const id = props.id;
     const overlayContext = useContext(OverlayContext);
 
     useEffect(() => {
         if(id)
-            overlayContext.push(<VideoContext.Provider value={id || ''}><PlayList /></VideoContext.Provider>, 'PlayList')
+            overlayContext.push(<VideoContext.Provider value={id}><PlayList /></VideoContext.Provider>, 'PlayList')
 
         return () => {
             if(id)

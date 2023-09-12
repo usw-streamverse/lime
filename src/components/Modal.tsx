@@ -18,16 +18,19 @@ const Modal = (props: ModalProps) => {
     }
 
     useEffect(() => {
-        document.body.style.overflowY = 'hidden';
+        if(props.show){
+            document.body.style.overflowY = 'hidden';
 
-        window.history.pushState(null, '', window.location.href);
-        window.addEventListener('popstate', closeModal);
-
+            window.history.pushState(null, '', '');
+            window.addEventListener('popstate', closeModal);
+        }
         return () => {
-            document.body.style.overflowY = 'overlay';
-            window.removeEventListener('popstate', closeModal);
+            if(props.show){
+                document.body.style.overflowY = 'overlay';
+                window.removeEventListener('popstate', closeModal);
+            }
         };
-    }, []);
+    }, [props.show]);
 
     return (
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>

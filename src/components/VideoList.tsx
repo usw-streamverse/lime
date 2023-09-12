@@ -1,25 +1,52 @@
 import styled from 'styled-components';
 import { VideoItem as videoItem } from 'apis/Video';
-import { useNavigate } from 'react-router-dom';
+import { useHref, useNavigationType } from 'react-router-dom';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
+import PageModal from './PageModal';
+import { useEffect, useState } from 'react';
+import Watch from 'pages/Watch';
 
 const VideoList = (props: {item: videoItem[]}) => {
+    const [video, setVideo] = useState<string>('');
+    const href = useHref('/');
+
+    const watch = (id: number) => {
+        window.history.pushState(null, '', `${href}/watch/${id}`)
+        setVideo(String(id));
+    }
+
+    useEffect(() => {
+        const handleBack = (e: PopStateEvent) => {
+            setVideo('');
+        }
+
+        window.addEventListener('popstate', handleBack);
+        return () => {
+            window.removeEventListener('popstate', handleBack);
+        }
+    }, [])
+
     return (
         <>
+            <PageModal show={video !== ''} animationName="modal2"><Watch id={video} /></PageModal>
         {
             props.item.map((e) => {
-                return <VideoItem key={e.id} {...e} />
+                return <VideoItem onClick={() => watch(e.id)} key={e.id} {...e} />
             })
         }
         </>
     )
 }
 
+//onClick={() => window.history.pushState(null, '', window.location + `/watch/${props.id}`)}
 
-const VideoItem = (props: videoItem) => {
-    const navigate = useNavigate();
+interface VideoItemProps extends videoItem {
+    onClick: React.MouseEventHandler<HTMLDivElement>
+}
+
+const VideoItem = (props: VideoItemProps) => {
     return (
-        <Container onClick={(e) => navigate(`/watch/${props.id}`)}>
+        <Container onClick={props.onClick}>
             <Thumbnail>
                 <img src={props.thumbnail} alt="Thumbnail" />
                 <Duration>{getDurationFormat(props.duration)}</Duration>
@@ -82,6 +109,9 @@ const Title = styled.div`
     margin: 0.5rem 0;
     font-size: 1.125rem;
     font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `
 
 const Uploader = styled.div`
