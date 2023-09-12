@@ -103,6 +103,9 @@ const Title = styled.div`
     margin: 0.5rem 0;
     font-size: 1.125rem;
     font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `
 
 const Uploader = styled.div`
