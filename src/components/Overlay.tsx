@@ -26,6 +26,8 @@ const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
     const hide = (key: string) => {
         const res = OverlayElements.find(e => e.key === key);
         if(res){
+            if(res.show && window.history.state === key)
+                window.history.go(-1);
             res.show = false;
             setUpdate(!update);
         }

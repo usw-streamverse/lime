@@ -21,9 +21,10 @@ const Modal = (props: ModalProps) => {
         if(props.show){
             document.body.style.overflowY = 'hidden';
 
-            window.history.pushState(null, '', '');
+            window.history.pushState(props['data-key'], '', '');
             window.addEventListener('popstate', closeModal);
         }
+
         return () => {
             if(props.show){
                 document.body.style.overflowY = 'overlay';
