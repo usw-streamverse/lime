@@ -14,7 +14,7 @@ import Live from 'pages/Live';
 import LiveStreaming from 'pages/Live/LiveStreaming';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Watch from 'pages/Watch';
-import PageModal from 'components/PageModal';
+import RouteModal from 'components/RouteModal';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +27,8 @@ const queryClient = new QueryClient({
 
 const AnimatedSwitch = () => {
   const location = useLocation();
+
+  console.log(location, location.state?.modal);
 
   return (
     <div className="transition-wrap">
@@ -49,7 +51,7 @@ const AnimatedSwitch = () => {
             {
               location.state?.modal && (
                 <Routes>
-                  <Route path="/watch/:id" element={<PageModal><Watch /></PageModal>} />
+                  <Route path="/watch/:id" element={<RouteModal><Watch /></RouteModal>} />
                 </Routes>
               )
             }
