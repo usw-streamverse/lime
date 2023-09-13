@@ -67,7 +67,7 @@ const OffCanvas = ({show, setShow}: OffCanvasProps) => {
     document.body.classList.remove('preventScroll');
 
   useEffect(() => {
-    const paths = ['', '/feed/library', '/feed/subscriptions', '/broadcast', '/setting'];
+    const paths = ['', '/library', '/subscription', '/live'];
     if(selectionBarRef.current){
       selectionBarRef.current.style.display = paths.indexOf(pathname) === -1 ? 'none' : 'block';
     }
