@@ -4,16 +4,15 @@ import { CSSTransition } from 'react-transition-group';
 
 interface PageModalProps {
     children: ReactNode,
-    show: boolean,
     animationName?: string
 }
 
-const PageModal = ({children, show, animationName = 'modal2'}: PageModalProps) => {
+const PageModal = ({children, animationName = 'modal'}: PageModalProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
 
     return (
-        <CSSTransition in={show} nodeRef={nodeRef} timeout={300} classNames={animationName} unmountOnExit>
-            <Container>
+        <CSSTransition nodeRef={nodeRef} timeout={300} classNames={animationName}>
+            <Container className="modal">
                 <Wrapper ref={nodeRef} onClick={(e) => e.stopPropagation()}>
                     {children}
                 </Wrapper>

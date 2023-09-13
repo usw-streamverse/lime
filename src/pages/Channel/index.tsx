@@ -27,10 +27,9 @@ const Channel = () => {
         }
     });
 
-    useEffect(() => {
+    /*useEffect(() => {
         window.history.replaceState(null, page, page === '' ? url : url + '/' + page);
-        console.log(page);
-    }, [page, url])
+    }, [page, url])*/
 
     return (
         <Container>

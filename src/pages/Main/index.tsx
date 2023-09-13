@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import SearchBar from "./Search";
 import VideoList from '../../components/VideoList';
-import Watch from 'pages/Watch';
 import { useEffect, useState } from 'react';
-import PageModal from 'components/PageModal';
 import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
@@ -49,7 +47,6 @@ const Main = () => {
 
     return (
         <Container>
-            <PageModal show={page === 'watch'} animationName="modal2"><Watch /></PageModal>
             <Inner>
                 <SearchWrap><SearchBar /></SearchWrap>
                 <Wrapper>

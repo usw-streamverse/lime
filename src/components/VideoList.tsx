@@ -1,34 +1,18 @@
 import styled from 'styled-components';
 import { VideoItem as videoItem } from 'apis/Video';
-import { useHref, useNavigationType } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
-import PageModal from './PageModal';
-import { useEffect, useState } from 'react';
-import Watch from 'pages/Watch';
 
 const VideoList = (props: {item: videoItem[]}) => {
-    const [video, setVideo] = useState<string>('');
-    const href = useHref('/');
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const watch = (id: number) => {
-        window.history.pushState(null, '', `${href}/watch/${id}`)
-        setVideo(String(id));
+        navigate(`/watch/${id}`, {state: {modal: location}});
     }
-
-    useEffect(() => {
-        const handleBack = (e: PopStateEvent) => {
-            setVideo('');
-        }
-
-        window.addEventListener('popstate', handleBack);
-        return () => {
-            window.removeEventListener('popstate', handleBack);
-        }
-    }, [])
 
     return (
         <>
-            <PageModal show={video !== ''} animationName="modal2"><Watch id={video} /></PageModal>
         {
             props.item.map((e) => {
                 return <VideoItem onClick={() => watch(e.id)} key={e.id} {...e} />
@@ -37,8 +21,6 @@ const VideoList = (props: {item: videoItem[]}) => {
         </>
     )
 }
-
-//onClick={() => window.history.pushState(null, '', window.location + `/watch/${props.id}`)}
 
 interface VideoItemProps extends videoItem {
     onClick: React.MouseEventHandler<HTMLDivElement>
