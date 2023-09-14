@@ -48,8 +48,8 @@ const Result = () => {
                     <H3>{getDurationFormat(uploadResult.current.duration)}</H3>
                 </VideoDetail>
                 <FormContainer>
-                    <FormTextBox ref={titleRef}type="text" label="제목" labelSize={1.125} labelWeight={500} />
-                    <FormTextBox ref={explanationRef} type="textarea" label="설명" labelSize={1.125} labelWeight={500} height="250px" textarea />
+                    <FormTextBox ref={titleRef}type="text" labelSize={1.125} labelWeight={500} placeholder="동영상 제목" />
+                    <FormTextBox ref={explanationRef} type="textarea" labelSize={1.125} labelWeight={500} height="250px" placeholder="동영상 설명" textarea />
                 </FormContainer>
             </FlexContainer>
         </Container>
@@ -79,6 +79,11 @@ const FlexContainer = styled.div`
 
 const FormContainer = styled.div`
     margin-top: 1.5rem;
+    div {
+        :first-child {
+            margin-bottom: 1.5rem;
+        } 
+    }
     @media screen and (min-width: 769px) {
         flex: 1;
         margin-top: 0;
