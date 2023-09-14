@@ -25,7 +25,10 @@ const useUserQuery = () => {
         }
 
         if(status === 'loading' && localStorage.getItem('id') !== null){ // loading 중 일 때는 localStroage에 저장되어 있는 정보 제공
-            return {update, loggedIn: true, data: {success: true, id: parseInt(localStorage.getItem('id') || ''), nickname: localStorage.getItem('nickname') || '', userid: localStorage.getItem('userid') || ''}};
+            return {update, loggedIn: true, data: {
+                ...JSON.parse(localStorage.getItem('data') || '{}') as ProfileResult,
+                success: true
+            }};
         }
     
         return {update, loggedIn, data: data?.data};

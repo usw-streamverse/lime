@@ -104,7 +104,7 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
     return (
         <>
             <CommentItem.Container>
-                <CommentItem.ProfileIcon />
+                <CommentItem.ProfileIcon profileColor={props.profile} />
                 <CommentItem.Content>
                     <CommentItem.Detail>
                         <CommentItem.Nickname>{props.nickname}</CommentItem.Nickname>
@@ -208,12 +208,12 @@ CommentItem.Menu = styled.div`
     }
 `
 
-CommentItem.ProfileIcon = styled.div`
+CommentItem.ProfileIcon = styled.div<{profileColor: string}>`
     flex: 1 1 1;
     width: 32px;
     height: 32px;
     margin-right: 8px;
-    background-color: #a0a0a0;
+    background-color: ${props => props.profileColor};
     border-radius: 50%;
 `
 

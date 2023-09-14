@@ -56,7 +56,7 @@ const NavBar = ({children}: NavBarProps) => {
                 {
                     profile.loggedIn ?
                     <Menu onClick={(e) => {if(window.innerWidth <= 1024) setOffCanvas(false); setDropdown(!dropdown); e.preventDefault()}} onMouseEnter={() => {if(window.innerWidth > 1024 || !offCanvas) setDropdown(true)}} onMouseLeave={() => setDropdown(false)}>
-                        <ProfileIcon />{profile.data?.nickname}
+                        <ProfileIcon profileColor={profile.data?.profile || '#aaa'} />{profile.data?.nickname}
                         <DropDown show={dropdown} />
                     </Menu>
                     :
@@ -73,11 +73,11 @@ const NavBar = ({children}: NavBarProps) => {
 
 export default NavBar;
 
-const ProfileIcon = styled.div`
+const ProfileIcon = styled.div<{profileColor: string}>`
     width: 28px;
     height: 28px;
     margin-right: 8px;
-    background-color: #a0a0a0;
+    background-color: ${props => props.profileColor};
     border-radius: 50%;
 `
 

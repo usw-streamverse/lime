@@ -4,6 +4,7 @@ export interface ProfileResult {
     id: number,
     userid: string,
     nickname: string,
+    profile: string,
     success: boolean
 }
 
@@ -11,6 +12,7 @@ export interface ChannelResult {
     id: number,
     userid: string,
     nickname: string,
+    profile: string,
     success: boolean
 }
 

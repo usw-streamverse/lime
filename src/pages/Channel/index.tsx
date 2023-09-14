@@ -40,7 +40,7 @@ const Channel = () => {
             </Menu>
             }
             <HeaderContainer>
-                <ProfileImage />
+                <ProfileImage profileColor={data?.data.profile || '#aaa'} />
                 <ChannelInfo>
                     <ChannelInfo.Nickname>{data?.data.nickname}</ChannelInfo.Nickname>
                     <ChannelInfo.InfoContainer>
@@ -125,10 +125,10 @@ ChannelInfo.Info = styled.div`
     }
 `
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.div<{profileColor: string}>`
     width: 10.0rem;
     height: 10.0rem;
-    background-color: #aaa;
+    background-color: ${props => props.profileColor};
     border-radius: 50%;
 
     @media screen and (max-width: 768px) {

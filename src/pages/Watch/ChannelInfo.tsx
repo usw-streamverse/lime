@@ -33,11 +33,11 @@ ChannelInfo.Readership = styled.div`
     font-weight: 400;   
 `
 
-ChannelInfo.ProfileIcon = styled.div`
+ChannelInfo.ProfileIcon = styled.div<{profileColor: string}>`
     width: 48px;
     height: 48px;
     margin-right: 12px;
-    background-color: #a0a0a0;
+    background-color: ${props => props.profileColor};
     border-radius: 50%;
     @media screen and (max-width: 480px) {
         width: 32px;

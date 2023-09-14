@@ -34,7 +34,8 @@ export interface VideoWatch {
     like_count: number,
     created: string,
     like: boolean
-    subscribe: boolean
+    subscribe: boolean,
+    profile: string
 }
 
 export interface VideoUpdate {
@@ -59,6 +60,7 @@ export interface VideoComment {
     like_count: number,
     reply_count: number,
     liked: boolean,
+    profile: string
 }
 
 const Video = () => {
