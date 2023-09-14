@@ -45,7 +45,7 @@ const Channel = () => {
                     <ChannelInfo.Nickname>{data?.data.nickname}</ChannelInfo.Nickname>
                     <ChannelInfo.InfoContainer>
                         <ChannelInfo.Id>@{data?.data.userid}</ChannelInfo.Id>
-                        <ChannelInfo.Info>구독자 0명 동영상 없음</ChannelInfo.Info>
+                        <ChannelInfo.Info>구독자 {data?.data.readership}명 동영상 {data?.data.videoCount ? data?.data.videoCount + '개' : '없음'}</ChannelInfo.Info>
                     </ChannelInfo.InfoContainer>
                 </ChannelInfo>
             </HeaderContainer>

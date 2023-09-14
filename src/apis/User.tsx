@@ -13,6 +13,8 @@ export interface ChannelResult {
     userid: string,
     nickname: string,
     profile: string,
+    videoCount: number,
+    readership: number,
     success: boolean
 }
 
