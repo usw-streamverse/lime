@@ -49,6 +49,7 @@ ChannelInfo.ProfileIcon = styled.div<{profileColor: string}>`
 ChannelInfo.Container = styled.div`
     display: flex;
     align-items: center;
+    cursor: pointer;
 `
 
 ChannelInfo.ButtonListContainer = styled.div`
