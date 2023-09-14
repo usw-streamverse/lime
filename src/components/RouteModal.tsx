@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 import { useRef, ReactNode, useEffect, useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
 
 const RouteModal = (props: {children: ReactNode}) => {
     const nodeRef = useRef<HTMLDivElement>(null);
+    const [animation, setAnimation] = useState<boolean>(false);
+    
+    useEffect(() => {
+        setAnimation(true);
+    }, []);
 
     return (
-        <Container>
+        <Container animation={animation}>
             <Wrapper ref={nodeRef} onClick={(e) => e.stopPropagation()}>
                 {props.children}
             </Wrapper>
@@ -14,7 +18,23 @@ const RouteModal = (props: {children: ReactNode}) => {
     );
 }
 
-const Container = styled.div`
+const Container = styled.div<{animation: boolean}>`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    ${(props) => props.animation ?
+        `
+            opacity: 1.0;
+            transform: scale(1.0);
+        ` : 
+        `
+            opacity: 0;
+            transform: scale(0.9);
+        `
+    }
+    transition: all 200ms ease;
 `
 
 const Wrapper = styled.div`
