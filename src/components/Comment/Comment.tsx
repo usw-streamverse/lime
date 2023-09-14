@@ -9,6 +9,7 @@ import WriteComment from './WriteComment';
 import WriteReply from './WriteReply';
 import CommentSkeleton from './CommentSkeleton';
 import { BsChatLeft, BsHeart, BsHeartFill } from 'react-icons/bs';
+import useUserQuery from 'hooks/useUserQuery';
 
 const Comment = (props: {id: string}) => {
     const [show, setShow] = useState<boolean>(false);
@@ -84,6 +85,7 @@ const CommentItemContainer = styled.div`
 
 const CommentItem = (props: {videoId: string} & VideoComment) => {
     const queryClient = useQueryClient();
+    const profile = useUserQuery().Profile();
     const [reply, setReply] = useState<boolean>(false);
     const deleteComment = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().deleteComment, {
         onSuccess: (data) => {
@@ -127,7 +129,7 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
                             <CommentItem.Menu onClick={() => setReply(!reply)}><BsChatLeft size={14} />{props.reply_count}</CommentItem.Menu>
                         }
                         {
-                            props.writer === parseInt(localStorage.id) &&
+                            props.writer === profile.data?.id &&
                             <CommentItem.Menu onClick={() => deleteComment.mutate({video_id: props.videoId, comment_id: props.id.toString()})}>삭제</CommentItem.Menu>
                         }
                     </CommentItem.MenuContainer>
