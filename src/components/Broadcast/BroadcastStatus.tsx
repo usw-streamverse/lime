@@ -13,7 +13,7 @@ const BroadcastStatus = (props: {refVideo: React.RefObject<HTMLVideoElement>}) =
         if(!props.refVideo.current) return;
         timerRef.current = setInterval(() => {
             if(props.refVideo.current) setDuration(Math.floor(props.refVideo.current.currentTime));
-            setViewer(context.broadcast.viewer);
+            setViewer(context.broadcast.viewer.current || 0);
         }, 100);
         return () => {
             clearInterval(timerRef.current);

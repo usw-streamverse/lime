@@ -29,7 +29,7 @@ const iceServers: RTCConfiguration = {
     ],
 };
 
-export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void, viewer: number};
+export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void, viewer: React.RefObject<number>};
 
 const useBroadcast = (): useBroadcastType => {
     const stream = useRef<MediaStream>();
@@ -90,6 +90,9 @@ const useBroadcast = (): useBroadcastType => {
                         case 'icecandidate':
                             if(!remote.current) return;
                             remote.current.addIceCandidate(new RTCIceCandidate(data.data));
+                            break;
+                        case 'status':
+                            viewer.current = Number(data.viewer);
                             break;
                     }
                 } catch(e) {
@@ -160,7 +163,7 @@ const useBroadcast = (): useBroadcastType => {
         }
     }
 
-    return { run, setVideo, viewer: viewer.current };
+    return { run, setVideo, viewer: viewer };
 }
 
 export default useBroadcast
