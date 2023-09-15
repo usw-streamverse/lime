@@ -84,6 +84,8 @@ const GlobalStyle = createGlobalStyle`
         --watch-channel-menu-ripple: #797d83;
         --skeleton-bg-color: #fdfdfd;
         --skeleton-bg-color-animation: #ececec;
+        --button1-bg-color: #fff;
+        --button1-border-color: #dddddd;
     }
 
     body.dark {
@@ -128,6 +130,9 @@ const GlobalStyle = createGlobalStyle`
         --watch-channel-menu-ripple: #d6d6d6;
         --skeleton-bg-color: #202020;
         --skeleton-bg-color-animation: #272727;
+        --button1-bg-color: #141414;
+        --button1-border-color: #111111;
+
     }
 
     body {

@@ -14,8 +14,6 @@ const Broadcast = () => {
     const broadcast = useBroadcast();
     const [step, setStep] = useState<number>(0);
 
-    console.log(step);
-
     return (
         <BroadcastFormStateContext.Provider value={{setStep, broadcast}}>
             {

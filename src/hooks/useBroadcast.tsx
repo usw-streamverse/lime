@@ -1,5 +1,5 @@
 import { LIVE_STREAMING_SERVER } from 'config';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const iceServers: RTCConfiguration = {
     iceServers: [
@@ -29,13 +29,14 @@ const iceServers: RTCConfiguration = {
     ],
 };
 
-export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void};
+export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void, viewer: number};
 
 const useBroadcast = (): useBroadcastType => {
     const stream = useRef<MediaStream>();
     const ws = useRef<WebSocket>();
     const state = useRef<number>(0);
     const remote = useRef<RTCPeerConnection>();
+    const viewer = useRef<number>(0);
 
     useEffect(() => {
         return () => {
@@ -143,7 +144,7 @@ const useBroadcast = (): useBroadcastType => {
             remote.current.createOffer(
                 (desc) => {
                     if(!remote.current) return;
-                    remote.current.setLocalDescription(desc, () => console.log('LocalSuccess'), () => alert('setLocalDescription Error'));
+                    remote.current.setLocalDescription(desc, () => {}, () => alert('setLocalDescription Error'));
                     if(ws.current)
                         ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'broadcast', 'desc': desc}));
                 }
@@ -159,7 +160,7 @@ const useBroadcast = (): useBroadcastType => {
         }
     }
 
-    return { run, setVideo };
+    return { run, setVideo, viewer: viewer.current };
 }
 
 export default useBroadcast
