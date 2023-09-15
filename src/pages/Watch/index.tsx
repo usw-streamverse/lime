@@ -54,7 +54,7 @@ const Watch = (props: {id?: string}) => {
                     <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
                     <Body text={data?.data.explanation} />
                     <ChannelInfo>
-                        <ChannelInfo.Container onClick={() => navigate(`/@/${data.data.nickname}`)}>
+                        <ChannelInfo.Container onClick={() => navigate(`/@/${data.data.userid}`)}>
                             <ChannelInfo.ProfileIcon profileColor={data.data.profile} />
                             <ChannelInfo.Detail>
                                 <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>

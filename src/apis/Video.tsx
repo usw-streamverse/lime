@@ -25,6 +25,7 @@ export interface VideoItem {
 export interface VideoWatch {
     id: number,
     channel_id: number,
+    userid: string,
     nickname: string,
     duration: number,
     title: string,
