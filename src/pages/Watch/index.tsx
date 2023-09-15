@@ -58,7 +58,7 @@ const Watch = (props: {id?: string}) => {
                             <ChannelInfo.ProfileIcon profileColor={data.data.profile} />
                             <ChannelInfo.Detail>
                                 <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                                <ChannelInfo.Readership>구독자 0명</ChannelInfo.Readership>
+                                <ChannelInfo.Readership>구독자 {data.data.readership}명</ChannelInfo.Readership>
                             </ChannelInfo.Detail>
                         </ChannelInfo.Container>
                         <ChannelInfo.ButtonListContainer>

@@ -37,7 +37,8 @@ export interface VideoWatch {
     created: string,
     like: boolean
     subscribe: boolean,
-    profile: string
+    profile: string,
+    readership: number
 }
 
 export interface VideoUpdate {
