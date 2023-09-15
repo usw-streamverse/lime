@@ -1,4 +1,5 @@
 import JwtInterceptor from './JwtInterceptor';
+import { VideoItem } from './Video';
 
 export interface UploadResult {
     success: boolean,
@@ -7,16 +8,6 @@ export interface UploadResult {
     filename: string,
     duration: number,
     id: number,
-    thumbnail: string
-}
-
-export interface VideoItem {
-    id: number,
-    nickname: string,
-    title: string,
-    created: string,
-    view_count: number,
-    duration: number,
     thumbnail: string
 }
 

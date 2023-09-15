@@ -14,6 +14,7 @@ export interface UploadResult {
 export interface VideoItem {
     id: number,
     nickname: string,
+    profile: string,
     title: string,
     created: string,
     view_count: number,

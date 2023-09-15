@@ -3,6 +3,7 @@ import JwtInterceptor from './JwtInterceptor';
 export interface SearchItem {
     id: number,
     nickname: string,
+    profile: string,
     title: string,
     created: string,
     view_count: number,

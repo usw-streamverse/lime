@@ -33,9 +33,16 @@ const VideoItem = (props: VideoItemProps) => {
                 <img src={props.thumbnail} alt="Thumbnail" />
                 <Duration>{getDurationFormat(props.duration)}</Duration>
             </Thumbnail>
-            <Title>{props.title}</Title>
-            <Uploader>{props.nickname}</Uploader>
-            <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
+            <InforContainer>
+                <div>
+                    <ProfileIcon profileColor={props.profile} />
+                </div>
+                <DetailContainer>
+                    <Title>{props.title}</Title>
+                    <Uploader>{props.nickname}</Uploader>
+                    <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
+                </DetailContainer>
+            </InforContainer>
         </Container>
     )
 }
@@ -60,6 +67,25 @@ const Container = styled.div`
     @media screen and (max-width: 1420px) { --thumbnail-row: 3; }
     @media screen and (max-width: 900px) { --thumbnail-row: 2; }
     @media screen and (max-width: 480px) { --thumbnail-row: 1; }
+`
+
+const InforContainer = styled.div`
+    display: flex;
+    flex: auto;
+    margin-top: 0.25rem;
+`
+
+const DetailContainer = styled.div`
+    overflow-x: hidden;
+`
+
+const ProfileIcon = styled.div<{profileColor: string}>`
+    width: 2.0rem;
+    height: 2.0rem;
+    margin-top: 0.5rem;
+    margin-right: 1.0rem;
+    background-color: ${props => props.profileColor};
+    border-radius: 50%;
 `
 
 const Thumbnail = styled.div`

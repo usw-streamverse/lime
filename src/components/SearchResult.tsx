@@ -51,7 +51,7 @@ const SearchItem = (props: searchItem) => {
             <Infor>
                 <Title>{props.title}</Title>
                 <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
-                <Uploader>{props.nickname}</Uploader>
+                <Uploader><ProfileIcon profileColor={props.profile} />{props.nickname}</Uploader>
                 <Explanation>{props.explanation}</Explanation>
             </Infor>
         </Container>
@@ -71,6 +71,14 @@ const Container = styled.div`
         padding: 0;
     }
     
+`
+
+const ProfileIcon = styled.div<{profileColor: string}>`
+    width: 2.0rem;
+    height: 2.0rem;
+    margin-right: 0.5rem;
+    background-color: ${props => props.profileColor};
+    border-radius: 50%;
 `
 
 const Thumbnail = styled.div`
@@ -123,13 +131,12 @@ const Title = styled.div`
 `
 
 const Uploader = styled.div`
+    display: flex;
+    align-items: center;
     margin-bottom: 0.75rem;
     color: var(--main-text-color-light);
     font-size: 1.125rem;
     font-weight: 500;
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
 `
 
 const Detail = styled.div`
