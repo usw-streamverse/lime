@@ -46,6 +46,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    height: 100%;
 `
 
 const Head = styled.div`
