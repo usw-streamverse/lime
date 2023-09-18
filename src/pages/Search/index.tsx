@@ -1,20 +1,22 @@
 import styled from 'styled-components';
-import VideoList from '../../components/VideoList';
+import {  useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import Video from 'apis/Video';
-import VideoListSkeleton from 'components/Skeleton/VideoList';
+import SearchResult from 'components/Search/SearchResult';
+import SearchApi from 'apis/Search';
+import SearchResultSkeleton from 'components/Skeleton/SearchResult';
 import SearchBox from 'components/Search/SearchBox';
 
-const Main = () => {
-    const list = useQuery(['videoList'], Video().list);
+const Search = () => {
+    const query = useParams()['query'];
+    const search = useQuery(['searchList'], () => SearchApi().search(query || ''));
 
     return (
         <Container>
             <Inner>
-                <SearchWrap><SearchBox /></SearchWrap>
+                <SearchWrap><SearchBox defaultValue={query || ''} /></SearchWrap>
                 <Wrapper>
                     {
-                        list.isFetching ? <VideoListSkeleton /> : <VideoList item={list.status === 'success' ? list.data?.data : []} />
+                        search.isFetching ? <SearchResultSkeleton /> : <SearchResult item={search.status === 'success' ? search.data?.data : []} />
                     }
                 </Wrapper>
             </Inner>
@@ -54,4 +56,4 @@ const SearchWrap = styled.div`
     z-index: 1;
 `
 
-export default Main;
+export default Search;

@@ -15,6 +15,7 @@ import LiveStreaming from 'pages/Live/LiveStreaming';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Watch from 'pages/Watch';
 import RouteModal from 'components/RouteModal';
+import Search from 'pages/Search';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,12 +29,10 @@ const queryClient = new QueryClient({
 const AnimatedSwitch = () => {
   const location = useLocation();
 
-  console.log(location, location.state?.modal);
-
   return (
     <div className="transition-wrap">
       <TransitionGroup component={null}>
-        <CSSTransition key={location.state?.modal.key || location.key} classNames="fade" timeout={200}>
+        <CSSTransition key={location.state?.modal.key || location.pathname} classNames="fade" timeout={200}>
           <div>
             <Routes location={location.state?.modal || location}>
               <Route path="/" element={<Main />} />
@@ -41,7 +40,7 @@ const AnimatedSwitch = () => {
               <Route path="/broadcast" element={<Broadcast />} />
               <Route path="/live" element={<Live />} />
               <Route path="/live/:id" element={<LiveStreaming />} />
-              <Route path="/search/:query" element={<Main />} />
+              <Route path="/search/:query" element={<Search />} />
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/video/upload" element={<Upload />} />
               <Route path="/@/:id/:page?" element={<Channel />} />
@@ -51,6 +50,7 @@ const AnimatedSwitch = () => {
             {
               location.state?.modal && (
                 <Routes>
+                  <Route path="*" element={<></>} />
                   <Route path="/watch/:id" element={<RouteModal><Watch /></RouteModal>} />
                 </Routes>
               )

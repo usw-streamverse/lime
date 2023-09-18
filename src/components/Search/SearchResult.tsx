@@ -126,7 +126,7 @@ const Duration = styled.span`
 `
 
 const Title = styled.div`
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 400;
 `
 
@@ -140,10 +140,10 @@ const Uploader = styled.div`
 `
 
 const Detail = styled.div`
-    margin-top: 0.25rem;
+    margin-top: 0.375rem;
     margin-bottom: 0.75rem;
     color: var(--main-text-color-light);
-    font-size: 1.125rem;
+    font-size: 1.0rem;
     font-weight: 300;
 `
 

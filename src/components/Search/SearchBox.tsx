@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { KeyboardEvent, useRef } from 'react';
 
-const Search = () => {
+const SearchBox = (props: {defaultValue?: string}) => {
     const navigate = useNavigate();
     const refTextbox = useRef<HTMLInputElement>(null);
 
@@ -15,7 +15,7 @@ const Search = () => {
 
     return (
         <Wrap>
-            <TextBox width="100%" ref={refTextbox} onKeyDown={handleKeyDown} icon={<SlMagnifier size={14} />} placeholder="검색어를 입력하세요." />
+            <TextBox width="100%" ref={refTextbox} onKeyDown={handleKeyDown} icon={<SlMagnifier size={14} />} placeholder="검색어를 입력하세요." defaultValue={props.defaultValue} />
         </Wrap>
     )
 }
@@ -27,4 +27,4 @@ const Wrap = styled.div`
     }
 `
 
-export default Search;
+export default SearchBox;
