@@ -42,6 +42,7 @@ const useBroadcast = (): useBroadcastType => {
         return () => {
             if(ws.current) ws.current.close();
             if(remote.current) remote.current.close();
+            if(stream.current) stream.current.getTracks().forEach(track => track.stop());
         }
     }, []);
 
