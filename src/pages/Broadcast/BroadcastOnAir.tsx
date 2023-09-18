@@ -8,7 +8,13 @@ import BroadcastStatus from 'components/Broadcast/BroadcastStatus';
 
 const BroadcastOnAir = () => {
     const refVideo = useRef<HTMLVideoElement>(null);
+    const refTitle = useRef<HTMLInputElement>(null);
     const context = useContext(BroadcastFormStateContext);
+
+    const modifyTitle = () => {
+        if(!refTitle.current) return;
+        context.broadcast.modifyTitle(refTitle.current.value);
+    }
 
     useEffect(() => {
         context.broadcast.setVideo(refVideo);
@@ -17,9 +23,9 @@ const BroadcastOnAir = () => {
     return (
         <Container>
             <TitleContainer>
-                <FormTextBox placeholder="라이브 스트리밍 제목" />
+                <FormTextBox ref={refTitle} placeholder="라이브 스트리밍 제목" value={context.broadcast.title} />
                 <ButtonWrapper>
-                    <Button borderColor="var(--sign-textbox-border-color)" color="var(--navbar-menu-text-color-active)" bgColor="var(--button1-bg-color)" bgColorOver="var(--navbar-menu-hover)">제목 변경</Button>
+                    <Button onClick={modifyTitle} borderColor="var(--sign-textbox-border-color)" color="var(--navbar-menu-text-color-active)" bgColor="var(--button1-bg-color)" bgColorOver="var(--navbar-menu-hover)">제목 변경</Button>
                 </ButtonWrapper>
             </TitleContainer>
             <Body>
@@ -31,6 +37,7 @@ const BroadcastOnAir = () => {
 
 const Preview = (props: {refVideo: React.RefObject<HTMLVideoElement>}) => {
     const [visible, setVisible] = useState<Boolean>(true);
+    const context = useContext(BroadcastFormStateContext);
 
     return (
         <Preview.Container>
@@ -43,7 +50,7 @@ const Preview = (props: {refVideo: React.RefObject<HTMLVideoElement>}) => {
                 </VideoContainer>
             </Preview.VideoWrapper>
             <Preview.Infor>
-                <BroadcastStatus refVideo={props.refVideo} />
+                <BroadcastStatus refVideo={props.refVideo} title={context.broadcast.title} />
                 <Button onClick={() => setVisible(visible => !visible)} borderColor="var(--button1-border-color)" color="var(--navbar-menu-text-color-active)" bgColor="var(--button1-bg-color)" bgColorOver="var(--navbar-menu-hover)">{visible ? '송출 화면 숨기기' : '송출 화면 표시'}</Button>
             </Preview.Infor>
         </Preview.Container>
@@ -62,8 +69,6 @@ Preview.Infor = styled.div`
     display: flex;
     justify-content: space-between;
 `
-
-
 
 const Container = styled.div`
     position: relative;

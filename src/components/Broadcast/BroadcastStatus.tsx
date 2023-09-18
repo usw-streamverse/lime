@@ -4,7 +4,7 @@ import { BsClockFill, BsPersonFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import { getSecondFormat } from 'utils/Time';
 
-const BroadcastStatus = (props: {refVideo: React.RefObject<HTMLVideoElement>}) => {
+const BroadcastStatus = (props: {refVideo: React.RefObject<HTMLVideoElement>, title: string}) => {
     const context = useContext(BroadcastFormStateContext);
     const [duration, setDuration] = useState<number>(0);
     const [viewer, setViewer] = useState<number>(0);
@@ -22,13 +22,32 @@ const BroadcastStatus = (props: {refVideo: React.RefObject<HTMLVideoElement>}) =
 
     return (
         <Container>
-            <Item><BsPersonFill size={16} />{viewer}</Item>
-            <Item><BsClockFill size={16} />{getSecondFormat(duration)}</Item>
+            <DetailContainer>
+                <Title>{props.title}</Title>
+                <Detail>
+                    <Item><BsClockFill size={16} />{getSecondFormat(duration)}</Item>
+                    <Item><BsPersonFill size={16} />{viewer}</Item>
+                </Detail>
+            </DetailContainer>
         </Container>
     )
 }
 
 const Container = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const DetailContainer = styled.div`
+`
+
+const Title = styled.div`
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 400;
+`
+
+const Detail = styled.div`
     display: flex;
     align-items: center;
 `

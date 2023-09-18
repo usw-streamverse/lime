@@ -1,5 +1,5 @@
 import { LIVE_STREAMING_SERVER } from 'config';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const iceServers: RTCConfiguration = {
     iceServers: [
@@ -29,7 +29,7 @@ const iceServers: RTCConfiguration = {
     ],
 };
 
-export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void, viewer: React.RefObject<number>};
+export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void, viewer: React.RefObject<number>, title: string, modifyTitle: (value: string) => void};
 
 const useBroadcast = (): useBroadcastType => {
     const stream = useRef<MediaStream>();
@@ -37,6 +37,7 @@ const useBroadcast = (): useBroadcastType => {
     const state = useRef<number>(0);
     const remote = useRef<RTCPeerConnection>();
     const viewer = useRef<number>(0);
+    const [title, setTitle] = useState<string>('');
 
     useEffect(() => {
         return () => {
@@ -95,12 +96,20 @@ const useBroadcast = (): useBroadcastType => {
                         case 'status':
                             viewer.current = Number(data.viewer);
                             break;
+                        case 'title':
+                            setTitle(String(data.value));
+                            break;
                     }
                 } catch(e) {
 
                 }
             }
         }));
+    }
+
+    const modifyTitle = (value: string) => {
+        if(ws.current)
+            ws.current.send(JSON.stringify({type: 'modifyTitle', 'title': value}));
     }
 
     const setVideo = (refVideo: React.RefObject<HTMLVideoElement>) => {
@@ -164,7 +173,7 @@ const useBroadcast = (): useBroadcastType => {
         }
     }
 
-    return { run, setVideo, viewer: viewer };
+    return { run, setVideo, viewer: viewer, title, modifyTitle };
 }
 
 export default useBroadcast
