@@ -10,22 +10,6 @@ import Search from 'apis/Search';
 import SearchResultSkeleton from 'components/Skeleton/SearchResult';
 import VideoListSkeleton from 'components/Skeleton/VideoList';
 
-const Thumbnail = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    aspect-ratio: 16/9;
-    line-height: 0;
-    opacity: 0;
-    display: none;
-    img {
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-`
-
 const Main = () => {
     const [page, setPage] = useState<string>('');
     const location = useLocation();
