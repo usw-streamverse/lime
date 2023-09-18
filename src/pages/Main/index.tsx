@@ -60,9 +60,6 @@ const Main = () => {
                             }
                         })(page)
                     }
-                    <Thumbnail>
-                        <img alt="thumbnail" src="https://svlimestorage.blob.core.windows.net/lime/v1685515640893-thumbnail.png" />
-                    </Thumbnail>
                 </Wrapper>
             </Inner>
         </Container>
