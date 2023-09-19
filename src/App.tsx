@@ -11,7 +11,7 @@ import Overlay from 'components/Overlay';
 import Subscription from 'pages/Subscription';
 import Broadcast from 'pages/Broadcast';
 import Live from 'pages/Live';
-import LiveStreaming from 'pages/Live/LiveStreaming';
+import WatchLive from 'pages/WatchLive';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Watch from 'pages/Watch';
 import RouteModal from 'components/RouteModal';
@@ -39,7 +39,7 @@ const AnimatedSwitch = () => {
               <Route path="/myinfo" element={<MyInfo />} />
               <Route path="/broadcast" element={<Broadcast />} />
               <Route path="/live" element={<Live />} />
-              <Route path="/live/:id" element={<LiveStreaming />} />
+              <Route path="/live/:id" element={<WatchLive />} />
               <Route path="/search/:query" element={<Search />} />
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/video/upload" element={<Upload />} />

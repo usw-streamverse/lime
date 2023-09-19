@@ -1,5 +1,5 @@
 import { LIVE_STREAMING_SERVER } from 'config';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -44,13 +44,12 @@ const offerOptions:RTCOfferOptions = {
     offerToReceiveVideo: true
 };
 
-const LiveStreaming = () => {
+const WatchLive = () => {
     const userid = useParams()['id'] || '';
     const videoRef = useRef<HTMLVideoElement>(null);
     const ws = useRef<WebSocket>();
     const remote = useRef<RTCPeerConnection>();
-
-    console.log(userid);
+    const [title, setTitle] = useState<string>('');
 
     const connect = () => {
         if(!videoRef.current) return;
@@ -68,7 +67,7 @@ const LiveStreaming = () => {
             remote.current.createOffer(
                 (desc) => {
                     if(!remote.current) return;
-                    remote.current.setLocalDescription(desc, () => console.log('LocalSuccess'), () => alert('setLocalDescription Error'));
+                    remote.current.setLocalDescription(desc, () => {}, () => alert('setLocalDescription Error'));
                     if(ws.current)
                         ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'stream', 'channel': userid, 'desc': desc}));
                 }
@@ -98,6 +97,7 @@ const LiveStreaming = () => {
             if(!remote.current) return;
             try {
                 const data = JSON.parse(e.data);
+                console.log(data);
                 switch(data.type){
                     case 'offer': {
                         const desc = new RTCSessionDescription(data.desc);
@@ -117,6 +117,9 @@ const LiveStreaming = () => {
                     case 'icecandidate':
                         remote.current.addIceCandidate(new RTCIceCandidate(data.data));
                         break;
+                    case 'title':
+                        setTitle(data.title);
+                        break;
                 }
             } catch(e) {
 
@@ -126,11 +129,17 @@ const LiveStreaming = () => {
     
     useEffect(() => {
         connect();
+
+        return () => {
+            if(ws.current) ws.current.close();
+            if(remote.current) remote.current.close();
+        }
     }, []);
 
     return (
         <Container>
             <video ref={videoRef} autoPlay controls width={'100%'} />
+            <Title>{title}</Title>
         </Container>
     )
 }
@@ -139,4 +148,10 @@ const Container = styled.div`
     padding: 1.0rem;
 `
 
-export default LiveStreaming
+const Title = styled.div`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+`
+
+export default WatchLive
