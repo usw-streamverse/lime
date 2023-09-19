@@ -1,33 +1,5 @@
-import { LIVE_STREAMING_SERVER } from 'config';
+import { ICE_SERVERS, LIVE_STREAMING_SERVER } from 'config';
 import React, { useEffect, useRef, useState } from 'react';
-
-const iceServers: RTCConfiguration = {
-    iceServers: [
-        {
-            urls: "stun:stun.relay.metered.ca:80",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:80",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:80?transport=tcp",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:443",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:443?transport=tcp",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-    ],
-};
 
 export type useBroadcastType = {run: (refVideo: React.RefObject<HTMLVideoElement> | null, isDisplayMedia: boolean) => Promise<void>, setVideo: (refVideo: React.RefObject<HTMLVideoElement>) => void, viewer: React.RefObject<number>, title: string, modifyTitle: (value: string) => void};
 
@@ -65,6 +37,7 @@ const useBroadcast = (): useBroadcastType => {
             w.onmessage = (e) => {
                 try {
                     const data = JSON.parse(e.data);
+                    console.log(data);
                     switch(data.type){
                         case 'error':
                             alert(data.message);
@@ -97,7 +70,7 @@ const useBroadcast = (): useBroadcastType => {
                             viewer.current = Number(data.viewer);
                             break;
                         case 'title':
-                            setTitle(String(data.value));
+                            setTitle(String(data.title));
                             break;
                     }
                 } catch(e) {
@@ -148,7 +121,7 @@ const useBroadcast = (): useBroadcastType => {
                 refVideo.current.play();
             }
 
-            remote.current = new RTCPeerConnection(iceServers);
+            remote.current = new RTCPeerConnection(ICE_SERVERS);
 
             const _stream = stream.current;
             

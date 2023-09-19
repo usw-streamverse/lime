@@ -1,43 +1,7 @@
-import { LIVE_STREAMING_SERVER } from 'config';
+import { ICE_SERVERS, LIVE_STREAMING_SERVER } from 'config';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-/*const iceServers: RTCConfiguration = {iceServers: [{ urls: [
-    'stun:stun.l.google.com:19302',
-    'stun:stun1.l.google.com:19302',
-    'stun:stun2.l.google.com:19302',
-    'stun:stun3.l.google.com:19302',
-    'stun:stun4.l.google.com:19302',
-]}]};*/
-
-const iceServers: RTCConfiguration = {
-    iceServers: [
-        {
-            urls: "stun:stun.relay.metered.ca:80",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:80",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:80?transport=tcp",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:443",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-        {
-            urls: "turn:a.relay.metered.ca:443?transport=tcp",
-            username: "faa70f6f53fda5703594c0c2",
-            credential: "UJH/kAmY0wAqKcgI",
-        },
-    ],
-};
 
 const offerOptions:RTCOfferOptions = {
     offerToReceiveAudio: true,
@@ -62,7 +26,7 @@ const WatchLive = () => {
         ws.current = new WebSocket(LIVE_STREAMING_SERVER);
         ws.current.onopen = (e) => {
             if(!ws.current) return;
-            remote.current = new RTCPeerConnection(iceServers);
+            remote.current = new RTCPeerConnection(ICE_SERVERS);
 
             remote.current.createOffer(
                 (desc) => {
