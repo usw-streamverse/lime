@@ -4,7 +4,7 @@ import React, { useRef, useState, Dispatch, SetStateAction, useEffect, useContex
 import FormTextBox from 'components/FormTextBox';
 import CheckBox from 'components/CheckBox';
 import { CSSTransition } from 'react-transition-group';
-import Button from './Button';
+import Button from 'components/Sign/SignButton';
 import { useMutation } from '@tanstack/react-query';
 import { Auth } from 'apis';
 import { TailSpin } from  'react-loader-spinner'

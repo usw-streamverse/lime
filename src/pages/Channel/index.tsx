@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useHref, useNavigate, useParams } from 'react-router-dom';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'apis';
 import { AxiosError } from 'axios';
 import Tab from 'components/Tab';
-import VideoList from './VideoList';
+import VideoList from 'components/Channel/ChannelVideoList';
 import Menu from 'components/Menu';
 
 const Channel = () => {
@@ -26,10 +26,6 @@ const Channel = () => {
             }
         }
     });
-
-    /*useEffect(() => {
-        window.history.replaceState(null, page, page === '' ? url : url + '/' + page);
-    }, [page, url])*/
 
     return (
         <Container>

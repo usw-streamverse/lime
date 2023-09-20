@@ -9,7 +9,7 @@ interface ButtonProps {
     type?: string,
 }
 
-const Button = ({children, onClick, disabled = false, type = 'button'}: ButtonProps) => {
+const SignButton = ({children, onClick, disabled = false, type = 'button'}: ButtonProps) => {
     const ref = useRef(null);
     const ripple = useRippleEffect(ref, 'rgba(255, 255, 255, 0.2)');
 
@@ -46,4 +46,4 @@ const StyledButton = styled.button`
     }
 `
 
-export default Button;
+export default SignButton;

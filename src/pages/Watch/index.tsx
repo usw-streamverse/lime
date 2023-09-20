@@ -6,7 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
-import ChannelInfo from './ChannelInfo';
+import ChannelInfo from 'components/Watch/ChannelInfo';
 import VideoPlayer from 'components/Video';
 import Comment from 'components/Comment/Comment';
 import WatchSkeleton from './Skeleton';
