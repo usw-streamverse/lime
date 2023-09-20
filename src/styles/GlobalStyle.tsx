@@ -130,13 +130,7 @@ const GlobalStyle = createGlobalStyle`
         overflow: hidden overlay;
         overscroll-behavior-y: none;
         ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-            background-color: #e6e6e6;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #979cab;
-            border-radius: 4px;
+            width: 0;
         }
 
         &.preventScroll {
@@ -349,8 +343,8 @@ const GlobalStyle = createGlobalStyle`
     }
     .transition-wrap {
         position: relative;
-        width: 100vw;
         height: 100%;
+        max-width: 100vw;
         > div {
             height: 100%;
         }
