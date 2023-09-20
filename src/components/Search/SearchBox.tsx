@@ -1,16 +1,20 @@
 import { SlMagnifier } from 'react-icons/sl';
 import TextBox from 'components/TextBox';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useHref, useNavigate } from 'react-router-dom';
 import { KeyboardEvent, useRef } from 'react';
 
-const SearchBox = (props: {defaultValue?: string}) => {
+const SearchBox = (props: {defaultValue?: string, replaceState?: boolean, onSearch?: (query: string) => void}) => {
     const navigate = useNavigate();
     const refTextbox = useRef<HTMLInputElement>(null);
+    const hrefSearch = useHref('/search');
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.keyCode === 13 && refTextbox.current?.value.trim() !== '')
-            navigate(`/search/${refTextbox.current?.value}`);
+        const query = refTextbox.current?.value.trim() || '';
+        if(e.keyCode === 13 && query !== ''){
+            props.replaceState ? window.history.replaceState('', '', `${hrefSearch}/${query}`) : navigate(`/search/${query}`);
+            props.onSearch && props.onSearch(query);
+        }
     }
 
     return (

@@ -1,19 +1,25 @@
 import styled from 'styled-components';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import SearchResult from 'components/Search/SearchResult';
 import SearchApi from 'apis/Search';
 import SearchResultSkeleton from 'components/Skeleton/SearchResult';
 import SearchBox from 'components/Search/SearchBox';
+import { useState } from 'react';
 
 const Search = () => {
-    const query = useParams()['query'];
+    const [query, setQuery] = useState<string>(useParams()['query'] || '');
     const search = useQuery(['searchList'], () => SearchApi().search(query || ''));
+
+    const onSearch = (query: string) => {
+        setQuery(query);
+        search.refetch();
+    }
 
     return (
         <Container>
             <Inner>
-                <SearchWrap><SearchBox defaultValue={query || ''} /></SearchWrap>
+                <SearchWrap><SearchBox defaultValue={query || ''} onSearch={onSearch} replaceState /></SearchWrap>
                 <Wrapper>
                     {
                         search.isFetching ? <SearchResultSkeleton /> : <SearchResult item={search.status === 'success' ? search.data?.data : []} />
