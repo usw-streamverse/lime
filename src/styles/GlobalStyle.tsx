@@ -23,6 +23,12 @@ const GlobalStyle = createGlobalStyle`
     html {
         font-size: 14px;
     }
+
+    div {
+        ::-webkit-scrollbar {
+            width: 0;
+        }
+    }
     
     body {
         --red: red;
