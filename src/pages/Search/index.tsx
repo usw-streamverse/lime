@@ -5,25 +5,26 @@ import SearchResult from 'components/Search/SearchResult';
 import SearchApi from 'apis/Search';
 import SearchResultSkeleton from 'components/Skeleton/SearchResult';
 import SearchBox from 'components/Search/SearchBox';
-import { useState } from 'react';
+import { useRef } from 'react';
 
 const Search = () => {
-    const [query, setQuery] = useState<string>(useParams()['query'] || '');
-    const search = useQuery(['searchList'], () => SearchApi().search(query || ''));
+    const query = useRef<string>(useParams()['query'] || '');
+    const search = useQuery(['searchList'], () => SearchApi().search(query.current || ''));
 
-    const onSearch = (query: string) => {
-        setQuery(query);
+    const onSearch = (paramQuery: string) => {
+        query.current = paramQuery;
         search.refetch();
     }
 
     return (
         <Container>
             <Inner>
-                <SearchWrap><SearchBox defaultValue={query || ''} onSearch={onSearch} replaceState /></SearchWrap>
+                <SearchWrap><SearchBox defaultValue={query.current || ''} onSearch={onSearch} replaceState /></SearchWrap>
                 <Wrapper>
-                    {
-                        search.isFetching ? <SearchResultSkeleton /> : <SearchResult item={search.status === 'success' ? search.data?.data : []} />
-                    }
+                    {search.isFetching && <SearchResultSkeleton />}
+                    <AnimatedWrapper value={!search.isFetching}>
+                        {!search.isFetching && <SearchResult item={search.status === 'success' ? search.data?.data : []} />}
+                    </AnimatedWrapper>
                 </Wrapper>
             </Inner>
         </Container>
@@ -49,6 +50,14 @@ const Wrapper = styled.div`
         position: absolute;
         padding: 1.0rem;
     }
+`
+
+const AnimatedWrapper = styled.div<{value: boolean}>`
+    opacity: 0;
+    ${props => props.value && `
+        opacity: 1;
+        transition: all 500ms ease;
+    `}
 `
 
 const SearchWrap = styled.div`
