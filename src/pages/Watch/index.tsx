@@ -249,6 +249,7 @@ Body.Wrapper = styled.div<{full: boolean}>`
     word-break: break-all;
     ${(props) => !props.full && `
         width: calc(100% - 4.0rem);
+        max-width: calc(100vw - 4.0rem);
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden; 
