@@ -157,7 +157,7 @@ const GlobalStyle = createGlobalStyle`
 
     .modal-enter {
         opacity: 0;
-        > div {
+        div.body {
             transform: scale(0.9);
         }
     }
@@ -165,7 +165,7 @@ const GlobalStyle = createGlobalStyle`
     .modal-enter-active {
         opacity: 1;
         transition: all 200ms ease;
-        > div {
+        div.body {
             transform: scale(1);
             transition: all 200ms ease;
         }
@@ -178,7 +178,7 @@ const GlobalStyle = createGlobalStyle`
     .modal-exit-active {
         opacity: 0;
         transition: all 200ms ease;
-        > div {
+        div.body {
             transform: scale(0.9);
             transition: all 200ms ease;
         }

@@ -35,26 +35,27 @@ const Modal = (props: ModalProps) => {
 
     return (
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
-            <Container>
-                <Shadow ref={nodeRef} onClick={closeModal}>
-                    <Wrapper onClick={(e) => e.stopPropagation()}>
-                        {props.children}
-                    </Wrapper>
-                </Shadow>
+            <Container ref={nodeRef}>
+                <Shadow className="shadow" onClick={closeModal} />
+                <Wrapper className="body" onClick={(e) => e.stopPropagation()}>
+                    {props.children}
+                </Wrapper>
             </Container>
         </CSSTransition>
     );
 }
 
 const Container = styled.div`
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     z-index: 999;
 `
 
 const Shadow = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
