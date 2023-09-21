@@ -1,20 +1,15 @@
 import Button from 'components/Button';
-import FormTextBox from 'components/FormTextBox';
 import VideoContainer from 'components/VideoContainer';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BroadcastFormStateContext } from '.';
 import BroadcastStatus from 'components/Broadcast/BroadcastStatus';
+import { OverlayContext } from 'components/Overlay';
+import ModifyTitle from 'components/Modal/Broadcast/ModifyTitle';
 
 const BroadcastOnAir = () => {
     const refVideo = useRef<HTMLVideoElement>(null);
-    const refTitle = useRef<HTMLInputElement>(null);
     const context = useContext(BroadcastFormStateContext);
-
-    const modifyTitle = () => {
-        if(!refTitle.current) return;
-        context.broadcast.modifyTitle(refTitle.current.value);
-    }
 
     useEffect(() => {
         context.broadcast.setVideo(refVideo);
@@ -22,16 +17,30 @@ const BroadcastOnAir = () => {
 
     return (
         <Container>
-            <TitleContainer>
-                <FormTextBox ref={refTitle} placeholder="라이브 스트리밍 제목" value={context.broadcast.title} />
-                <ButtonWrapper>
-                    <Button onClick={modifyTitle} borderColor="var(--sign-textbox-border-color)" color="var(--navbar-menu-text-color-active)" bgColor="var(--button1-bg-color)" bgColorOver="var(--navbar-menu-hover)">제목 변경</Button>
-                </ButtonWrapper>
-            </TitleContainer>
+            <ButtonContainer>
+                <ModifyTitleButton />
+            </ButtonContainer>
             <Body>
                 <Preview refVideo={refVideo}/>
             </Body>
         </Container>
+    )
+}
+
+const ModifyTitleButton = () => {
+    const overlayContext = useContext(OverlayContext);
+    const context = useContext(BroadcastFormStateContext);
+
+    useEffect(() => {
+        overlayContext.push(<ModifyTitle broadcast={context.broadcast} />, 'ModifyTitle')
+
+        return () => {
+            overlayContext.hide('ModifyTitle');
+        }
+    }, [context.broadcast]);
+
+    return (
+        <Button onClick={() => overlayContext.show('ModifyTitle')} borderColor="var(--sign-textbox-border-color)" color="var(--navbar-menu-text-color-active)" bgColor="var(--button1-bg-color)" bgColorOver="var(--navbar-menu-hover)">제목 변경</Button>
     )
 }
 
@@ -77,14 +86,8 @@ const Container = styled.div`
     max-width: 1024px;
 `
 
-const TitleContainer = styled.div`
-    display: flex;
-    align-items: center;
-`
-
-const ButtonWrapper = styled.div`
+const ButtonContainer = styled.div`
     position: relative;
-    margin-left: 1.0rem;
     > button {
         width: 7.0rem;
         height: 3.0rem;

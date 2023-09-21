@@ -26,7 +26,7 @@ const BroadcastStatus = (props: {refVideo: React.RefObject<HTMLVideoElement>, ti
                 <Title>{props.title}</Title>
                 <Detail>
                     <Item><BsClockFill size={16} />{getSecondFormat(duration)}</Item>
-                    <Item><BsPersonFill size={16} />{viewer}</Item>
+                    <Item style={{color: 'var(--red)'}}><BsPersonFill size={16} />{viewer}</Item>
                 </Detail>
             </DetailContainer>
         </Container>
@@ -55,7 +55,7 @@ const Detail = styled.div`
 const Item = styled.div`
     display: flex;
     align-items: center;
-    margin: 0 0.5rem;
+    margin: 0 0.375rem;
     font-weight: 400;
     :first-child {
         margin-left: 0;
