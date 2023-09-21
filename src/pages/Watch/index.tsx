@@ -47,30 +47,32 @@ const Watch = (props: {id?: string}) => {
 
     if(isFetchedAfterMount && status === 'success')
         return (
-            <Container>
-                <VideoContext.Provider value={id || ''}>
-                    <VideoWrapper><VideoPlayer ref={videoRef} /></VideoWrapper>
-                    <Title>{data?.data.title}</Title>
-                    <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
-                    <Body text={data?.data.explanation} />
-                    <ChannelInfo>
-                        <ChannelInfo.Container onClick={() => navigate(`/@/${data.data.userid}`)}>
-                            <ChannelInfo.ProfileIcon profileColor={data.data.profile} />
-                            <ChannelInfo.Detail>
-                                <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                                <ChannelInfo.Readership>구독자 {data.data.readership}명</ChannelInfo.Readership>
-                            </ChannelInfo.Detail>
-                        </ChannelInfo.Container>
-                        <ChannelInfo.ButtonListContainer>
-                            <Subscribe active={data?.data.subscribe} channelId={data?.data.channel_id} />
-                            <Like active={data?.data.like} />
-                            <Share />
-                            <AddPlayList id={id || ''} />
-                        </ChannelInfo.ButtonListContainer>
-                    </ChannelInfo>
-                    <Comment id={id || ''} />
-                </VideoContext.Provider>
-            </Container>
+            <Wrapper>
+                <Container>
+                    <VideoContext.Provider value={id || ''}>
+                        <VideoWrapper><VideoPlayer ref={videoRef} /></VideoWrapper>
+                        <Title>{data?.data.title}</Title>
+                        <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
+                        <Body text={data?.data.explanation} />
+                        <ChannelInfo>
+                            <ChannelInfo.Container onClick={() => navigate(`/@/${data.data.userid}`)}>
+                                <ChannelInfo.ProfileIcon profileColor={data.data.profile} />
+                                <ChannelInfo.Detail>
+                                    <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
+                                    <ChannelInfo.Readership>구독자 {data.data.readership}명</ChannelInfo.Readership>
+                                </ChannelInfo.Detail>
+                            </ChannelInfo.Container>
+                            <ChannelInfo.ButtonListContainer>
+                                <Subscribe active={data?.data.subscribe} channelId={data?.data.channel_id} />
+                                <Like active={data?.data.like} />
+                                <Share />
+                                <AddPlayList id={id || ''} />
+                            </ChannelInfo.ButtonListContainer>
+                        </ChannelInfo>
+                        <Comment id={id || ''} />
+                    </VideoContext.Provider>
+                </Container>
+            </Wrapper>
         )
     else
         return (
@@ -182,17 +184,19 @@ const AddPlayList = (props: {id: string}) => {
     )
 }
 
-const Container = styled.div`
+const Wrapper = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
     padding: 0;
     background-color: var(--main-bg-color);
     overflow-y: auto;
-    ::-webkit-scrollbar {
-        width: 0;
-        height: 0;
-    }
+`
+
+const Container = styled.div`
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
 `
 
 const VideoWrapper = styled.div`
