@@ -38,6 +38,7 @@ const SearchResult = (props: {item: searchItem[]}) => {
 
 const ResultContainer = styled.div`
     position: relative;
+    padding: 1.0rem;
 `
 
 const SearchItem = (props: searchItem) => {
@@ -50,8 +51,11 @@ const SearchItem = (props: searchItem) => {
                 <Duration>{getDurationFormat(props.duration)}</Duration>
             </Thumbnail>
             <Infor>
-                <Title>{props.title}</Title>
-                <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
+                <TextContainer>
+                    <Title>{props.title}</Title>
+                    <Uploader2>{props.nickname}</Uploader2>
+                    <Detail>조회수 {props.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(props.created))}</Detail>
+                </TextContainer>
                 <Uploader><ProfileIcon profileColor={props.profile} />{props.nickname}</Uploader>
                 <Explanation>{props.explanation}</Explanation>
             </Infor>
@@ -75,11 +79,15 @@ const Container = styled.div`
 `
 
 const ProfileIcon = styled.div<{profileColor: string}>`
-    width: 2.0rem;
-    height: 2.0rem;
+    width: 1.5rem;
+    height: 1.5rem;
     margin-right: 0.5rem;
     background-color: ${props => props.profileColor};
     border-radius: 50%;
+    @media screen and (max-width: 768px) {
+        width: 2.0rem;
+        height: 2.0rem;
+    }
 `
 
 const Thumbnail = styled.div`
@@ -101,6 +109,10 @@ const Thumbnail = styled.div`
     }
 `
 
+const TextContainer = styled.div`
+    
+`
+
 const Infor = styled.div`
     padding: 0 1.0rem;
     width: calc(100% - 400px);
@@ -108,8 +120,12 @@ const Infor = styled.div`
         width: calc(100% - 300px);
     }
     @media screen and (max-width: 768px) {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        flex-direction: row-reverse;
         width: 100%;
-        margin: 0.5rem 0 1.0rem 0;
+        margin: 0.75rem 0 1.0rem 0;
         padding: 0;
     }
 `
@@ -129,6 +145,9 @@ const Duration = styled.span`
 const Title = styled.div`
     font-size: 1.25rem;
     font-weight: 400;
+    @media screen and (max-width: 768px) {
+        font-size: 1.125rem;
+    }
 `
 
 const Uploader = styled.div`
@@ -136,16 +155,35 @@ const Uploader = styled.div`
     align-items: center;
     margin-bottom: 0.75rem;
     color: var(--main-text-color-light);
-    font-size: 1.125rem;
-    font-weight: 500;
+    font-size: 1.0rem;
+    font-weight: 400;
+    @media screen and (max-width: 768px) {
+        margin-right: 0.5rem;
+        font-size: 0;
+    }
+`
+
+const Uploader2 = styled.div`
+    display: none;
+    margin-top: 0.375rem;
+    color: var(--main-text-color-light);
+    font-size: 0.875rem;
+    font-weight: 300;
+    @media screen and (max-width: 768px) {
+        display: block;
+    }
 `
 
 const Detail = styled.div`
-    margin-top: 0.375rem;
+    margin-top: 0.25rem;
     margin-bottom: 0.75rem;
     color: var(--main-text-color-light);
     font-size: 1.0rem;
     font-weight: 300;
+    @media screen and (max-width: 768px) {
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+    }
 `
 
 const Explanation = styled.div`
