@@ -6,7 +6,8 @@ export interface LiveItem {
     title: string,
     created: number,
     viewer: number,
-    thumbnail: string
+    thumbnail: string,
+    profile: string
 }
 
 const Live = () => {    
