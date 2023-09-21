@@ -79,6 +79,7 @@ const ProgressBar = () => {
             const moveHandler = (e: MouseEvent) => {
                 if(downPos.current.active) {
                     const progress = Math.min(1, Math.max(0, (e.screenX - downPos.current.x) / (videoRef.current?.clientWidth || 0)));
+
                     if(videoRef.current)
                         videoRef.current.currentTime = videoRef.current.duration * progress;
                 }
@@ -294,7 +295,8 @@ const PlayTime = () => {
         if(typeof videoRef !== 'function' && videoRef?.current){
             let videoRefCurrent = videoRef.current;
             const timeUpdate = () => {
-                setTime(`${getSecondFormat(Math.floor(videoRef.current?.currentTime || 0))} / ${getSecondFormat(Math.floor(videoRef.current?.duration || 0))}`);
+                const duration: number = isFinite(videoRef.current?.duration || NaN) ? (videoRef.current?.duration || 0) : (videoRef.current?.currentTime || 0);
+                setTime(`${getSecondFormat(Math.floor(videoRef.current?.currentTime || 0))} / ${getSecondFormat(Math.floor(duration || 0))}`);
             }
             videoRefCurrent.addEventListener('timeupdate', timeUpdate);
             videoRefCurrent.addEventListener('canplay', timeUpdate);
