@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { SearchItem as searchItem } from 'apis/Search';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
 import { CiCloudDrizzle } from 'react-icons/ci';
 
@@ -42,8 +42,9 @@ const ResultContainer = styled.div`
 
 const SearchItem = (props: searchItem) => {
     const navigate = useNavigate();
+    const location = useLocation();
     return (
-        <Container onClick={(e) => navigate(`/watch/${props.id}`)}>
+        <Container onClick={(e) => navigate(`/watch/${props.id}`, {state: {modal: location}})}>
             <Thumbnail>
                 <img src={props.thumbnail} alt="Thumbnail" />
                 <Duration>{getDurationFormat(props.duration)}</Duration>
