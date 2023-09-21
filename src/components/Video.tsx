@@ -78,10 +78,10 @@ const ProgressBar = () => {
 
             const moveHandler = (e: MouseEvent) => {
                 if(downPos.current.active) {
+                    if(!videoRef.current || !isFinite(videoRef.current.duration)) return;
                     const progress = Math.min(1, Math.max(0, (e.screenX - downPos.current.x) / (videoRef.current?.clientWidth || 0)));
 
-                    if(videoRef.current)
-                        videoRef.current.currentTime = videoRef.current.duration * progress;
+                    videoRef.current.currentTime = videoRef.current.duration * progress;
                 }
             }
 
@@ -104,6 +104,7 @@ const ProgressBar = () => {
 
     const downHandler = (e: React.MouseEvent) => {
         if(e.button === 0 && typeof videoRef !== 'function' && videoRef?.current) {
+            if(!isFinite(videoRef.current.duration)) return;
             downPos.current.active = true;
             downPos.current.x = e.screenX - e.nativeEvent.offsetX;
             
