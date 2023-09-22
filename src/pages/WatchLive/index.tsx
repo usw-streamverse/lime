@@ -1,12 +1,10 @@
+import LiveChannelInfo from 'components/Live/LiveChannelInfo';
+import Video from 'components/Video';
 import { ICE_SERVERS, LIVE_STREAMING_SERVER } from 'config';
 import { useEffect, useRef, useState } from 'react';
+import { BsPersonFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-const offerOptions:RTCOfferOptions = {
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: true
-};
 
 const WatchLive = () => {
     const userid = useParams()['id'] || '';
@@ -14,6 +12,7 @@ const WatchLive = () => {
     const ws = useRef<WebSocket>();
     const remote = useRef<RTCPeerConnection>();
     const [title, setTitle] = useState<string>('');
+    const [viewer, setViewer] = useState<number>(0);
 
     const connect = () => {
         if(!videoRef.current) return;
@@ -33,9 +32,13 @@ const WatchLive = () => {
                     if(!remote.current) return;
                     remote.current.setLocalDescription(desc, () => {}, () => alert('setLocalDescription Error'));
                     if(ws.current)
-                        ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'stream', 'channel': userid, 'desc': desc}));
-                }
-            , () => console.log('description error'), offerOptions);
+                        ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'viewer', 'channel': userid, 'desc': desc}));
+                }, 
+            () => console.log('description error'),
+            {
+                offerToReceiveAudio: true,
+                offerToReceiveVideo: true
+            });
 
             remote.current.ontrack = (e) => {
                 if(!videoRef.current) return;
@@ -61,7 +64,6 @@ const WatchLive = () => {
             if(!remote.current) return;
             try {
                 const data = JSON.parse(e.data);
-                console.log(data);
                 switch(data.type){
                     case 'offer': {
                         const desc = new RTCSessionDescription(data.desc);
@@ -84,6 +86,9 @@ const WatchLive = () => {
                     case 'title':
                         setTitle(data.title);
                         break;
+                    case 'status':
+                        setViewer(data.viewer);
+                        break;
                 }
             } catch(e) {
 
@@ -102,8 +107,10 @@ const WatchLive = () => {
 
     return (
         <Container>
-            <video ref={videoRef} autoPlay controls width={'100%'} />
+            <Video ref={videoRef} />
             <Title>{title}</Title>
+            <Viewer><BsPersonFill />{viewer}</Viewer>
+            <LiveChannelInfo id={userid} />
         </Container>
     )
 }
@@ -113,9 +120,23 @@ const Container = styled.div`
 `
 
 const Title = styled.div`
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 400;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 `
+
+const Viewer = styled.div`
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: var(--red);
+    svg {
+        margin-right: 0.125rem;
+    }
+`
+
 
 export default WatchLive
