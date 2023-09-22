@@ -1,5 +1,5 @@
-export const API_SERVER = 'http://210.94.112.24:3000';
-export const LIVE_STREAMING_SERVER = 'ws://210.94.112.24:4000';
+export const API_SERVER = 'http://localhost:3000';
+export const LIVE_STREAMING_SERVER = 'ws://localhost:4000';
 export const ICE_SERVERS: RTCConfiguration = {
     iceServers: [
         {
