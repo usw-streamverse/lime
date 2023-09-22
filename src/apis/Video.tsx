@@ -36,7 +36,7 @@ export interface VideoWatch {
     like_count: number,
     created: string,
     like: boolean
-    subscribe: boolean,
+    subscribed: boolean,
     profile: string,
     readership: number
 }

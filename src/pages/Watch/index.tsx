@@ -63,7 +63,7 @@ const Watch = (props: {id?: string}) => {
                                 </ChannelInfo.Detail>
                             </ChannelInfo.Container>
                             <ChannelInfo.ButtonListContainer>
-                                <Subscribe active={data?.data.subscribe} channelId={data?.data.channel_id} />
+                                <Subscribe active={data?.data.subscribed} channelId={data?.data.channel_id} />
                                 <Like active={data?.data.like} />
                                 <Share />
                                 <AddPlayList id={id || ''} />
