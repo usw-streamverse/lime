@@ -15,6 +15,8 @@ export interface PlayList {
     id: number,
     name: string,
     created: string,
+    count: number,
+    thumbnail: string
 }
 
 const Channel = () => {
