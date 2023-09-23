@@ -1,6 +1,11 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Channel from 'apis/Channel';
+import { AxiosError, AxiosResponse } from 'axios';
+import Button from 'components/Button';
+import FormTextBox from 'components/FormTextBox';
 import { OverlayContext } from 'components/Overlay';
 import PlayList from 'components/PlayList';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
 import styled from 'styled-components';
 
@@ -11,15 +16,62 @@ const PlayListModal = () => {
             <Head>내 재생목록</Head>
             <Close onClick={() => overlayContext.hide('PlayList')}><HiOutlineX size={32} /></Close>
             <ListWrapper>
+                <NewPlayList />
                 <PlayList />
             </ListWrapper>
         </Container>
     )
 }
 
+const NewPlayList = () => {
+    const queryClient = useQueryClient();
+    const playListName = useRef<HTMLInputElement>(null);
+    const { mutate } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {name: string}>(Channel().newPlayList, {
+        onSuccess: (data) => {
+            if(playListName.current)
+                playListName.current.value = '';
+            queryClient.invalidateQueries(['myPlayList']);
+        },
+        onError: (error) => {
+            alert(error.response?.status);
+        }
+    });
+
+    const newPlayList = () => {
+        if(playListName.current?.value.trim() !== '')
+            mutate({name: playListName?.current?.value || ''});
+    }
+
+    return (
+        <NewPlayList.Container>
+            <FormTextBox ref={playListName} placeholder="새 재생목록 이름" />
+            <NewPlayList.Button>
+                <Button color="#fff" bgColor="#2c7fe5" borderColor="#707070" bgColorOver="#0e5ab9" onClick={newPlayList}>만들기</Button>
+            </NewPlayList.Button>
+        </NewPlayList.Container>
+    )
+}
+
+NewPlayList.Container = styled.div`
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    padding: 1.0rem;
+    background-color: var(--main-bg-color);
+    z-index: 1;
+`
+
+NewPlayList.Button = styled.div`
+    margin-left: 1.0rem;
+    > button {
+        width: 100px;
+        padding: 1.0rem;
+    }
+`
+
 const ListWrapper = styled.div`
-    flex: 1 1 auto;
-    margin-top: 1.0rem;
+    
     overflow-y: scroll;
     ::-webkit-scrollbar {
         display: none;
@@ -30,9 +82,8 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 450px;
+    width: 550px;
     max-width: 100%;
-    height: 500px;
     max-height: 100vh;
     background-color: var(--main-bg-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
