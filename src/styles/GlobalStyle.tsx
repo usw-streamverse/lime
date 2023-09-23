@@ -74,6 +74,9 @@ const GlobalStyle = createGlobalStyle`
         --skeleton-bg-color-animation: #ececec;
         --button1-bg-color: #fff;
         --button1-border-color: #dddddd;
+        --scrollbar-thumb: #babdc7;
+        --scrollbar-thumb-hover: #999daa;
+        --scrollbar: #ebebeb;
     }
 
     body.dark {
@@ -120,7 +123,9 @@ const GlobalStyle = createGlobalStyle`
         --skeleton-bg-color-animation: #272727;
         --button1-bg-color: #141414;
         --button1-border-color: #111111;
-
+        --scrollbar-thumb: #434753;
+        --scrollbar-thumb-hover: #3d414e;
+        --scrollbar: #505258;
     }
 
     body {
