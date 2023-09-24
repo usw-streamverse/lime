@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useRef, useEffect, ReactNode, useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { OverlayContext } from './Overlay';
 
 interface ModalProps {
     children: ReactNode,
@@ -11,24 +10,15 @@ interface ModalProps {
 
 const Modal = (props: ModalProps) => {
     const nodeRef = useRef<HTMLDivElement>(null);
-    const overlayContext = useContext(OverlayContext);
-
-    const closeModal = () => {
-        overlayContext.hide(props['data-key']);
-    }
 
     useEffect(() => {
         if(props.show){
             document.body.style.overflowY = 'hidden';
-
-            window.history.pushState(props['data-key'], '', '');
-            window.addEventListener('popstate', closeModal);
         }
 
         return () => {
             if(props.show){
                 document.body.style.overflowY = 'overlay';
-                window.removeEventListener('popstate', closeModal);
             }
         };
     }, [props.show]);
@@ -36,7 +26,7 @@ const Modal = (props: ModalProps) => {
     return (
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
             <Container ref={nodeRef}>
-                <Shadow className="shadow" onClick={closeModal} />
+                <Shadow className="shadow" onClick={() => window.history.back()} />
                 <Wrapper className="body" onClick={(e) => e.stopPropagation()}>
                     {props.children}
                 </Wrapper>
