@@ -59,7 +59,8 @@ const SignUp = ({setPage, show}: SignUpProps) => {
 
     const { mutate, status } = useMutation<AxiosResponse<RegisterResult>, AxiosError<RegisterResult>, RegisterParam>(auth.register, {
         onSuccess: (data) => {
-            alert('회원가입 성공!');
+            overlayContext.hide('Sign');
+            overlayContext.alert('회원가입을 완료했습니다.');
         },
         onError: (error) => {
             setError(error.response?.data?.code || 99);
