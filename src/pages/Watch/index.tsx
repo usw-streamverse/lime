@@ -76,9 +76,7 @@ const Watch = (props: {id?: string}) => {
         )
     else
         return (
-            <Container>
-                <WatchSkeleton />
-            </Container>
+            <WatchSkeleton />
         )
 }
 

@@ -2,15 +2,17 @@ import styled, {keyframes} from 'styled-components';
 
 const WatchSkeleton = () => {
     return (
-        <Container>
-            <Skeleton style={{width: '100%', aspectRatio: '16 / 9'}} />
-            <InnerContainer>
-                <Skeleton style={{width: '220px', fontSize: '1.875rem', marginTop: '1.5rem'}}>Title</Skeleton>
-                <Skeleton style={{width: '120px', fontSize: '1.0rem', margin: '0.5rem 0'}}>Date</Skeleton>
-                <Skeleton style={{width: '100%', lineHeight: '1.5rem', marginTop: '1.5rem', padding: '1.0rem'}}>Body</Skeleton>
-                <ChannelInfo />
-            </InnerContainer>
-        </Container>
+        <Wrapper>
+            <Container>
+                <Skeleton style={{width: '100%', aspectRatio: '16 / 9'}} />
+                <InnerContainer>
+                    <Skeleton style={{width: '220px', fontSize: '1.875rem', marginTop: '1.5rem'}}>Title</Skeleton>
+                    <Skeleton style={{width: '120px', fontSize: '1.0rem', margin: '0.5rem 0'}}>Date</Skeleton>
+                    <Skeleton style={{width: '100%', lineHeight: '1.5rem', marginTop: '1.5rem', padding: '1.0rem'}}>Body</Skeleton>
+                    <ChannelInfo />
+                </InnerContainer>
+            </Container>
+        </Wrapper>
     )
 }
 
@@ -36,6 +38,9 @@ const Container = styled.div`
     @media screen and (min-width: 481px) {
         padding: 1.25rem;
     }
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
 `
 
 const InnerContainer = styled.div`
@@ -106,6 +111,14 @@ ChannelInfo.ButtonListContainer = styled.div`
         justify-content: center;
         margin-top: 1.0rem;
     }
+`
+const Wrapper = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background-color: var(--main-bg-color);
+    overflow-y: auto;
 `
 
 export default WatchSkeleton;
