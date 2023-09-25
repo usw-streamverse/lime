@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { useRef, useEffect, ReactNode, useContext } from 'react';
+import { useRef, useEffect, ReactNode, useContext, RefObject } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 interface ModalProps {
     children: ReactNode,
-    show: boolean,
+    show?: boolean,
+    nodeRef?: RefObject<HTMLDivElement>,
     'data-key': string
 }
 
@@ -28,6 +29,14 @@ const Modal = (props: ModalProps) => {
     }
 
     return (
+        props['data-key'] === 'alert' ?
+        <Container ref={props.nodeRef}>
+            <Shadow className="shadow" onClick={closeModal} />
+            <Wrapper className="body" isAlert={props['data-key'] === 'alert'} onClick={(e) => e.stopPropagation()}>
+                {props.children}
+            </Wrapper>
+        </Container>
+        :
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
             <Container ref={nodeRef}>
                 <Shadow className="shadow" onClick={closeModal} />

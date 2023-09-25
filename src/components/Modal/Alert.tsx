@@ -13,7 +13,7 @@ const Alert = (props: {children: ReactNode}) => {
             <Title><BsExclamationCircle size={24} /></Title>
             <Body>{props.children}</Body>
             <ButtonWrapper>
-                <Button color="#fff" bgColor="#2c7fe5" borderColor="#707070" bgColorOver="#0e5ab9" onClick={closeModal}>확인</Button>
+                <Button color="var(--alert-color)" bgColor="transparent" borderColor="transparent" bgColorOver="var(--alert-bg-hover)" onClick={closeModal}>확인</Button>
             </ButtonWrapper>
         </Container>
     )
@@ -47,7 +47,8 @@ const ButtonWrapper = styled.div`
     margin-top: 1.25rem;
     > button {
         padding: 0.75rem 1.875rem;
-        font-weight: 1.0rem;
+        font-size: 1.0rem;
+        font-weight: 500;
     }
 `
 
