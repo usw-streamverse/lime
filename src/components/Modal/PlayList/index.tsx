@@ -11,13 +11,18 @@ import styled from 'styled-components';
 
 const PlayListModal = () => {
     const overlayContext = useContext(OverlayContext);
+   
+    const closeModal = () => {
+        if(window.history.state.modal === 'PlayList') window.history.back();
+    }
+   
     return (
         <Container>
             <Head>내 재생목록</Head>
-            <Close onClick={() => overlayContext.hide('PlayList')}><HiOutlineX size={32} /></Close>
+            <Close onClick={closeModal}><HiOutlineX size={32} /></Close>
             <ListWrapper>
                 <NewPlayList />
-                <PlayList />
+                <PlayList onClick={(playlistId) => overlayContext.alert(playlistId.toString())} />
             </ListWrapper>
         </Container>
     )
@@ -71,7 +76,6 @@ NewPlayList.Button = styled.div`
 `
 
 const ListWrapper = styled.div`
-    
     overflow-y: scroll;
     ::-webkit-scrollbar {
         display: none;

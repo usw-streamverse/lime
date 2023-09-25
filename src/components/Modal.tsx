@@ -23,11 +23,15 @@ const Modal = (props: ModalProps) => {
         };
     }, [props.show]);
 
+    const closeModal = () => {
+        if(window.history.state.modal === props['data-key']) window.history.back();
+    }
+
     return (
         <CSSTransition in={props.show} nodeRef={nodeRef} timeout={200} classNames="modal" unmountOnExit>
             <Container ref={nodeRef}>
-                <Shadow className="shadow" onClick={() => window.history.back()} />
-                <Wrapper className="body" onClick={(e) => e.stopPropagation()}>
+                <Shadow className="shadow" onClick={closeModal} />
+                <Wrapper className="body" isAlert={props['data-key'] === 'alert'} onClick={(e) => e.stopPropagation()}>
                     {props.children}
                 </Wrapper>
             </Container>
@@ -52,12 +56,14 @@ const Shadow = styled.div`
     background-color: rgba(0, 0, 0, 0.45);
 `
 
-const Wrapper = styled.div`
-    overflow: hidden;
-    @media screen and (max-width: 480px) {
-        width: 100%;
-        height: 100%;
-    }
+const Wrapper = styled.div<{isAlert: boolean}>`
+    ${props => !props.isAlert && `
+        overflow: hidden;
+        @media screen and (max-width: 480px) {
+            width: 100%;
+            height: 100%;
+        }
+    `}
 `
 
 export default Modal;

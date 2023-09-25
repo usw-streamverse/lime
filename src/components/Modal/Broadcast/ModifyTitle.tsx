@@ -7,19 +7,22 @@ import { HiOutlineX } from 'react-icons/hi';
 import styled from 'styled-components';
 
 const ModifyTitle = (props: {broadcast: useBroadcastType}) => {
-    const overlayContext = useContext(OverlayContext);
     const refTitle = useRef<HTMLInputElement>(null);
 
     const modifyTitle = () => {
         if(!refTitle.current) return;
         props.broadcast.modifyTitle(refTitle.current.value);
-        overlayContext.hide('ModifyTitle');
+        closeModal();
+    }
+    
+    const closeModal = () => {
+        if(window.history.state.modal === 'ModifyTitle') window.history.back();
     }
 
     return (
         <Container>
             <Head>제목 변경</Head>
-            <Close onClick={() => overlayContext.hide('ModifyTitle')}><HiOutlineX size={32} /></Close>
+            <Close onClick={closeModal}><HiOutlineX size={32} /></Close>
             <Body>
                 <FormTextBox ref={refTitle} placeholder="라이브 스트리밍 제목" defaultValue={props.broadcast.title} />
                 <ButtonContainer>
@@ -45,7 +48,6 @@ const Container = styled.div`
     position: relative;
     width: 500px;
     max-width: 100%;
-    //height: 200px;
     max-height: 100vh;
     background-color: var(--main-bg-color);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
