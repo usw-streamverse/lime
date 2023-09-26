@@ -77,6 +77,9 @@ const GlobalStyle = createGlobalStyle`
         --scrollbar-thumb: #babdc7;
         --scrollbar-thumb-hover: #999daa;
         --scrollbar: #ebebeb;
+        --alert-shadow: #575757;
+        --alert-color: #005ae1;
+        --alert-bg-hover: #f0f7ff;
     }
 
     body.dark {
@@ -126,6 +129,9 @@ const GlobalStyle = createGlobalStyle`
         --scrollbar-thumb: #434753;
         --scrollbar-thumb-hover: #3d414e;
         --scrollbar: #505258;
+        --alert-shadow: #313131;
+        --alert-color: #fff;
+        --alert-bg-hover: #202123
     }
 
     body {
