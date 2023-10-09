@@ -52,7 +52,7 @@ const LiveItem = (props: liveItem) => {
                 <DetailContainer>
                     <Title>{props.title}</Title>
                     <Uploader>{props.nickname}</Uploader>
-                    <Detail>라이브 · {getDifferenceTimeFormat(props.created)}</Detail>
+                    <Detail>시청자 {props.viewer}명 · {getDifferenceTimeFormat(props.created)}</Detail>
                 </DetailContainer>
             </InforContainer>
         </Container>
@@ -104,8 +104,11 @@ const Thumbnail = styled.div`
     position: relative;
     width: 100%;
     aspect-ratio: 16/9;
+    border-radius: 0.25rem;
+    background-color: #aaa;
     line-height: 0;
     img {
+        display: none;
         width: 100%;
         height: 100%;
         border-radius: 0.25rem;

@@ -112,6 +112,7 @@ const useBroadcast = (): useBroadcastType => {
                 audio: true, 
                 video: { 
                     frameRate: {ideal: 30, max: 30},
+                    facingMode: 'environment',
                 }
             });
             
@@ -132,7 +133,7 @@ const useBroadcast = (): useBroadcastType => {
                     if(!remote.current) return;
                     remote.current.setLocalDescription(desc, () => {}, () => alert('setLocalDescription Error'));
                     if(ws.current)
-                        ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'broadcast', 'desc': desc}));
+                        ws.current.send(JSON.stringify({'type': 'offer', 'mode': 'streamer', 'desc': desc}));
                 }
             , () => console.log('description error'));
 

@@ -3,10 +3,13 @@ import styled from 'styled-components'
 import { PlayList as PlayListInterface } from 'apis/Channel'
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 
-const PlayListItem = (props: PlayListInterface) => {
-    console.log(props);
+interface PlayListItemInterface extends PlayListInterface {
+    onClick: (playlistId: number) => void
+}
+
+const PlayListItem = (props: PlayListItemInterface) => {
     return (
-        <Container>
+        <Container onClick={() => props.onClick(props.id)}>
             <Thumbnail>
                 {props.thumbnail && <img src={props.thumbnail} alt="Thumbnail" />}
                 <Count>동영상 {props.count}개</Count>
@@ -116,7 +119,8 @@ const Count = styled.span`
     right: 0;
     padding: 1.0rem 0.875rem;
     background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
     color: #fff;
     font-size: 0.875rem;
     font-weight: 400;

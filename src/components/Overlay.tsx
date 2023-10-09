@@ -1,12 +1,13 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { RefObject, createContext, createRef, useEffect, useState } from 'react';
 import Modal from './Modal';
 import Alert from './Modal/Alert';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export const OverlayContext = createContext<{push: (element: JSX.Element, key: string) => void, show: (key: string) => void, hide: (key: string) => void, alert: (message: string) => void}>([] as any);
 
 const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
     const [OverlayElements, setOverlayElements] = useState<{element: JSX.Element, key: string, show: boolean}[]>([]); 
-    const [alertQueue, setAlertQueue] = useState<string[]>([]);
+    const [alertQueue, setAlertQueue] = useState<{text: string, ref: RefObject<HTMLDivElement>}[]>([]);
     const [states, setStates] = useState<string[]>([]);
 
     const push = (element: JSX.Element, key: string) => {
@@ -41,7 +42,7 @@ const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
     }
 
     const alert = (message: string) => {
-        setAlertQueue([...alertQueue, message]);
+        setAlertQueue([...alertQueue, {text: message, ref: createRef()}]);
         window.history.pushState({...window.history.state, modal: 'alert'}, '', '');
         setStates([...states, 'alert']);
     }
@@ -64,9 +65,15 @@ const Overlay = (props: {children: React.ReactNode | React.ReactNode[]}) => {
                     return <Modal key={i.key} data-key={i.key} show={i.show}>{i.element}</Modal>
                 })
             }
+            <TransitionGroup>
             {
-                <Modal key={'alert'} data-key={'alert'} show={alertQueue.length > 0}><Alert>{alertQueue[0]}</Alert></Modal>
+                alertQueue.map(i => (
+                    <CSSTransition key={i.text} nodeRef={i.ref} timeout={200} classNames={'modal'}>
+                        <Modal key={'alert'} data-key={'alert'} nodeRef={i.ref}><Alert>{i.text}</Alert></Modal>
+                    </CSSTransition>
+                ))
             }
+            </TransitionGroup>
             {props.children}
         </OverlayContext.Provider>
     )

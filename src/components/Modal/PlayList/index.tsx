@@ -22,7 +22,7 @@ const PlayListModal = () => {
             <Close onClick={closeModal}><HiOutlineX size={32} /></Close>
             <ListWrapper>
                 <NewPlayList />
-                <PlayList onClick={(playlistId) => overlayContext.alert(playlistId.toString())} />
+                <PlayList onClick={(playlistId) => overlayContext.alert('재생목록에 추가했습니다.')} />
             </ListWrapper>
         </Container>
     )

@@ -4,14 +4,16 @@ import { useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import VideoListSkeleton from 'components/Skeleton/VideoList';
 import SearchBox from 'components/Search/SearchBox';
+import { useContext } from 'react';
+import { OverlayContext } from 'components/Overlay';
 
 const Main = () => {
     const list = useQuery(['videoList'], Video().list);
-
     return (
         <Container>
             <Inner>
                 <SearchWrap><SearchBox /></SearchWrap>
+                <Title>최신 동영상</Title>
                 <Wrapper>
                     {
                         list.isFetching ? <VideoListSkeleton /> : <VideoList item={list.status === 'success' ? list.data?.data : []} />
@@ -31,6 +33,12 @@ const Inner = styled.div`
     position: relative;
     height: calc(100vh - 4.0rem);
     overflow-y: scroll;
+`
+
+const Title = styled.div`
+    padding: 0 1.5rem;
+    font-size: 1.375rem;
+    font-weight: 500;
 `
 
 const Wrapper = styled.div`

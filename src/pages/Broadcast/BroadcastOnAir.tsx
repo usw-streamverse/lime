@@ -6,6 +6,7 @@ import { BroadcastFormStateContext } from '.';
 import BroadcastStatus from 'components/Broadcast/BroadcastStatus';
 import { OverlayContext } from 'components/Overlay';
 import ModifyTitle from 'components/Modal/Broadcast/ModifyTitle';
+import { useNavigate } from 'react-router-dom';
 
 const BroadcastOnAir = () => {
     const refVideo = useRef<HTMLVideoElement>(null);
@@ -19,11 +20,19 @@ const BroadcastOnAir = () => {
         <Container>
             <ButtonContainer>
                 <ModifyTitleButton />
+                <EndBroadcastButton />
             </ButtonContainer>
             <Body>
                 <Preview refVideo={refVideo}/>
             </Body>
         </Container>
+    )
+}
+
+const EndBroadcastButton = () => {
+    const navigate = useNavigate();
+    return (
+        <Button onClick={() => navigate('/')} borderColor="var(--sign-textbox-border-color)" color="var(--navbar-menu-text-color-active)" bgColor="var(--button1-bg-color)" bgColorOver="var(--navbar-menu-hover)">스트리밍 종료</Button>
     )
 }
 
@@ -87,11 +96,19 @@ const Container = styled.div`
 `
 
 const ButtonContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
     position: relative;
     > button {
-        width: 7.0rem;
         height: 3.0rem;
-        padding: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        margin: 0.25rem 0.375rem;
+        :first-child {
+            margin-left: 0;
+        }
+        :last-child {
+            margin-right: 0;
+        }
     }
 `
 

@@ -15,7 +15,8 @@ export interface ChannelResult {
     profile: string,
     videoCount: number,
     readership: number,
-    success: boolean
+    success: boolean,
+    subscribed: boolean
 }
 
 const User = () => {

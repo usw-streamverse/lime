@@ -4,7 +4,7 @@ import { AxiosError } from 'axios'
 import Channel from 'apis/Channel'
 import PlayListItem from './PlayListItem'
 
-const PlayList = () => {
+const PlayList = (props: {onClick: (playlistId: number) => void}) => {
     const { data, status } = useQuery({
         queryKey: ['myPlayList'],
         staleTime: 0,
@@ -17,11 +17,11 @@ const PlayList = () => {
     if(status === 'success')
         return (
             <PlayListItem.Container>
-                {
-                    data.data.map(i => {
-                        return <PlayListItem key={i.id} {...i} />
-                    })
-                }
+            {
+                data.data.map(i => {
+                    return <PlayListItem key={i.id} onClick={props.onClick} {...i} />
+                })
+            }
             </PlayListItem.Container>
         )
     else
