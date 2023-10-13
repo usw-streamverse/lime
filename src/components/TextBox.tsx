@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 interface TextBoxProps {
     width: string,
-    icon: ReactNode,
+    icon?: ReactNode,
     placeholder: string,
     defaultValue?: string,
     onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
@@ -16,7 +16,7 @@ const TextBox = forwardRef<any, TextBoxProps>(({width, icon, placeholder, onKeyD
         <div style={{width: width}}>
             <Wrap focus={focus} onClick={() => typeof ref !== 'function' && ref && ref.current?.focus()}>
                 {
-                    {icon} && <Icon>{icon}</Icon>
+                    icon && <Icon>{icon}</Icon>
                 }
                 <Input type="text" ref={ref} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} placeholder={placeholder} onKeyDown={onKeyDown} defaultValue={defaultValue}/>
             </Wrap>
