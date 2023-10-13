@@ -7,12 +7,13 @@ import { AxiosError } from 'axios';
 import Tab from 'components/Tab';
 import VideoList from 'components/Channel/ChannelVideoList';
 import Menu from 'components/Menu';
+import useUserQuery from 'hooks/useUserQuery';
 
 const Channel = () => {
     const userid = useParams()['id'] || '';
     const [page, setPage] = useState<string>(useParams()['page'] || '');
-    const url = useHref(`/@/${userid}`);
     const navigate = useNavigate();
+    const userQuery = useUserQuery();
     const { data } = useQuery({
         queryKey: ['channel'],
         staleTime: 0,
@@ -30,7 +31,7 @@ const Channel = () => {
     return (
         <Container>
             {
-            localStorage.userid === userid &&
+            userQuery.Profile().data?.userid === userid &&
             <Menu>
                 <Menu.Button onClick={() => navigate('/video/upload')}>동영상 업로드</Menu.Button>
             </Menu>
