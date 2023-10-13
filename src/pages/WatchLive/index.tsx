@@ -1,3 +1,5 @@
+import Chat from 'components/Chat';
+import { ChatMessageProps } from 'components/Chat/ChatMessage';
 import LiveChannelInfo from 'components/Live/LiveChannelInfo';
 import Video from 'components/Video';
 import { ICE_SERVERS, LIVE_STREAMING_SERVER } from 'config';
@@ -13,7 +15,7 @@ const WatchLive = () => {
     const remote = useRef<RTCPeerConnection>();
     const [title, setTitle] = useState<string>('');
     const [viewer, setViewer] = useState<number>(0);
-
+    const [chatMessage, setChatMessage] = useState<ChatMessageProps[]>([]);
     const connect = () => {
         if(!videoRef.current) return;
         if(ws.current) ws.current.close();
@@ -25,6 +27,10 @@ const WatchLive = () => {
         ws.current = new WebSocket(LIVE_STREAMING_SERVER);
         ws.current.onopen = (e) => {
             if(!ws.current) return;
+
+            const token = localStorage.getItem('accessToken');
+            ws.current.send(JSON.stringify({'type': 'authorization', 'token': token}));
+
             remote.current = new RTCPeerConnection(ICE_SERVERS);
 
             remote.current.createOffer(
@@ -89,6 +95,9 @@ const WatchLive = () => {
                     case 'status':
                         setViewer(data.viewer);
                         break;
+                    case 'chat':
+                        setChatMessage(chatMessage => [...chatMessage, data])
+                        break;
                 }
             } catch(e) {
 
@@ -111,6 +120,7 @@ const WatchLive = () => {
             <Title>{title}</Title>
             <Viewer><BsPersonFill />{viewer}</Viewer>
             <LiveChannelInfo id={userid} />
+            <Chat chatMessage={chatMessage} socket={ws.current}/>
         </Container>
     )
 }
