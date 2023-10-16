@@ -80,6 +80,8 @@ const GlobalStyle = createGlobalStyle`
         --alert-shadow: #575757;
         --alert-color: #005ae1;
         --alert-bg-hover: #f0f7ff;
+        --menubutton-bg-color-hover: #ebedf0;
+        --menubutton-bg-color-active: #d8dadb;
     }
 
     body.dark {
@@ -131,7 +133,9 @@ const GlobalStyle = createGlobalStyle`
         --scrollbar: #505258;
         --alert-shadow: #313131;
         --alert-color: #fff;
-        --alert-bg-hover: #202123
+        --alert-bg-hover: #202123;
+        --menubutton-bg-color-hover: #3d3d3d;
+        --menubutton-bg-color-active: #181818;
     }
 
     body {
