@@ -19,6 +19,14 @@ export interface PlayList {
     thumbnail: string
 }
 
+export interface PlayListItem {
+    video_id: number,
+    title: string,
+    created: string,
+    duration: number,
+    thumbnail: string
+}
+
 const Channel = () => {
     const videoList = (id: string) => {
         return JwtInterceptor().instance.get<VideoItem[]>(`/channels/${id}/video`);
@@ -36,7 +44,15 @@ const Channel = () => {
         return JwtInterceptor().instance.get<PlayList[]>(`/channels/playlist`);
     }
 
-    return { videoList, subscribe, newPlayList, getMyPlayList };
+    const getPlayListItem = (id: number) => {
+        return JwtInterceptor().instance.get<PlayListItem[]>(`/channels/playlist/${id}`);
+    }
+
+    const deletePlayList = (props: {id: number}) => {
+        return JwtInterceptor().instance.delete<{success: boolean}>(`/channels/playlist/${props.id}`);
+    }
+    
+    return { videoList, subscribe, newPlayList, getMyPlayList, getPlayListItem, deletePlayList };
 }
 
 export default Channel;
