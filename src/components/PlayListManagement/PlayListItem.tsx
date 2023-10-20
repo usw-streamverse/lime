@@ -57,6 +57,7 @@ const Container = styled.div`
 `
 
 const Thumbnail = styled.div`
+  flex-shrink: 0;
   position: relative;
   width: 30%;
   aspect-ratio: 16/9;
@@ -85,6 +86,7 @@ const InforContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 1.0rem;
+  overflow: hidden;
 `
 
 const Title = styled.div`

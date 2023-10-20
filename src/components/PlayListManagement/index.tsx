@@ -59,8 +59,11 @@ const PlayListManagement = (props: { goBack: () => void, playListId: number }) =
 
 const Container = styled.div`
   position: relative;
-  height: 350px;
   overflow-y: scroll;
+  height: 350px;
+  @media screen and (max-width: 480px) {
+    height: 100%;
+  }
 `
 
 const Sticky = styled.div`
