@@ -1,8 +1,9 @@
-import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import Channel from 'apis/Channel'
 import PlayListItem from './PlayListItem'
+import Loading from './Loading'
+import styled from 'styled-components'
 
 const PlayList = (props: {onClick: (playlistId: number) => void}) => {
     const { data, status } = useQuery({
@@ -26,12 +27,16 @@ const PlayList = (props: {onClick: (playlistId: number) => void}) => {
         )
     else
         return (
-            <>
-                Loading...
-            </>
+            <Container>
+                <Loading />
+            </Container>
         )
 }
 
+const Container = styled.div`
+    position: relative;
+    min-height: 200px;
+`
 
 /*
 const PlayListItem = (props: PlayListInterface) => {

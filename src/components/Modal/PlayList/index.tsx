@@ -3,14 +3,14 @@ import Channel from 'apis/Channel';
 import { AxiosError, AxiosResponse } from 'axios';
 import Button from 'components/Button';
 import FormTextBox from 'components/FormTextBox';
-import { OverlayContext } from 'components/Overlay';
 import PlayList from 'components/PlayList';
-import { useContext, useRef } from 'react';
+import PlayListManagement from 'components/PlayListManagement';
+import { useContext, useRef, useState } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
 import styled from 'styled-components';
 
 const PlayListModal = () => {
-    const overlayContext = useContext(OverlayContext);
+    const [management, setManagement] = useState<number>(-1);
    
     const closeModal = () => {
         if(window.history.state.modal === 'PlayList') window.history.back();
@@ -21,8 +21,15 @@ const PlayListModal = () => {
             <Head>내 재생목록</Head>
             <Close onClick={closeModal}><HiOutlineX size={32} /></Close>
             <ListWrapper>
-                <NewPlayList />
-                <PlayList onClick={(playlistId) => overlayContext.alert('재생목록에 추가했습니다.')} />
+                {
+                    management === -1 ?
+                    <>
+                        <NewPlayList />
+                        <PlayList onClick={playListId => setManagement(playListId)} />
+                    </>
+                    :
+                    <PlayListManagement goBack={() => setManagement(-1)} playListId={management} />
+                }
             </ListWrapper>
         </Container>
     )

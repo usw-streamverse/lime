@@ -82,6 +82,8 @@ const GlobalStyle = createGlobalStyle`
         --alert-bg-hover: #f0f7ff;
         --menubutton-bg-color-hover: #ebedf0;
         --menubutton-bg-color-active: #d8dadb;
+        --playlist-item-add-bg-color: #f5f5f5;
+        --playlist-item-add-bg-color-hover: #e8eaee;
     }
 
     body.dark {
@@ -136,6 +138,8 @@ const GlobalStyle = createGlobalStyle`
         --alert-bg-hover: #202123;
         --menubutton-bg-color-hover: #3d3d3d;
         --menubutton-bg-color-active: #181818;
+        --playlist-item-add-bg-color: #202020;
+        --playlist-item-add-bg-color-hover: #000000;
     }
 
     body {
