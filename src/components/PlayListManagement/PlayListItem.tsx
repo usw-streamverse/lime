@@ -1,10 +1,18 @@
-import { PlayListItem as PlayListItemProps } from 'apis/Channel';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Channel, { PlayListItem as PlayListItemInterface } from 'apis/Channel';
+import { AxiosError, AxiosResponse } from 'axios';
+import { OverlayContext } from 'components/Overlay';
+import { VideoContext } from 'pages/Watch';
+import { useContext } from 'react';
 import { BsXLg } from 'react-icons/bs';
 import styled from 'styled-components';
 import { getDifferenceTimeFormat, getDurationFormat, getKSTfromUTC } from 'utils/Time';
 
+interface PlayListItemProps extends PlayListItemInterface {
+  playListId: number
+}
+
 const PlayListItem = (props: PlayListItemProps) => {
-  console.log(props);
   return (
     <Container>
        <Thumbnail>
@@ -16,15 +24,26 @@ const PlayListItem = (props: PlayListItemProps) => {
         <Detail>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}에 추가됨</Detail>
       </InforContainer>
       <ButtonContainer>
-        <Delete />
+        <Delete playListId={props.playListId} videoId={props.video_id}/>
       </ButtonContainer>
     </Container>
   )
 }
 
-const Delete = () => {
+const Delete = (props: {playListId: number, videoId: number}) => {
+  const overlayContext = useContext(OverlayContext);
+  const queryClient = useQueryClient();
+  const deletePlayListItem = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {playListId: number, videoId: number}>(Channel().deletePlayListItem, {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['playList', props.playListId]);
+      },
+      onError: (error) => {
+        overlayContext.alert('동영상을 삭제하는 도중 오류가 발생하였습니다.');
+      }
+  });
+
   return (
-    <DeleteButton onClick={() => alert(1)}><BsXLg size={18} /></DeleteButton>
+    <DeleteButton onClick={() => deletePlayListItem.mutate({playListId: props.playListId, videoId: props.videoId})}><BsXLg size={18} /></DeleteButton>
   )
 }
 

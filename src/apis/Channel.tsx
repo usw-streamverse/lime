@@ -51,8 +51,12 @@ const Channel = () => {
     const deletePlayList = (props: {id: number}) => {
         return JwtInterceptor().instance.delete<{success: boolean}>(`/channels/playlist/${props.id}`);
     }
-    
-    return { videoList, subscribe, newPlayList, getMyPlayList, getPlayListItem, deletePlayList };
+
+    const deletePlayListItem = (props: {playListId: number, videoId: number}) => {
+        return JwtInterceptor().instance.delete<{success: boolean}>(`/channels/playlist/${props.playListId}/${props.videoId}`);
+    }
+
+    return { videoList, subscribe, newPlayList, getMyPlayList, getPlayListItem, deletePlayList, deletePlayListItem };
 }
 
 export default Channel;

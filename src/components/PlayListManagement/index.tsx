@@ -45,7 +45,7 @@ const PlayListManagement = (props: { goBack: () => void, playListId: number }) =
           <AddPlayListItem id={props.playListId} />
         </Sticky>
         {
-          data.data.map(item => <PlayListItem key={item.video_id} {...item} />)
+          data.data.map(item => <PlayListItem key={item.video_id} {...item} playListId={props.playListId} />)
         }
       </Container>
     )
