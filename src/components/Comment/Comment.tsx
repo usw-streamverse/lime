@@ -49,7 +49,6 @@ const Comment = (props: {id: string}) => {
 const Container = styled.div`
   position: relative;
   margin: 1.0rem;
-  transition: all 200ms ease;
 `
 
 const Header = styled.div`
@@ -71,7 +70,7 @@ const Header = styled.div`
 const HeaderIcon = styled.div<{show: boolean}>`
   line-height: 0;
   transform: rotate(${(props) => props.show ? '180deg' : '0deg'});
-  transition: all 200ms ease;
+  transition: transform 200ms ease;
 `
 
 const CommentContainer = styled.div<{show: boolean}>`
