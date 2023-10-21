@@ -5,16 +5,16 @@ import VideoList from 'components/VideoList';
 import styled from 'styled-components';
 
 const Subscription = () => {
-    const list = useQuery(['subscriptionList'], Video().subscriptionList);
-    return (
-        <Container>
-            {list.isFetching ? <VideoListSkeleton /> : <VideoList item={list.status === 'success' ? list.data?.data : []} /> }
-        </Container>
-    )
+  const list = useQuery(['subscriptionList'], Video().subscriptionList);
+  return (
+    <Container>
+      {list.isFetching ? <VideoListSkeleton /> : <VideoList item={list.status === 'success' ? list.data?.data : []} /> }
+    </Container>
+  )
 }
 
 const Container = styled.div`
-    position: relative;
+  position: relative;
 `
 
 export default Subscription;

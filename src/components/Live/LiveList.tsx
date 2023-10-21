@@ -5,149 +5,149 @@ import { getDifferenceTimeFormat } from 'utils/Time';
 import { CiCloudDrizzle } from 'react-icons/ci';
 
 const LiveList = (props: {item: liveItem[]}) => {
-    return (
-        <>
-        {
-            props.item.length ? 
-            props.item.map((e) => {
-                return <LiveItem key={e.channel} {...e} />
-            }) :
-            <NoResult />
-        }
-        </>
-    )
+  return (
+    <>
+    {
+      props.item.length ? 
+      props.item.map((e) => {
+        return <LiveItem key={e.channel} {...e} />
+      }) :
+      <NoResult />
+    }
+    </>
+  )
 }
 
 const NoResult = () => {
-    return (
-        <NoResult.Container>
-            <CiCloudDrizzle size={64} />
-            <NoResult.Text>진행 중인 라이브 스트리밍이 없습니다.</NoResult.Text>
-        </NoResult.Container>
-    )
+  return (
+    <NoResult.Container>
+      <CiCloudDrizzle size={64} />
+      <NoResult.Text>진행 중인 라이브 스트리밍이 없습니다.</NoResult.Text>
+    </NoResult.Container>
+  )
 }
 
 NoResult.Container = styled.div`
-    margin-top: 2.0rem;
-    text-align: center;
+  margin-top: 2.0rem;
+  text-align: center;
 `
 
 NoResult.Text = styled.div`
-    margin-top: 0.5rem;
-    font-weight: 500;
+  margin-top: 0.5rem;
+  font-weight: 500;
 `
 
 const LiveItem = (props: liveItem) => {
-    const navigate = useNavigate();
-    return (
-        <Container onClick={(e) => navigate(`/live/${props.channel}`)}>
-            <Thumbnail>
-                <img src={props.thumbnail} alt="Thumbnail" />
-                <Box>LIVE</Box>
-            </Thumbnail>
-            <InforContainer>
-                <div>
-                    <ProfileIcon profileColor={props.profile} />
-                </div>
-                <DetailContainer>
-                    <Title>{props.title}</Title>
-                    <Uploader>{props.nickname}</Uploader>
-                    <Detail>시청자 {props.viewer}명 · {getDifferenceTimeFormat(props.created)}</Detail>
-                </DetailContainer>
-            </InforContainer>
-        </Container>
-    )
+  const navigate = useNavigate();
+  return (
+    <Container onClick={(e) => navigate(`/live/${props.channel}`)}>
+      <Thumbnail>
+        <img src={props.thumbnail} alt="Thumbnail" />
+        <Box>LIVE</Box>
+      </Thumbnail>
+      <InforContainer>
+        <div>
+          <ProfileIcon profileColor={props.profile} />
+        </div>
+        <DetailContainer>
+          <Title>{props.title}</Title>
+          <Uploader>{props.nickname}</Uploader>
+          <Detail>시청자 {props.viewer}명 · {getDifferenceTimeFormat(props.created)}</Detail>
+        </DetailContainer>
+      </InforContainer>
+    </Container>
+  )
 }
 
 const Container = styled.div`
-    display: inline-block;
-    position: relative;
-    width: calc(100% / var(--thumbnail-row) - 12px);
-    margin: 6px;
-    padding: 1.0rem;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    --thumbnail-row: 5;
-    transition: all 200ms ease;
-    @media screen and (min-width: 481px) {
-        :hover {
-            transform: translateY(-0.5rem);
-        }
+  display: inline-block;
+  position: relative;
+  width: calc(100% / var(--thumbnail-row) - 12px);
+  margin: 6px;
+  padding: 1.0rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  --thumbnail-row: 5;
+  transition: all 200ms ease;
+  @media screen and (min-width: 481px) {
+    :hover {
+      transform: translateY(-0.5rem);
     }
+  }
 
-    @media screen and (max-width: 1940px) { --thumbnail-row: 4; }
-    @media screen and (max-width: 1420px) { --thumbnail-row: 3; }
-    @media screen and (max-width: 900px) { --thumbnail-row: 2; }
-    @media screen and (max-width: 480px) { --thumbnail-row: 1; }
+  @media screen and (max-width: 1940px) { --thumbnail-row: 4; }
+  @media screen and (max-width: 1420px) { --thumbnail-row: 3; }
+  @media screen and (max-width: 900px) { --thumbnail-row: 2; }
+  @media screen and (max-width: 480px) { --thumbnail-row: 1; }
 `
 
 const InforContainer = styled.div`
-    display: flex;
-    flex: auto;
-    margin-top: 0.25rem;
+  display: flex;
+  flex: auto;
+  margin-top: 0.25rem;
 `
 
 const DetailContainer = styled.div`
-    overflow-x: hidden;
+  overflow-x: hidden;
 `
 
 const ProfileIcon = styled.div<{profileColor: string}>`
-    width: 2.0rem;
-    height: 2.0rem;
-    margin-top: 0.5rem;
-    margin-right: 1.0rem;
-    background-color: ${props => props.profileColor};
-    border-radius: 50%;
+  width: 2.0rem;
+  height: 2.0rem;
+  margin-top: 0.5rem;
+  margin-right: 1.0rem;
+  background-color: ${props => props.profileColor};
+  border-radius: 50%;
 `
 
 const Thumbnail = styled.div`
-    position: relative;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 0.25rem;
+  background-color: #aaa;
+  line-height: 0;
+  img {
+    display: none;
     width: 100%;
-    aspect-ratio: 16/9;
+    height: 100%;
     border-radius: 0.25rem;
-    background-color: #aaa;
-    line-height: 0;
-    img {
-        display: none;
-        width: 100%;
-        height: 100%;
-        border-radius: 0.25rem;
-        pointer-events: none;
-    }
+    pointer-events: none;
+  }
 `
 
 const Box = styled.span`
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    padding: 0.75rem 0.5rem;
-    background-color: rgba(0, 0, 0, 0.66);
-    border-radius: 0.25rem;
-    color: #fff;
-    font-size: 0.875rem;
-    font-weight: 400;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.66);
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 400;
 `
 
 const Title = styled.div`
-    margin: 0.5rem 0;
-    font-size: 1.125rem;
-    font-weight: 400;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  margin: 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `
 
 const Uploader = styled.div`
-    margin-bottom: 0.25rem;
-    color: var(--main-text-color-light);
-    font-size: 0.875rem;
-    font-weight: 300;
+  margin-bottom: 0.25rem;
+  color: var(--main-text-color-light);
+  font-size: 0.875rem;
+  font-weight: 300;
 `
 
 const Detail = styled.div`
-    color: var(--main-text-color-light);
-    font-size: 0.875rem;
-    font-weight: 300;
+  color: var(--main-text-color-light);
+  font-size: 0.875rem;
+  font-weight: 300;
 `
 
 export default LiveList;

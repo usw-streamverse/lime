@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Channel, { PlayListItem as PlayListItemInterface } from 'apis/Channel';
 import { AxiosError, AxiosResponse } from 'axios';
 import { OverlayContext } from 'components/Overlay';
-import { VideoContext } from 'pages/Watch';
 import { useContext } from 'react';
 import { BsXLg } from 'react-icons/bs';
 import styled from 'styled-components';
@@ -14,19 +13,19 @@ interface PlayListItemProps extends PlayListItemInterface {
 
 const PlayListItem = (props: PlayListItemProps) => {
   return (
-    <Container>
-       <Thumbnail>
-          <img src={props.thumbnail} alt="Thumbnail" />
-          <Duration>{getDurationFormat(props.duration)}</Duration>
-      </Thumbnail>
-      <InforContainer>
-        <Title>{props.title}</Title>
-        <Detail>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}에 추가됨</Detail>
-      </InforContainer>
-      <ButtonContainer>
-        <Delete playListId={props.playListId} videoId={props.video_id}/>
-      </ButtonContainer>
-    </Container>
+  <Container>
+     <Thumbnail>
+      <img src={props.thumbnail} alt="Thumbnail" />
+      <Duration>{getDurationFormat(props.duration)}</Duration>
+    </Thumbnail>
+    <InforContainer>
+    <Title>{props.title}</Title>
+    <Detail>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}에 추가됨</Detail>
+    </InforContainer>
+    <ButtonContainer>
+    <Delete playListId={props.playListId} videoId={props.video_id}/>
+    </ButtonContainer>
+  </Container>
   )
 }
 
@@ -34,16 +33,16 @@ const Delete = (props: {playListId: number, videoId: number}) => {
   const overlayContext = useContext(OverlayContext);
   const queryClient = useQueryClient();
   const deletePlayListItem = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {playListId: number, videoId: number}>(Channel().deletePlayListItem, {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['playList', props.playListId]);
-      },
-      onError: (error) => {
-        overlayContext.alert('동영상을 삭제하는 도중 오류가 발생하였습니다.');
-      }
+    onSuccess: (data) => {
+    queryClient.invalidateQueries(['playList', props.playListId]);
+    },
+    onError: (error) => {
+    overlayContext.alert('동영상을 삭제하는 도중 오류가 발생하였습니다.');
+    }
   });
 
   return (
-    <DeleteButton onClick={() => deletePlayListItem.mutate({playListId: props.playListId, videoId: props.videoId})}><BsXLg size={18} /></DeleteButton>
+  <DeleteButton onClick={() => deletePlayListItem.mutate({playListId: props.playListId, videoId: props.videoId})}><BsXLg size={18} /></DeleteButton>
   )
 }
 
@@ -63,10 +62,10 @@ const Thumbnail = styled.div`
   aspect-ratio: 16/9;
   line-height: 0;
   img {
-      width: 100%;
-      height: 100%;
-      border-radius: 0.25rem;
-      pointer-events: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.25rem;
+    pointer-events: none;
   }
 `
 
@@ -118,7 +117,7 @@ const DeleteButton = styled.div`
   cursor: pointer;
   transition: all 200ms ease;
   :hover {
-    color: var(--red);
+  color: var(--red);
   }
 `
 

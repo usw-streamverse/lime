@@ -14,47 +14,47 @@ const PlayListManagement = (props: { goBack: () => void, playListId: number }) =
   const queryClient = useQueryClient();
   const overlayContext = useContext(OverlayContext);
   const { data, status } = useQuery({
-    queryKey: ['playList', props.playListId],
-    staleTime: 0,
-    queryFn: () => Channel().getPlayListItem(props.playListId),
-    onError: (error: AxiosError) => {
-        alert(error.response?.status);
-    }
+  queryKey: ['playList', props.playListId],
+  staleTime: 0,
+  queryFn: () => Channel().getPlayListItem(props.playListId),
+  onError: (error: AxiosError) => {
+    alert(error.response?.status);
+  }
   });
 
   const deletePlayList = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: number}>(Channel().deletePlayList, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['playList', 0]);
-      overlayContext.alert('재생목록을 삭제하였습니다.');
-      props.goBack();  
-    },
-    onError: (error) => {
-      console.log(error);
-      alert(error.response?.status);
-    }
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(['playList', 0]);
+    overlayContext.alert('재생목록을 삭제하였습니다.');
+    props.goBack();  
+  },
+  onError: (error) => {
+    console.log(error);
+    alert(error.response?.status);
+  }
 });
 
   if(status === 'success')
-    return (
-      <Container>
-        <Sticky>
-          <MenuContainer>
-            <MenuButton onClick={() => deletePlayList.mutate({id: props.playListId})} size={40}><TfiTrash size={18} /></MenuButton>
-            <MenuButton onClick={props.goBack} size={40}><TfiArrowLeft size={18} /></MenuButton>
-          </MenuContainer>
-          <AddPlayListItem id={props.playListId} />
-        </Sticky>
-        {
-          data.data.map(item => <PlayListItem key={item.video_id} {...item} playListId={props.playListId} />)
-        }
-      </Container>
-    )
+  return (
+    <Container>
+    <Sticky>
+      <MenuContainer>
+      <MenuButton onClick={() => deletePlayList.mutate({id: props.playListId})} size={40}><TfiTrash size={18} /></MenuButton>
+      <MenuButton onClick={props.goBack} size={40}><TfiArrowLeft size={18} /></MenuButton>
+      </MenuContainer>
+      <AddPlayListItem id={props.playListId} />
+    </Sticky>
+    {
+      data.data.map(item => <PlayListItem key={item.video_id} {...item} playListId={props.playListId} />)
+    }
+    </Container>
+  )
   
-    return (
-      <Container>
-        <Loading />
-      </Container>
-    )
+  return (
+    <Container>
+    <Loading />
+    </Container>
+  )
 }
 
 const Container = styled.div`
@@ -62,7 +62,7 @@ const Container = styled.div`
   overflow-y: scroll;
   height: 350px;
   @media screen and (max-width: 480px) {
-    height: 100%;
+  height: 100%;
   }
 `
 

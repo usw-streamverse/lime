@@ -12,29 +12,29 @@ const AddPlayListItem = (props: {id: number}) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {videoId: number, playListId: number}>(Video().addPlayList, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['playList', props.id]);
-      overlayContext.alert('현재 동영상을 재생목록에 추가하였습니다.');
-    },
-    onError: (error) => {
-      switch (error.response?.status) {
-        case 400: {
-          overlayContext.alert('재생목록에 이미 등록된 동영상입니다.');
-          break;
-        }
-        default: {
-          overlayContext.alert('재생목록에 추가 도중 오류가 발생하였습니다.');
-        }
-      }
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(['playList', props.id]);
+    overlayContext.alert('현재 동영상을 재생목록에 추가하였습니다.');
+  },
+  onError: (error) => {
+    switch (error.response?.status) {
+    case 400: {
+      overlayContext.alert('재생목록에 이미 등록된 동영상입니다.');
+      break;
     }
+    default: {
+      overlayContext.alert('재생목록에 추가 도중 오류가 발생하였습니다.');
+    }
+    }
+  }
   });
 
   const addPlayList = () => {
-    mutate({videoId: parseInt(videoId), playListId: props.id});
+  mutate({videoId: parseInt(videoId), playListId: props.id});
   }
 
   return (
-    <Container onClick={addPlayList}>재생목록에 추가하기</Container>
+  <Container onClick={addPlayList}>재생목록에 추가하기</Container>
   )
 }
 
@@ -46,7 +46,7 @@ const Container = styled.div`
   cursor: pointer;
   transition: all 200ms ease;
   :hover {
-    background-color: var(--playlist-item-add-bg-color-hover);
+  background-color: var(--playlist-item-add-bg-color-hover);
   }
 `
 
