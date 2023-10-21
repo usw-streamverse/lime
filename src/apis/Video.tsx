@@ -79,7 +79,6 @@ const Video = () => {
         return JwtInterceptor().instance.get<VideoItem[]>('/subscribe');
     }
 
-
     const watch = (id: string) => {
         return JwtInterceptor().instance.get<VideoWatch>(`/videos/${id}`);
     }

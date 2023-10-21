@@ -25,7 +25,7 @@ const PlayListModal = () => {
                     management === -1 ?
                     <>
                         <NewPlayList />
-                        <PlayList onClick={playListId => setManagement(playListId)} />
+                        <PlayList horizontal={true} onClick={playListId => setManagement(playListId)} />
                     </>
                     :
                     <PlayListManagement goBack={() => setManagement(-1)} playListId={management} />
@@ -42,7 +42,7 @@ const NewPlayList = () => {
         onSuccess: (data) => {
             if(playListName.current)
                 playListName.current.value = '';
-            queryClient.invalidateQueries(['myPlayList']);
+            queryClient.invalidateQueries(['playList', 0]);
         },
         onError: (error) => {
             alert(error.response?.status);

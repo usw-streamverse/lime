@@ -47,7 +47,25 @@ const PlayListItemContainer = (props: {children: ReactNode}) => {
 }
 
 PlayListItemContainer.Container = styled.div`
-    padding: 1.0rem;
+    overflow-x: scroll;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        width: 0.875rem;
+        height: 0.875rem;
+        background-color: var(--scrollbar);
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb);
+        cursor: pointer;
+        :hover {
+            background-color: var(--scrollbar-thumb-hover);
+        }
+    }
+    @media screen and (max-width: 480px) {
+        width: 100%;
+        padding: 1.0rem;
+        overflow: hidden;
+    }
 `
 
 PlayListItem.Container = PlayListItemContainer;
@@ -55,23 +73,29 @@ PlayListItem.Container = PlayListItemContainer;
 const Container = styled.div`
     display: inline-block;
     position: relative;
-    width: calc(100% / var(--thumbnail-row) - 12px);
-    margin: 6px;
-    padding: 1.0rem;
+    width: 250px;
+    margin: 0 0.25rem;
+    padding: 0.5rem;
     border-radius: 0.25rem;
     cursor: pointer;
-    --thumbnail-row: 5;
     transition: all 200ms ease;
+    @media screen and (max-width: 480px) {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 1.0rem;
+    }
     @media screen and (min-width: 481px) {
         :hover {
             transform: translateY(-0.5rem);
         }
+        :first-child {
+            margin-left: 0.5rem;
+        }
+        :last-child {
+            margin-right: 0.5rem;
+        }
     }
-
-    @media screen and (max-width: 1940px) { --thumbnail-row: 4; }
-    @media screen and (max-width: 1420px) { --thumbnail-row: 3; }
-    @media screen and (max-width: 900px) { --thumbnail-row: 2; }
-    @media screen and (max-width: 480px) { --thumbnail-row: 1; }
 `
 
 const Thumbnail = styled.div`
