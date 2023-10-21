@@ -24,7 +24,7 @@ const PlayListManagement = (props: { goBack: () => void, playListId: number }) =
 
   const deletePlayList = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: number}>(Channel().deletePlayList, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['myPlayList']);
+      queryClient.invalidateQueries(['playList', 0]);
       overlayContext.alert('재생목록을 삭제하였습니다.');
       props.goBack();  
     },

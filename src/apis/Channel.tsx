@@ -40,8 +40,8 @@ const Channel = () => {
         return JwtInterceptor().instance.post<{success: boolean}>(`/channels/playlist`, {name: props.name});
     }
 
-    const getMyPlayList = () => {
-        return JwtInterceptor().instance.get<PlayList[]>(`/channels/playlist`);
+    const getPlayList = (id: number) => {
+        return JwtInterceptor().instance.get<PlayList[]>(`/channels/${id}/playlist`);
     }
 
     const getPlayListItem = (id: number) => {
@@ -56,7 +56,7 @@ const Channel = () => {
         return JwtInterceptor().instance.delete<{success: boolean}>(`/channels/playlist/${props.playListId}/${props.videoId}`);
     }
 
-    return { videoList, subscribe, newPlayList, getMyPlayList, getPlayListItem, deletePlayList, deletePlayListItem };
+    return { videoList, subscribe, newPlayList, getPlayList, getPlayListItem, deletePlayList, deletePlayListItem };
 }
 
 export default Channel;
