@@ -14,7 +14,7 @@ import useUserQuery from 'hooks/useUserQuery';
 const Comment = (props: {id: string}) => {
   const [show, setShow] = useState<boolean>(false);
   const { isFetchedAfterMount, data, status } = useQuery({
-    queryKey: ['comment'],
+    queryKey: ['comment', props.id],
     staleTime: 0,
     queryFn: () => Video().getComment(props.id),
     onError: (error: AxiosError) => {
@@ -88,7 +88,7 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
   const [reply, setReply] = useState<boolean>(false);
   const deleteComment = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {video_id: string, comment_id: string}>(Video().deleteComment, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['comment']);
+      queryClient.invalidateQueries(['comment', props.videoId]);
     },
     onError: (error) => {
     }
@@ -96,7 +96,7 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
 
   const likeComment = useMutation<AxiosResponse<{active: boolean}>, AxiosError<{active: boolean}>, {comment_id: number}>(Video().likeComment, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['comment']);
+      queryClient.invalidateQueries(['comment', props.videoId]);
     },
     onError: (error) => {
     }
@@ -145,7 +145,7 @@ const CommentItem = (props: {videoId: string} & VideoComment) => {
 
 const Reply = (props: {videoId: string, id: number}) => {
   const { data, status } = useQuery({
-    queryKey: ['comment', props.id],
+    queryKey: ['comment', props.videoId, props.id],
     staleTime: 0,
     queryFn: () => Video().getReply(props.videoId, props.id),
     onError: (error: AxiosError) => {
