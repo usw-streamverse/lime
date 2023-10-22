@@ -84,6 +84,7 @@ const GlobalStyle = createGlobalStyle`
     --menubutton-bg-color-active: #d8dadb;
     --playlist-item-add-bg-color: #f5f5f5;
     --playlist-item-add-bg-color-hover: #e8eaee;
+    --playlist-item-selected: #d8dce5;
   }
 
   body.dark {
@@ -120,7 +121,7 @@ const GlobalStyle = createGlobalStyle`
     --sign-signin-bg-color-hover: #2486ff;
     --sign-signin-bg-color-active: #0052b9;
     --tab-border-color: #666666;
-    --watch-body-bg-color: #505050;
+    --watch-body-bg-color: #1e1e1e;
     --watch-comment-bg-color: #333;
     --watch-comment-reply-bg-color: #333;
     --watch-comment-button-bg-color: #3737;
@@ -140,6 +141,7 @@ const GlobalStyle = createGlobalStyle`
     --menubutton-bg-color-active: #181818;
     --playlist-item-add-bg-color: #202020;
     --playlist-item-add-bg-color-hover: #000000;
+    --playlist-item-selected: #000000;
   }
 
   body {

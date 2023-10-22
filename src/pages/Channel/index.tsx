@@ -56,7 +56,7 @@ const Channel = () => {
         (() => {
           switch(page){
             case 'playlist':
-              return <PlayList id={data?.data.id} horizontal={false} onClick={() => alert(1)} />
+              return <PlayList id={data?.data.id} horizontal={false} onClick={(playListId) => navigate(`/watch/0/${playListId}`)} />
             case 'about':
               return <></>
             default:

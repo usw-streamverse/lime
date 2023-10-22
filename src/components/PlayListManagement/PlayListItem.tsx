@@ -19,11 +19,11 @@ const PlayListItem = (props: PlayListItemProps) => {
       <Duration>{getDurationFormat(props.duration)}</Duration>
     </Thumbnail>
     <InforContainer>
-    <Title>{props.title}</Title>
-    <Detail>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}에 추가됨</Detail>
+      <Title>{props.title}</Title>
+      <Detail>{getDifferenceTimeFormat(getKSTfromUTC(props.created))}에 추가됨</Detail>
     </InforContainer>
     <ButtonContainer>
-    <Delete playListId={props.playListId} videoId={props.video_id}/>
+      <Delete playListId={props.playListId} videoId={props.video_id}/>
     </ButtonContainer>
   </Container>
   )
@@ -34,15 +34,15 @@ const Delete = (props: {playListId: number, videoId: number}) => {
   const queryClient = useQueryClient();
   const deletePlayListItem = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {playListId: number, videoId: number}>(Channel().deletePlayListItem, {
     onSuccess: (data) => {
-    queryClient.invalidateQueries(['playList', props.playListId]);
+      queryClient.invalidateQueries(['playList', props.playListId]);
     },
     onError: (error) => {
-    overlayContext.alert('동영상을 삭제하는 도중 오류가 발생하였습니다.');
+      overlayContext.alert('동영상을 삭제하는 도중 오류가 발생하였습니다.');
     }
   });
 
   return (
-  <DeleteButton onClick={() => deletePlayListItem.mutate({playListId: props.playListId, videoId: props.videoId})}><BsXLg size={18} /></DeleteButton>
+    <DeleteButton onClick={() => deletePlayListItem.mutate({playListId: props.playListId, videoId: props.videoId})}><BsXLg size={18} /></DeleteButton>
   )
 }
 

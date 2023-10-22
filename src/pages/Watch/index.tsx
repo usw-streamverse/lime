@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Hls from 'hls.js'
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import Video from 'apis/Video';
+import Video, { VideoWatch } from 'apis/Video';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getDifferenceTimeFormat, getKSTfromUTC } from 'utils/Time';
 import ChannelInfo from 'components/Watch/ChannelInfo';
@@ -14,18 +14,26 @@ import Channel from 'apis/Channel';
 import PlayList from 'components/Modal/PlayList';
 import { BsCollectionPlay, BsHeart, BsHeartFill, BsShare, BsStar, BsStarFill } from 'react-icons/bs';
 import { OverlayContext } from 'components/Overlay';
+import PlayListPlayer from 'components/PlayListPlayer';
+import usePlayList from 'hooks/usePlayList';
 
 export const VideoContext = createContext<string>('');
 
 const Watch = (props: {id?: string}) => {
   const navigate = useNavigate();
   const paramId = useParams()['id'];
-  const id = props.id || paramId;
+  const paramPlayList = useParams()['playList'];
+  const playList = usePlayList(Number(paramPlayList));
+  const [id, setId] = useState<string>(props.id || paramId || '');
+  const videoId = useRef<string>(props.id || paramId || '');
   const videoRef = useRef<HTMLVideoElement>(null);
-  const { isFetchedAfterMount, data, status } = useQuery({
+  const overlayContext = useContext(OverlayContext);
+
+  const videoQuery = useQuery({
     queryKey: ['video'],
     staleTime: 0,
-    queryFn: () => Video().watch(id || ''),
+    enabled: false,
+    queryFn: () => Video().watch(videoId.current),
     onError: (error: AxiosError) => {
       console.log(error.response?.status);
       switch(error.response?.status){
@@ -36,48 +44,83 @@ const Watch = (props: {id?: string}) => {
     }
   });
 
-  useEffect(() => {
-    if(videoRef.current && status === 'success'){
-      const hls = new Hls();
-      hls.loadSource(JSON.parse(data?.data.url).m3u8);
-      hls.attachMedia(videoRef.current);
-      videoRef.current.poster = data?.data.thumbnail;
+  const handlePlayList = (id: number) => {
+    if (!playList.setVideoId(id)) {
+      navigate(`/watch/${id}`);
+      return;
     }
-  }, [videoRef, status, data]);
 
-  if(isFetchedAfterMount && status === 'success')
+    setId(id.toString());
+    
+    videoId.current = id.toString();
+    videoQuery.refetch();
+  }
+
+  useEffect(() => {
+    if (paramPlayList) {
+      if (playList.status === 'success') {
+        if (playList.items.length === 0) {
+          overlayContext.alert('재생 목록이 비어있습니다.');
+        } else {
+          const currentId = playList.getCurrentVideo().toString();
+          setId(currentId);
+          videoId.current = currentId;
+          videoQuery.refetch();
+        }
+      }
+    } else {
+      videoQuery.refetch();
+    }
+  }, [paramId, paramPlayList, playList.status]);
+
+  useEffect(() => {
+    if(videoRef.current && videoQuery.status === 'success'){
+      const hls = new Hls();
+      hls.loadSource(JSON.parse(videoQuery.data?.data.url).m3u8);
+      hls.attachMedia(videoRef.current);
+      videoRef.current.poster = videoQuery.data?.data.thumbnail;
+    }
+  }, [videoRef, videoQuery.status, videoQuery.data]);
+
+  if (videoQuery.status === 'success' && videoQuery.isFetchedAfterMount) {
+    const data = videoQuery.data.data;
     return (
       <Wrapper>
         <Container>
-          <VideoContext.Provider value={id || ''}>
+          <VideoContext.Provider value={id}>
             <VideoWrapper><VideoPlayer ref={videoRef} /></VideoWrapper>
-            <Title>{data?.data.title}</Title>
-            <Date>조회수 {data?.data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data?.data.created))}</Date>
-            <Body text={data?.data.explanation} />
+            {
+              paramPlayList &&
+              <PlayListPlayer items={playList.items} onClick={handlePlayList} />
+            }
+            <Title>{data.title}</Title>
+            <Date>조회수 {data.view_count}회 · {getDifferenceTimeFormat(getKSTfromUTC(data.created))}</Date>
+            <Body text={data.explanation} />
             <ChannelInfo>
-              <ChannelInfo.Container onClick={() => navigate(`/@/${data.data.userid}`)}>
-                <ChannelInfo.ProfileIcon profileColor={data.data.profile} />
+              <ChannelInfo.Container onClick={() => navigate(`/@/${data.userid}`)}>
+                <ChannelInfo.ProfileIcon profileColor={data.profile} />
                 <ChannelInfo.Detail>
-                  <ChannelInfo.Name>{data?.data.nickname}</ChannelInfo.Name>
-                  <ChannelInfo.Readership>구독자 {data.data.readership}명</ChannelInfo.Readership>
+                  <ChannelInfo.Name>{data.nickname}</ChannelInfo.Name>
+                  <ChannelInfo.Readership>구독자 {data.readership}명</ChannelInfo.Readership>
                 </ChannelInfo.Detail>
               </ChannelInfo.Container>
               <ChannelInfo.ButtonListContainer>
-                <Subscribe active={data?.data.subscribed} channelId={data?.data.channel_id} />
-                <Like active={data?.data.like} />
+                <Subscribe active={data.subscribed} channelId={data.channel_id} />
+                <Like active={data.like} />
                 <Share />
-                <AddPlayList id={id || ''} />
+                <AddPlayList id={id} />
               </ChannelInfo.ButtonListContainer>
             </ChannelInfo>
-            <Comment id={id || ''} />
+            <Comment id={id} />
           </VideoContext.Provider>
         </Container>
       </Wrapper>
     )
-  else
+  } else {
     return (
       <WatchSkeleton />
     )
+  }
 }
 
 const Subscribe = (props: {active: boolean, channelId: number}) => {

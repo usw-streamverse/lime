@@ -14,12 +14,12 @@ const PlayListManagement = (props: { goBack: () => void, playListId: number }) =
   const queryClient = useQueryClient();
   const overlayContext = useContext(OverlayContext);
   const { data, status } = useQuery({
-  queryKey: ['playList', props.playListId],
-  staleTime: 0,
-  queryFn: () => Channel().getPlayListItem(props.playListId),
-  onError: (error: AxiosError) => {
-    alert(error.response?.status);
-  }
+    queryKey: ['playList', props.playListId],
+    staleTime: 0,
+    queryFn: () => Channel().getPlayListItem(props.playListId),
+    onError: (error: AxiosError) => {
+      alert(error.response?.status);
+    }
   });
 
   const deletePlayList = useMutation<AxiosResponse<{success: boolean}>, AxiosError<{success: boolean}>, {id: number}>(Channel().deletePlayList, {

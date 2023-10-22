@@ -38,7 +38,7 @@ const AnimatedSwitch = () => {
         <Route path="/" element={<Main />} />
         <Route path="/myinfo" element={<MyInfo />} />
         <Route path="/broadcast" element={<Broadcast />} />
-        <Route path="/watch/:id" element={<Watch />} />
+        <Route path="/watch/:id/:playList?" element={<Watch />} />
         <Route path="/live" element={<Live />} />
         <Route path="/live/:id" element={<WatchLive />} />
         <Route path="/search/:query" element={<Search />} />
