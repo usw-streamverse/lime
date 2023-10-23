@@ -9,10 +9,18 @@ import { OverlayContext } from 'components/Overlay';
 
 const Main = () => {
   const list = useQuery(['videoList'], Video().list);
+  const popularList = useQuery(['popularVideoList'], Video().popularList);
+
   return (
     <Container>
       <Inner>
         <SearchWrap><SearchBox /></SearchWrap>
+        <Title>인기 동영상</Title>
+        <Wrapper>
+          {
+            popularList.isFetching ? <VideoListSkeleton /> : <VideoList item={popularList.status === 'success' ? popularList.data?.data : []} />
+          }
+        </Wrapper>
         <Title>최신 동영상</Title>
         <Wrapper>
           {
