@@ -53,10 +53,6 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 1.5rem;
   padding-top: 0.5rem;
-  @media screen and (max-width: 480px) {
-    position: absolute;
-    padding: 1.0rem;
-  }
 `
 
 const SearchWrap = styled.div`
