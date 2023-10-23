@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Video from 'apis/Video';
 import VideoListSkeleton from 'components/Skeleton/VideoList';
 import SearchBox from 'components/Search/SearchBox';
-import { useContext } from 'react';
-import { OverlayContext } from 'components/Overlay';
+import { BsGraphUp, BsSun } from 'react-icons/bs';
 
 const Main = () => {
   const list = useQuery(['videoList'], Video().list);
@@ -15,13 +14,13 @@ const Main = () => {
     <Container>
       <Inner>
         <SearchWrap><SearchBox /></SearchWrap>
-        <Title>인기 동영상</Title>
+        <Title><BsGraphUp size={24} />인기 동영상</Title>
         <Wrapper>
           {
             popularList.isFetching ? <VideoListSkeleton /> : <VideoList item={popularList.status === 'success' ? popularList.data?.data : []} />
           }
         </Wrapper>
-        <Title>최신 동영상</Title>
+        <Title><BsSun size={24} />최신 동영상</Title>
         <Wrapper>
           {
             list.isFetching ? <VideoListSkeleton /> : <VideoList item={list.status === 'success' ? list.data?.data : []} />
@@ -34,6 +33,7 @@ const Main = () => {
 
 const Container = styled.div`
   position: relative;
+  padding: 1.0rem;
   z-index: 0;
 `
 
@@ -44,9 +44,15 @@ const Inner = styled.div`
 `
 
 const Title = styled.div`
-  padding: 0 1.5rem;
-  font-size: 1.375rem;
+  display: flex;
+  align-items: center;
+  padding: 1.0rem 1.0rem 0 1.0rem;
+  font-size: 1.25rem;
   font-weight: 500;
+
+  svg {
+    margin-right: 0.5rem;
+  }
 `
 
 const Wrapper = styled.div`
