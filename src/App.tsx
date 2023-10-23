@@ -16,6 +16,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Watch from 'pages/Watch';
 import RouteModal from 'components/RouteModal';
 import Search from 'pages/Search';
+import Library from 'pages/Library';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +37,7 @@ const AnimatedSwitch = () => {
       <div>
       <Routes location={location.state?.modal || location}>
         <Route path="/" element={<Main />} />
+        <Route path="/library" element={<Library />} />
         <Route path="/myinfo" element={<MyInfo />} />
         <Route path="/broadcast" element={<Broadcast />} />
         <Route path="/watch/:id/:playList?" element={<Watch />} />

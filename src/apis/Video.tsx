@@ -79,6 +79,10 @@ const Video = () => {
     return JwtInterceptor().instance.get<VideoItem[]>('/daily');
   }
 
+  const history = () => {
+    return JwtInterceptor().instance.get<VideoItem[]>('/record');
+  }
+
   const subscriptionList = () => {
     return JwtInterceptor().instance.get<VideoItem[]>('/subscribe');
   }
@@ -119,7 +123,7 @@ const Video = () => {
     return JwtInterceptor().instance.post<{success: boolean}>(`/videos/${props.videoId}/playlist`, {playlist: props.playListId});
   }
 
-  return { upload, list, popularList, subscriptionList, watch, update, like, writeComment, getComment, deleteComment, getReply, likeComment, addPlayList };
+  return { upload, list, popularList, history, subscriptionList, watch, update, like, writeComment, getComment, deleteComment, getReply, likeComment, addPlayList };
 }
 
 export default Video;
