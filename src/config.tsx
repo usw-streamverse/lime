@@ -1,5 +1,5 @@
-export const API_SERVER = 'http://localhost';//'https://usw-lime.azurewebsites.net';
-export const LIVE_STREAMING_SERVER = 'http://localhost';//'wss://usw-lime.azurewebsites.net';
+export const API_SERVER = 'https://usw-lime.azurewebsites.net';
+export const LIVE_STREAMING_SERVER = 'wss://usw-lime.azurewebsites.net';
 export const ICE_SERVERS: RTCConfiguration = {
   iceServers: [
     {

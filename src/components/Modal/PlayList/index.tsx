@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import FormTextBox from 'components/FormTextBox';
 import PlayList from 'components/PlayList';
 import PlayListManagement from 'components/PlayListManagement';
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { HiOutlineX } from 'react-icons/hi';
 import styled from 'styled-components';
 

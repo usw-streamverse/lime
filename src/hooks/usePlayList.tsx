@@ -25,7 +25,7 @@ const usePlayList = (id: number): usePlayListType => {
   }
 
   const setVideoId = (videoId: number) => {
-    const videoIndex = items.findIndex(item => item.video_id == videoId);
+    const videoIndex = items.findIndex(item => item.video_id === videoId);
     if (videoIndex === -1) {
       return false;
     }
