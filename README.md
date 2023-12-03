@@ -29,11 +29,13 @@
 
 - Front
 
-  - HTML
-  - CSS
-  - JavaScript
-  - React
-  - 
+  - Typescript
+  - HTML5
+  - CSS-in-JS (styled-components)
+  - React router
+  - Tanstack query (React query)
+  - WebRTC
+  - HLS
 
 - Back
 
